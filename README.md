@@ -2,19 +2,17 @@
 Projectgroep A, Project B
 
 
-table of contents
+Table of contents
 
-contributors
+Contributors
 
-installing
+Requirements
 
-examples
+Installing
 
-status
+Status
 
-functions
-
-notes
+Notes
 
 ***
 
@@ -34,28 +32,26 @@ verona kragten / 1785191
 
 ***
 
-requirements
+Requirements
 
-this application requires the user to have Python 3.8 installed. it is not known if it will work on other versions of Python.
+This application requires the user to have Python 3.8 installed. It is not known if it will work on other versions of Python.
 ***
 
 
-installing
+Installing
 
-download the .zip file in the root of the project.
-extract the file to your preffered depository.
-run dashboard.py
+Download the .zip file in the root of the project. Extract the file to your preffered depository. Then run dashboard.py
 ***
 
 
-status
+Status
 
-the application is currently in a very early version of its development.
+The application is currently in a very early version of its development.
 
 ***
 
 
-notes
+Notes
 
-bro idfk
+We are not responible for any virusses that may infect your device from using this application
 ***
