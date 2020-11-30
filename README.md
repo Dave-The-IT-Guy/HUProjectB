@@ -16,7 +16,7 @@ functions
 
 notes
 
-
+***
 
 
 
@@ -32,28 +32,30 @@ mark duerden / 1788515
 
 verona kragten / 1785191
 
+***
 
+requirements
+
+this application requires the user to have Python 3.8 installed. it is not known if it will work on other versions of Python.
+***
 
 
 installing
 
-
 download the .zip file in the root of the project.
+extract the file to your preffered depository.
+run dashboard.py
+***
 
-
-
-examples
-
-say you need your friend's playtime of [insert game]. you can look for it in the list at the left of the window, or you can type its name into the search bar. you can click on it and it's informaation will show up in the box below.
 
 status
 
 the application is currently in a very early version of its development.
 
-
-functions
+***
 
 
 notes
 
 bro idfk
+***
