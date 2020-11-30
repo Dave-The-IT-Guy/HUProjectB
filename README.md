@@ -33,9 +33,14 @@ mark duerden / 1788515
 verona kragten / 1785191
 
 
+
+
 installing
 
-to get the software working, all you need is the .exe file i will defenitely make and add to the github
+
+download the .zip file in the root of the project.
+
+
 
 examples
 
