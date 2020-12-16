@@ -12,6 +12,8 @@ Installing
 
 Status
 
+functions
+
 Notes
 
 ***
@@ -47,6 +49,18 @@ Download the .zip file in the root of the project. Extract the file to your pref
 Status
 
 The application is currently in a very early version of its development.
+
+***
+
+functions
+
+there are miscellaneous functions inside the application. they include:
+-searching from the list of games
+
+-sorting by different types of propreties
+
+-view the details of the selected game
+
 
 ***
 
