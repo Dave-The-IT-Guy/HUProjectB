@@ -55,6 +55,7 @@ The application is currently in a very early version of its development.
 functions
 
 there are miscellaneous functions inside the application. they include:
+
 -searching from the list of games
 
 -sorting by different types of propreties
