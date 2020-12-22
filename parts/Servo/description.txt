@@ -1,0 +1,3 @@
+Als de gebruiker op een knop (vanuit de gui of vanaf het breadbord) drukt dan gaat de servo zwaaien
+
+Het is uiteindelijk de bedoeling dat je vanaf de GUI (op een andere pc) en vanaf een andere PI kan zwaaien
