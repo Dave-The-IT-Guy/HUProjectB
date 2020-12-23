@@ -9,7 +9,7 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(0)
 
 #Pinnen
-switch = 23
+zwaai_knop = 23
 servo = 25
 
 #Thread variable
@@ -17,7 +17,7 @@ stop_threads = False
 
 #GPIO opzetten
 GPIO.setup(servo, GPIO.OUT)
-GPIO.setup( switch, GPIO.IN, pull_up_down=GPIO.PUD_DOWN )
+GPIO.setup( zwaai_knop, GPIO.IN, pull_up_down=GPIO.PUD_DOWN )
 
 #Vertaalt het zwaaicommando naar bewegingen van de servo
 def zwaaien(pin_nr, position):
@@ -36,7 +36,7 @@ zwaaien(servo, 80)
 
 def zwaai_toggle():
     while True:
-        if (GPIO.input(switch)):
+        if (GPIO.input(zwaai_knop)):
             for x in range(0, 5):
                 zwaaien(servo, 20)
                 time.sleep(0.4)
