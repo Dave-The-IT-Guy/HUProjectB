@@ -1,0 +1,4 @@
+vult een RGB waarde  in een textbestand en die waarde wordt dan omgezet naar neopixel
+
+bijv:
+(255, 255, 255) voor wit in volledige helderheid of (0, 0, 0) voor uit
