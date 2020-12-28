@@ -1,0 +1,1 @@
+Als een gebruiker op de knop drukt gaat er een geluidsignaal af bij de andere pi

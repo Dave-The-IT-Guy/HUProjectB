@@ -61,7 +61,7 @@ def apa102(color):
 
 
 
-rgb = (0, 1, 0)
+rgb = (0, 0, 0)
 
 #Defineer de thread
 t1 = threading.Thread(target = apa102, args = [rgb], daemon = True)
