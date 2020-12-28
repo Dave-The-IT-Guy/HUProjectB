@@ -55,13 +55,13 @@ def apa102(color):
             counter = 0
         counter += 1
     for x in range(0, 8):
-        apa102_send_bytes(clock_pin, data_pin, [[1, 1, 1, 0, 0, 0, 0, 1], blue, green, red])
+        apa102_send_bytes(clock_pin, data_pin, [[1, 1, 1, 0, 0, 0, 1, 1], blue, green, red])
     #Stuur het eindpakket
     apa102_send_bytes(clock_pin, data_pin, [[1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1]])
 
 
 
-rgb = (0, 0, 0)
+rgb = (1, 1, 1)
 
 #Defineer de thread
 t1 = threading.Thread(target = apa102, args = [rgb], daemon = True)
