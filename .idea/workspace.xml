@@ -2,18 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7aa53e31-68b4-4456-8ba9-91ec7b33b431" name="Default Changelist" comment=".">
-      <change afterPath="$PROJECT_DIR$/parts/geluidsingaal/description.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/parts/geluidsingaal/geluidsingaal - WT.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/parts/geluidsingaal/geluidsingaal.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/remote pi/client.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/remote pi/host.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/remote pi/nameserver.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/remote pi/testerdietest.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/HUProjectB.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/HUProjectB.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parts/NEOpixel/NEOpixel - WT.py" beforeDir="false" afterPath="$PROJECT_DIR$/parts/NEOpixel/NEOpixel - WT.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parts/Schuifregister/users.txt" beforeDir="false" afterPath="$PROJECT_DIR$/parts/Schuifregister/users.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/remote pi/host.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/remote pi/host.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -443,7 +432,7 @@
       <workItem from="1608897644437" duration="240000" />
       <workItem from="1608898008975" duration="64000" />
       <workItem from="1609073510158" duration="4082000" />
-      <workItem from="1609145699287" duration="5334000" />
+      <workItem from="1609145699287" duration="5647000" />
     </task>
     <task id="LOCAL-00001" summary="dit is een test">
       <created>1608665904250</created>
@@ -585,7 +574,14 @@
       <option name="project" value="LOCAL" />
       <updated>1608742548402</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary=".">
+      <created>1609159816371</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1609159816371</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -639,10 +635,10 @@
     <SUITE FILE_PATH="coverage/HUProjectB$GPIO_Cleanup.coverage" NAME="GPIO Cleanup Coverage Results" MODIFIED="1608742605116" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/HUProjectB$NEOpixel.coverage" NAME="NEOpixel Coverage Results" MODIFIED="1608741358809" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/parts/NEOpixel" />
     <SUITE FILE_PATH="coverage/HUProjectB$NS___plop.coverage" NAME="NS - plop Coverage Results" MODIFIED="1609076313746" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test/remote pi" />
-    <SUITE FILE_PATH="coverage/HUProjectB$print_test_pi2___client.coverage" NAME="print test pi2 - client Coverage Results" MODIFIED="1609159601920" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test/remote pi" />
+    <SUITE FILE_PATH="coverage/HUProjectB$print_test_pi2___client.coverage" NAME="print test pi2 - client Coverage Results" MODIFIED="1609159894466" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test/remote pi" />
     <SUITE FILE_PATH="coverage/HUProjectB$Schuifregister___WT.coverage" NAME="Schuifregister - WT Coverage Results" MODIFIED="1608746397800" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/parts/Schuifregister" />
     <SUITE FILE_PATH="coverage/HUProjectB$print_test_pi1.coverage" NAME="print test pi1 - host Coverage Results" MODIFIED="1609077471431" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test/remote pi" />
     <SUITE FILE_PATH="coverage/HUProjectB$TEST___Threading.coverage" NAME="TEST - Threading Coverage Results" MODIFIED="1608669753156" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
-    <SUITE FILE_PATH="coverage/HUProjectB$print_test_pi1___host.coverage" NAME="print test pi1 - host Coverage Results" MODIFIED="1609159598619" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test/remote pi" />
+    <SUITE FILE_PATH="coverage/HUProjectB$print_test_pi1___host.coverage" NAME="print test pi1 - host Coverage Results" MODIFIED="1609159904999" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test/remote pi" />
   </component>
 </project>

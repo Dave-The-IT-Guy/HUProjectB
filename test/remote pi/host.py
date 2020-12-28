@@ -1,7 +1,7 @@
-import Pyro5
+import Pyro5.api
 
 
-@Pyro5.expose
+@Pyro5.api.expose
 class dispatcher(object):
     def __init__(self):
         self.name = "Dispatcher"
@@ -12,8 +12,8 @@ class dispatcher(object):
         return ['Work']
 
 disp = dispatcher()
-daemon = Pyro5.Daemon(host="192.168.192.24", port=9090)
-Pyro5.Daemon.serveSimple(
+daemon = Pyro5.api.Daemon(host="192.168.192.24", port=9090)
+Pyro5.api.Daemon.serveSimple(
     { disp: "test.dispatcher" },
     ns=False,
     daemon=daemon,
