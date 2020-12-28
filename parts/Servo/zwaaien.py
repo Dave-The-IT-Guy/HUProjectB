@@ -14,24 +14,28 @@ GPIO.setup(servo, GPIO.OUT)
 GPIO.setup( switch, GPIO.IN, pull_up_down=GPIO.PUD_DOWN )
 
 
-def zwaaien(pin_nr, position):
+def positie(position):
     position = round(((10 / 100) * position) + 2, 2)
-    pwm = GPIO.PWM(pin_nr, 50)  # 50 Hz (20 ms PWM period)
+    pwm = GPIO.PWM(servo, 50)  # 50 Hz (20 ms PWM period)
     print(position)
     pwm.start(position)
     time.sleep(0.02)
 
 #Initaliseren
-zwaaien(servo, 80)
+positie(servo, 80)
+
+def zwaaien():
+    for x in range(0, 5):
+        positie(20)
+        time.sleep(0.4)
+        positie(80)
+        time.sleep(0.4)
 
 def zwaai_toggle():
     while True:
         if (GPIO.input(switch)):
-            for x in range(0, 5):
-                zwaaien(servo, 20)
-                time.sleep(0.4)
-                zwaaien(servo, 80)
-                time.sleep(0.4)
+            #Send zwaai naar andere machine
+            pass
 
 zwaai_toggle()
 

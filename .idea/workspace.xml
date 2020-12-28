@@ -2,10 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7aa53e31-68b4-4456-8ba9-91ec7b33b431" name="Default Changelist" comment=".">
-      <change afterPath="$PROJECT_DIR$/parts/SR04/afstand - WT.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/parts/SR04/afstand.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/final/Client PI.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/final/Server PI.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/final/users.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parts/NEOpixel/NEOpixel - WT.py" beforeDir="false" afterPath="$PROJECT_DIR$/parts/NEOpixel/NEOpixel - WT.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parts/SR04/afstand.py" beforeDir="false" afterPath="$PROJECT_DIR$/parts/SR04/afstand.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parts/Schuifregister/Schuifregister.py" beforeDir="false" afterPath="$PROJECT_DIR$/parts/Schuifregister/Schuifregister.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parts/Servo/zwaaien.py" beforeDir="false" afterPath="$PROJECT_DIR$/parts/Servo/zwaaien.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parts/geluidsingaal/geluidsingaal.py" beforeDir="false" afterPath="$PROJECT_DIR$/parts/geluidsingaal/geluidsingaal.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,7 +55,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="true" />
     <property name="credentialsType com.jetbrains.python.remote.PyCreateRemoteInterpreterDialog$PyCreateRemoteSdkForm" value="Web Deployment" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/parts/SR04" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/final/Server PI.py" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -72,7 +77,29 @@
       <recent name="C:\Users\davev\Documents\GitHub\HUProjectB\test\local" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.SR04">
+  <component name="RunManager" selected="Python.Server PI">
+    <configuration name="Client PI" type="PythonConfigurationType" factoryName="Python">
+      <module name="HUProjectB" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="sftp://pi@192.168.192.64:22/usr/bin/python3" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/final" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/final/Client PI.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="GPIO Cleanup" type="PythonConfigurationType" factoryName="Python">
       <module name="HUProjectB" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -241,6 +268,28 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/parts/Schuifregister/Schuifregister.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Server PI" type="PythonConfigurationType" factoryName="Python">
+      <module name="HUProjectB" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="sftp://pi@husteam.duckdns.org:22/usr/bin/python3" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/final" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/final/Server PI.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -426,6 +475,8 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Python.Server PI" />
+      <item itemvalue="Python.Client PI" />
       <item itemvalue="Python.Zwaaien" />
       <item itemvalue="Python.Zwaaien - WT" />
       <item itemvalue="Python.Schuifregister" />
@@ -458,7 +509,8 @@
       <workItem from="1608897644437" duration="240000" />
       <workItem from="1608898008975" duration="64000" />
       <workItem from="1609073510158" duration="4082000" />
-      <workItem from="1609145699287" duration="9956000" />
+      <workItem from="1609145699287" duration="11648000" />
+      <workItem from="1609169182291" duration="4731000" />
     </task>
     <task id="LOCAL-00001" summary="dit is een test">
       <created>1608665904250</created>
@@ -614,7 +666,14 @@
       <option name="project" value="LOCAL" />
       <updated>1609159994394</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary=".">
+      <created>1609164252041</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1609164252041</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -664,6 +723,7 @@
     <SUITE FILE_PATH="coverage/HUProjectB$teserdietest___locate_ns.coverage" NAME="teserdietest - locate ns Coverage Results" MODIFIED="1609158736216" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test/remote pi" />
     <SUITE FILE_PATH="coverage/HUProjectB$Cleanup.coverage" NAME="Cleanup Coverage Results" MODIFIED="1608727730083" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/PycharmProjects/TI" />
     <SUITE FILE_PATH="coverage/HUProjectB$Zwaaien___WT.coverage" NAME="Zwaaien - WT Coverage Results" MODIFIED="1609161300794" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/parts/Servo" />
+    <SUITE FILE_PATH="coverage/HUProjectB$Server_PI.coverage" NAME="Server PI Coverage Results" MODIFIED="1609170303391" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/final" />
     <SUITE FILE_PATH="coverage/HUProjectB$geluidsignaal.coverage" NAME="geluidsignaal - WT Coverage Results" MODIFIED="1608747472783" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/parts/geluidsingaal" />
     <SUITE FILE_PATH="coverage/HUProjectB$print_test_pi2.coverage" NAME="print test pi2 - client Coverage Results" MODIFIED="1609077122319" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test/remote pi" />
     <SUITE FILE_PATH="coverage/HUProjectB$NS___pi1.coverage" NAME="NS - pi1 Coverage Results" MODIFIED="1609158757403" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test/remote pi" />

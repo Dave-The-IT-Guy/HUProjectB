@@ -1,4 +1,6 @@
 import RPi.GPIO as GPIO
+import time
+
 GPIO.setmode( GPIO.BCM )
 GPIO.setwarnings( 0 )
 
@@ -11,6 +13,12 @@ GPIO.setup( speaker, GPIO.OUT )
 def signaal():
     while True:
         if (GPIO.input(switch2)):
-            GPIO.output(speaker, GPIO.HIGH)
-            GPIO.output(speaker, GPIO.LOW)
+            #Stuur beep naar andere machine.
+            pass
+
+def beep():
+    GPIO.output(speaker, GPIO.HIGH)
+    time.sleep(0.5)
+    GPIO.output(speaker, GPIO.LOW)
+
 signaal()
