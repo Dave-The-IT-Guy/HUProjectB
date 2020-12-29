@@ -3,22 +3,12 @@ import webbrowser
 import json
 import re
 from tkinter import ttk
-
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
 from tkcolorpicker import askcolor
-
-
-
-# to do
-# do a binry search for getting the details
-# make graph blue
-# make it so that TI frame gets placed over GUI
-# if i search for someting it undoes the sorting go fix that #edit: fixed it but i havent tested if it works with evertything
-# add a filtering functionality
-# the sort functions give differing lists containing games that dont appear in the original list
+# import RPi.GPIO as GPIO
 
 
 # -- globals
@@ -29,12 +19,41 @@ case_sensitive = True
 global sorting
 global sortedgames
 sortedgames = game_names
+global sensordisplay
+sensordisplay = "neopixel"
+
+# -- to do
+# do a binry search for getting the details
+# make graph blue
+# make it so that TI frame gets placed over GUI
+# if i search for someting it undoes the sorting go fix that #edit: fixed it but i havent tested if it works with evertything
+# add a filtering functionality
+# the sort functions give differing lists containing games that dont appear in the original list
+
+# neopxel functies
+# zwaaiknop servo *
+# afstandsensor toggle*
+# hoeveel vrienden online (hoeft niet in gui)
+# color picker geef alleen rgb waarden teruggeven*
+# knop voor geluidsignaal*
+
+# beginnen met functies
+# met pyro commands sturen naar rpi
+
+
+# -- TI
+# GPIO.setmode( GPIO.BCM )
+# GPIO.setwarnings( 0 )
+#
+# speaker = 18
+# switch2 = 24
+# GPIO.setup( switch2, GPIO.IN, pull_up_down=GPIO.PUD_DOWN )
+# GPIO.setup( speaker, GPIO.OUT )
+
 
 # -- functions
 def openReadme():
     webbrowser.open('https://github.com/Dave-The-IT-Guy/HUProjectB/blob/main/README.md')
-
-
 
 def json_naar_dict():
     global steamdata
@@ -128,15 +147,6 @@ def getDetails(i):
     # details.config(state=DISABLED)
     # place i got the code from: https://stackoverflow.com/questions/34327244/binary-search-through-strings
 
-
-
-
-
-
-
-
-
-
 def openSortAndFilterWindow():
     # --sort window
     sorting = StringVar()
@@ -162,8 +172,6 @@ def openSortAndFilterWindow():
     case_button = Checkbutton(master=settingswindow, command=caseSensitive, text=f"Case sensitve")
     case_button.grid(row=4, column=1)
 
-
-
 def listInsert(list):
     for item in list:
         gameslist.insert(END, item)
@@ -185,7 +193,7 @@ def search(a):
             if query.lower() in no_case:
                 gameslist.insert("end", game)
 
-#     for loop in binary search
+    #     for loop in binary search
 
 def caseSensitive():
     global case_sensitive
@@ -194,8 +202,6 @@ def caseSensitive():
 
     elif case_sensitive == False:
         case_sensitive = True
-
-
 
 def sortByNone():
     gameslist.delete(0, END)
@@ -253,7 +259,32 @@ def neopixelChange(i):
     if selection == "off":
         print(selection)
     if selection == "pick color":
-        print(askcolor((255, 255, 0), root))
+        current_color = (askcolor((255, 255, 0), root))[0]
+        print(current_color)
+
+# def TI_sound():
+#     while True:
+#         if (GPIO.input(switch2)):
+#             GPIO.output(speaker, GPIO.HIGH)
+#             GPIO.output(speaker, GPIO.LOW)
+
+def afstandsensordisplay():
+    global sensordisplay
+
+    if sensordisplay == "neopixel":
+        sensordisplay = "light"
+        TI_togglesensor.config(text="afstandsensor display:light")
+
+    elif sensordisplay == "light":
+        sensordisplay = "neopixel"
+        TI_togglesensor.config(text="afstandsensor display:neopixel")
+
+
+
+
+
+
+
 
 
 
@@ -263,7 +294,6 @@ root.config(bg="#042430")
 # root.iconbitmap("steam_icon.ico") #how the fuck does this slow down the entire app???
 root.title("steam application")
 theme = ttk.Style(root)
-theme.theme_use('xpnative')
 print(ttk.Style().theme_names())
 
 rightframe = Frame(master=root, width=768, height=576,bg="#042430")
@@ -313,12 +343,17 @@ leftframe_notebook.add(leftframe1, text='graph')
 leftframe_notebook.add(rpi_frame, text='raspberry pi')
 
 #rpi_frame
-rpilabel = Label(master=rpi_frame,text="                       raspberry pi functions", fg="white", bg="#0B3545")
+rpilabel = Label(master=rpi_frame,text="raspberry pi functions", fg="white", bg="#0B3545")
 rpilabel.grid(row=0, padx=10, pady=10)
-TI_button1 = Button(master=rpi_frame, text="knop 1",bg="#042430",fg="white")
-TI_button1.grid(row= 1, padx=10, pady=10)
-TI_button2 = Button(master=rpi_frame, text="knop 2", bg="#042430",fg="white")
-TI_button2.grid(row=1, column=1)
+rpilabel = Label(master=rpi_frame,text="geluids sensor", fg="white", bg="#0B3545")
+rpilabel.grid(row=0, column=1)
+TI_wavebutton = Button(master=rpi_frame, text="zwaai",bg="#042430",fg="white", )
+TI_wavebutton.grid(row= 1, padx=10, pady=10)
+TI_soundbutton = Button(master=rpi_frame, text="geluidsignaal geven", bg="#042430",fg="white")
+TI_soundbutton.grid(row=1, column=1)
+TI_togglesensor = Button(master=rpi_frame, text="afstandsensor display:neopixel", bg="#042430",fg="white", command=afstandsensordisplay)
+sensordisplay = "neopixel"
+TI_togglesensor.grid(row=1, column=2,padx=10)
 neopixel_label = Label(master=rpi_frame,text="                      neopixel functions", fg="white", bg="#0B3545")
 neopixel_label.grid(row=3)
 neopixel_options = ('off', 'white', 'pick color')
