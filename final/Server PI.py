@@ -193,13 +193,13 @@ def sr04():
 def sr04_distance(distance):
     while True:
         if sr04 < distance:
-            #Neopixel actie
+            #led actie op andere machine
             pass
 
 #Stuurt de beeper aan
 def beep():
     GPIO.output(speaker, GPIO.HIGH)
-    time.sleep(0.5)
+    time.sleep(0.1)
     GPIO.output(speaker, GPIO.LOW)
 
 @Pyro5.api.expose

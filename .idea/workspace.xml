@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7aa53e31-68b4-4456-8ba9-91ec7b33b431" name="Default Changelist" comment=".">
-      <change beforePath="$PROJECT_DIR$/.idea/HUProjectB.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/HUProjectB.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/final/Client PI.py" beforeDir="false" afterPath="$PROJECT_DIR$/final/Client PI.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/final/Server PI.py" beforeDir="false" afterPath="$PROJECT_DIR$/final/Server PI.py" afterDir="false" />
@@ -73,7 +71,7 @@
       <recent name="C:\Users\davev\Documents\GitHub\HUProjectB\test\local" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.Client PI">
+  <component name="RunManager" selected="Python.GPIO Cleanup">
     <configuration name="Client PI" type="PythonConfigurationType" factoryName="Python">
       <module name="HUProjectB" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -507,7 +505,7 @@
       <workItem from="1609073510158" duration="4082000" />
       <workItem from="1609145699287" duration="11648000" />
       <workItem from="1609169182291" duration="14078000" />
-      <workItem from="1609253659167" duration="3531000" />
+      <workItem from="1609253659167" duration="9502000" />
     </task>
     <task id="LOCAL-00001" summary="dit is een test">
       <created>1608665904250</created>
@@ -684,7 +682,14 @@
       <option name="project" value="LOCAL" />
       <updated>1609254309028</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary=".">
+      <created>1609259102914</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1609259102914</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -730,7 +735,7 @@
     <SUITE FILE_PATH="coverage/HUProjectB$GUI.coverage" NAME="GUI Coverage Results" MODIFIED="1608739197568" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
     <SUITE FILE_PATH="coverage/HUProjectB$teserdietest___locate_ns.coverage" NAME="teserdietest - locate ns Coverage Results" MODIFIED="1609158736216" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test/remote pi" />
     <SUITE FILE_PATH="coverage/HUProjectB$Zwaaien___WT.coverage" NAME="Zwaaien - WT Coverage Results" MODIFIED="1609161300794" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/parts/Servo" />
-    <SUITE FILE_PATH="coverage/HUProjectB$Server_PI.coverage" NAME="Server PI Coverage Results" MODIFIED="1609258507291" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/final" />
+    <SUITE FILE_PATH="coverage/HUProjectB$Server_PI.coverage" NAME="Server PI Coverage Results" MODIFIED="1609266036736" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/final" />
     <SUITE FILE_PATH="coverage/HUProjectB$TEST___Threading_double_daemon.coverage" NAME="TEST - Threading double daemon Coverage Results" MODIFIED="1609181675632" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test/local" />
     <SUITE FILE_PATH="coverage/HUProjectB$print_test_pi2.coverage" NAME="print test pi2 - client Coverage Results" MODIFIED="1609077122319" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test/remote pi" />
     <SUITE FILE_PATH="coverage/HUProjectB$geluidsignaal.coverage" NAME="geluidsignaal Coverage Results" MODIFIED="1609254416094" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/parts/geluidsingaal" />
@@ -739,13 +744,13 @@
     <SUITE FILE_PATH="coverage/HUProjectB$NS___plop.coverage" NAME="NS - plop Coverage Results" MODIFIED="1609076313746" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test/remote pi" />
     <SUITE FILE_PATH="coverage/HUProjectB$print_test_pi2___client.coverage" NAME="print test pi2 - client Coverage Results" MODIFIED="1609159966550" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test/remote pi" />
     <SUITE FILE_PATH="coverage/HUProjectB$Schuifregister___WT.coverage" NAME="Schuifregister - WT Coverage Results" MODIFIED="1609183003403" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/parts/Schuifregister" />
-    <SUITE FILE_PATH="coverage/HUProjectB$Client_PI.coverage" NAME="Client PI Coverage Results" MODIFIED="1609258979425" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/final" />
+    <SUITE FILE_PATH="coverage/HUProjectB$Client_PI.coverage" NAME="Client PI Coverage Results" MODIFIED="1609266055086" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/final" />
     <SUITE FILE_PATH="coverage/HUProjectB$geluidsingaal___WT.coverage" NAME="geluidsingaal - WT Coverage Results" MODIFIED="1608746919999" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/parts/geluidsingaal" />
     <SUITE FILE_PATH="coverage/HUProjectB$geluidsignaal___WT.coverage" NAME="geluidsignaal - WT Coverage Results" MODIFIED="1609160576210" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/parts/geluidsingaal" />
     <SUITE FILE_PATH="coverage/HUProjectB$Zwaaien.coverage" NAME="Zwaaien Coverage Results" MODIFIED="1609160525235" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/parts/Servo" />
     <SUITE FILE_PATH="coverage/HUProjectB$Cleanup.coverage" NAME="Cleanup Coverage Results" MODIFIED="1608727730083" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/PycharmProjects/TI" />
     <SUITE FILE_PATH="coverage/HUProjectB$TI_test_pi.coverage" NAME="TI test pi Coverage Results" MODIFIED="1609257462743" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
-    <SUITE FILE_PATH="coverage/HUProjectB$GPIO_Cleanup.coverage" NAME="GPIO Cleanup Coverage Results" MODIFIED="1609160514624" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/HUProjectB$GPIO_Cleanup.coverage" NAME="GPIO Cleanup Coverage Results" MODIFIED="1609266025745" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/HUProjectB$print_test_pi1.coverage" NAME="print test pi1 - host Coverage Results" MODIFIED="1609077471431" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test/remote pi" />
     <SUITE FILE_PATH="coverage/HUProjectB$TEST___Threading.coverage" NAME="TEST - Threading Coverage Results" MODIFIED="1608669753156" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
     <SUITE FILE_PATH="coverage/HUProjectB$print_test_pi1___host.coverage" NAME="print test pi1 - host Coverage Results" MODIFIED="1609159934283" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test/remote pi" />
