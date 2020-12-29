@@ -67,29 +67,29 @@ def neo_send_bytes(clock_pin, data_pin, bytes):
             GPIO.output(clock_pin, GPIO.LOW)
 
 #Voor het aansturen van de NEO-Pixel
-    def neo(color):
+def neo(color):
 
-        # Begin pakket
-        neo_send_bytes(neo_clock_pin, neo_data_pin, [[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0]])
+    # Begin pakket
+    neo_send_bytes(neo_clock_pin, neo_data_pin, [[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0]])
 
-        # Stuur de kleuren
-        counter = 0
-        for i in color:
-            binary = to_binary(i)
-            if counter == 0:
-                blue = binary
-            elif counter == 1:
-                green = binary
-            elif counter == 2:
-                red = binary
-            else:
-                counter = 0
-            counter += 1
-        for x in range(0, 8):
-            neo_send_bytes(neo_clock_pin, neo_data_pin, [[1, 1, 1, 0, 0, 0, 0, 1], blue, green, red])
+    # Stuur de kleuren
+    counter = 0
+    for i in color:
+        binary = to_binary(i)
+        if counter == 0:
+            blue = binary
+        elif counter == 1:
+            green = binary
+        elif counter == 2:
+            red = binary
+        else:
+            counter = 0
+        counter += 1
+    for x in range(0, 8):
+        neo_send_bytes(neo_clock_pin, neo_data_pin, [[1, 1, 1, 1, 1, 1, 1, 1], blue, green, red])
 
-        # Stuur het eindpakket
-        neo_send_bytes(neo_clock_pin, neo_data_pin, [[1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1]])
+    # Stuur het eindpakket
+    neo_send_bytes(neo_clock_pin, neo_data_pin, [[1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1]])
 
 #Bepaald de positie van de servo (zwaai)
 def position(position):
@@ -99,12 +99,12 @@ def position(position):
     time.sleep(0.02)
 
 #Stuurt de posities voor een zwaai (servo)
-    def wave():
-        for x in range(0, 5):
-            position(20)
-            time.sleep(0.4)
-            position(80)
-            time.sleep(0.4)
+def wave():
+    for x in range(0, 5):
+        position(20)
+        time.sleep(0.4)
+        position(80)
+        time.sleep(0.4)
 
 #Kijkt of de switch ingedrukt is. Zo ja stuurt deze een zwaai (servo) naar de friend
 def wave_toggle():
@@ -144,26 +144,29 @@ def show_users(byte):
     GPIO.output(register_shift_clock_pin, GPIO.LOW)
 
 #Kijkt naar het aantal gebruikers en stuurt de juiste waarde naar de show_users functie
-def users():
+def users(stop):
     users = 0
     while True:
+        if stop == True:
+            return
         users_old = users
         #Lees het aantal gebruikers uit een file
-        with open("users.txt") as file:
-            users = int(file.readline())
-        if users != users_old:
-            try:
-                #Zet het aantal users om naar bytes voor het schuifregister
-                bytes = []
-                for i in range(0, 8):
-                    bytes.append(0)
-                for i in range(0, users):
-                    bytes[i] = 1
-                show_users(bytes)
-            except:
-                print("Out of range")
+        try:
+            with open("users.txt") as file:
+                users = int(file.readline())
+            if users != users_old:
+                    #Zet het aantal users om naar bytes voor het schuifregister
+                    bytes = []
+                    for i in range(0, 8):
+                        bytes.append(0)
+                    for i in range(0, users):
+                        bytes[i] = 1
+                    show_users(bytes)
+        except:
+            print("An error has occord")
         time.sleep(1)
 
+#Meet de afstand tussen gebruiker en sensor
 def sr04():
     # send trigger pulse
     GPIO.output(sr04_trig, GPIO.HIGH)
@@ -186,24 +189,73 @@ def sr04():
     afstand = tijd * 34300 #Snelheid van geluid in seconden
     return (afstand / 2)
 
-def distance():
-    afstand = sr04()
-    if afstand < 20:
-        return ("TRUE")
+#Kijkt of de gebruiker te ver weg is (dus niet aanwezig op stoel)
+def sr04_distance(distance):
+    while True:
+        if sr04 < distance:
+            #Neopixel actie
+            pass
 
 #Stuurt de beeper aan
-    def beep(self):
-        GPIO.output(speaker, GPIO.HIGH)
-        time.sleep(0.5)
-        GPIO.output(speaker, GPIO.LOW)
+def beep():
+    GPIO.output(speaker, GPIO.HIGH)
+    time.sleep(0.5)
+    GPIO.output(speaker, GPIO.LOW)
 
 @Pyro5.api.expose
 class functions(): #object?
-    pass
-    #STUUR THREAD NEOPIXEL
+
+    def change_neo(rgb):
+        thread_neo = threading.Thread(target = neo, args = (lambda: rgb,), daemon = True)
+        thread_neo.start()
 
     #STUUR THREAD WAVE
+    def recieve_wave(self):
+        thread_wave = threading.Thread(target = wave, daemon = True)
+        thread_wave.start()
 
     #STUUR THREAD BEEPER
+    def recieve_beep(self):
+        thread_beep = threading.Thread(target = beep, daemon = True)
+        thread_beep.start()
+
+sr04_thread = False
+
+#Kijkt naar de gewenste status (GUI) van de sr04 (afstandssensor)
+def check_sr04(state, distance): #state: True = on, False = off
+    if state:
+        if not sr04_thread:
+            #Thread voor de sr04 (afstandssensor)
+            stop_thread_sr04 = False
+            thread_sr04 = threading.Thread(target=sr04_distance, args=(lambda: stop_thread_sr04, distance))
+            thread_sr04.start()
+    else:
+        try:
+            stop_thread_sr04 = True
+            #thread_sr04.stop()
+        except:
+            pass
+
 
 #THREADING
+stop_thread_users = False
+
+#Thread voor het sturen van een signaal (switch)
+thread_signal = threading.Thread(target = signal, daemon = True)
+thread_signal.start()
+
+#Thread voor het laten zien van het aantal users (schuifregister)
+thread_users = threading.Thread(target = users, args = (lambda: stop_thread_users,))
+thread_users.start()
+
+#NETWORKING
+func = functions()
+daemon = Pyro5.api.Daemon(host="192.168.192.24", port=9090)
+Pyro5.api.Daemon.serveSimple(
+    { func: "steam.functions" },
+    ns=False,
+    daemon=daemon,
+    verbose = True
+)
+
+print("done")
