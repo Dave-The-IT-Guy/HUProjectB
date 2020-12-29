@@ -257,5 +257,3 @@ Pyro5.api.Daemon.serveSimple(
     daemon=daemon,
     verbose = True
 )
-
-print("done")
