@@ -62,6 +62,10 @@ there are miscellaneous functions inside the application. they include:
 
 -view the details of the selected game
 
+-send lights and sounds to the user's best friend
+
+-control your ledstrip from the application
+
 
 ***
 
