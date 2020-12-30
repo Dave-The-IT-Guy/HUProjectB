@@ -20,28 +20,33 @@ GPIO.setup(servo, GPIO.OUT)
 #Switches GPIO (knoppen)
 switch = 23
 switch2 = 24
-GPIO.setup( switch, GPIO.IN, pull_up_down=GPIO.PUD_DOWN )
-GPIO.setup( switch2, GPIO.IN, pull_up_down=GPIO.PUD_DOWN )
+GPIO.setup(switch, GPIO.IN, pull_up_down = GPIO.PUD_DOWN)
+GPIO.setup(switch2, GPIO.IN, pull_up_down = GPIO.PUD_DOWN)
 
 #Beeper GPIO (geluidssignaal)
 speaker = 18
-GPIO.setup( speaker, GPIO.OUT )
+GPIO.setup(speaker, GPIO.OUT)
+
+#Led GPIO (vriend niet aanwezig)
+led = 4
+GPIO.setup(led, GPIO.OUT)
 
 #Schuifregister (aantal users)
 register_shift_clock_pin = 5
 register_latch_clock_pin = 6
 register_data_pin = 13
-GPIO.setup( register_shift_clock_pin, GPIO.OUT )
-GPIO.setup( register_latch_clock_pin, GPIO.OUT )
-GPIO.setup( register_data_pin, GPIO.OUT )
+GPIO.setup(register_shift_clock_pin, GPIO.OUT)
+GPIO.setup(register_latch_clock_pin, GPIO.OUT)
+GPIO.setup(register_data_pin, GPIO.OUT)
 
 #SR04 GPIO (afstandsmeter)
 sr04_trig = 20
 sr04_echo = 21
 GPIO.setup(sr04_trig, GPIO.OUT)
-GPIO.setup(sr04_echo, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(sr04_echo, GPIO.IN, pull_up_down = GPIO.PUD_DOWN)
 
 
+#FUNCTIONS
 #Zet de gegeven waarde om in een binair getal
 def to_binary(value):
     # Colorcode to binary
@@ -106,20 +111,6 @@ def wave():
         position(80)
         time.sleep(0.4)
 
-#Kijkt of de switch ingedrukt is. Zo ja stuurt deze een zwaai (servo) naar de friend
-def wave_toggle():
-    while True:
-        if (GPIO.input(switch)):
-            #Send zwaai naar andere machine
-            pass
-
-#Kijkt of de switch ingedrukt is. Zo ja stuurt deze een geluidssignaal (beeper) naar de friend
-def signal():
-    while True:
-        if (GPIO.input(switch2)):
-            #Stuur beep naar andere machine
-            pass
-
 #Stuurt de gegeven byte naar het schuifregister
 def show_users(byte):
 
@@ -166,94 +157,111 @@ def users(stop):
             print("An error has occord")
         time.sleep(1)
 
-#Meet de afstand tussen gebruiker en sensor
-def sr04():
-    # send trigger pulse
-    GPIO.output(sr04_trig, GPIO.HIGH)
-    time.sleep(0.000001)
-    GPIO.output(sr04_trig, GPIO.LOW)
-
-    # wait for echo high and remember its start time
-    while True:
-        if (GPIO.input(sr04_echo)):
-            starttime = time.time()
-            break
-    # wait for echo low and remember its end time
-    while True:
-        if not (GPIO.input(sr04_echo)):
-            endtime = time.time()
-            break
-
-    # calculate and return distance
-    tijd = endtime - starttime
-    afstand = tijd * 34300 #Snelheid van geluid in seconden
-    return (afstand / 2)
-
-#Kijkt of de gebruiker te ver weg is (dus niet aanwezig op stoel)
-def sr04_distance(distance):
-    while True:
-        if sr04 < distance:
-            #led actie op andere machine
-            pass
-
 #Stuurt de beeper aan
 def beep():
     GPIO.output(speaker, GPIO.HIGH)
-    time.sleep(0.1)
+    time.sleep(1)
     GPIO.output(speaker, GPIO.LOW)
 
+#Stuurt de led aan
+def light():
+    GPIO.output(led, GPIO.HIGH)
+    time.sleep(1)
+    GPIO.output(led, GPIO.LOW)
+    time.sleep(1)
+
+def client():
+    con = "PYRO:steam2.functions@192.168.192.64:9091"
+
+    def send_wave():
+        rem = Pyro5.api.Proxy(con)
+        while True:
+            if (GPIO.input(switch)):
+                rem.recieve_led()
+                time.sleep(1)
+
+    def send_beep():
+        rem = Pyro5.api.Proxy(con)
+        while True:
+            if (GPIO.input(switch2)):
+                rem.recieve_beep()
+
+    # Meet de afstand tussen gebruiker en sensor
+    def sr04():
+        # send trigger pulse
+        GPIO.output(sr04_trig, GPIO.HIGH)
+        time.sleep(0.000001)
+        GPIO.output(sr04_trig, GPIO.LOW)
+
+        # wait for echo high and remember its start time
+        while True:
+            if (GPIO.input(sr04_echo)):
+                starttime = time.time()
+                break
+        # wait for echo low and remember its end time
+        while True:
+            if not (GPIO.input(sr04_echo)):
+                endtime = time.time()
+                break
+
+        # calculate and return distance
+        tijd = endtime - starttime
+        afstand = tijd * 34300  # Snelheid van geluid in seconden
+        return (afstand / 2)
+
+    def send_sr04():
+        rem = Pyro5.api.Proxy(con)
+        while True:
+            if sr04() > 20:
+                try:
+                    rem.recieve_led()
+                    time.sleep(1.99)
+                except:
+                    time.sleep(2)
+            else:
+                time.sleep(1)
+
+    threading.Thread(target=send_wave, daemon=True).start()
+    threading.Thread(target=send_beep, daemon=True).start()
+    threading.Thread(target=send_sr04, daemon=True).start()
+
+
+
+
+
 @Pyro5.api.expose
-class functions(): #object?
+class functions():
 
     def change_neo(rgb):
-        thread_neo = threading.Thread(target = neo, args = (lambda: rgb,), daemon = True)
-        thread_neo.start()
+        threading.Thread(target = neo, args = (lambda: rgb,), daemon = True).start()
 
     #STUUR THREAD WAVE
     def recieve_wave(self):
-        thread_wave = threading.Thread(target = wave, daemon = True)
-        thread_wave.start()
+        threading.Thread(target = wave, daemon = True).start()
 
     #STUUR THREAD BEEPER
     def recieve_beep(self):
-        thread_beep = threading.Thread(target = beep, daemon = True)
-        thread_beep.start()
+        threading.Thread(target = beep, daemon = True).start()
 
-sr04_thread = False
-
-#Kijkt naar de gewenste status (GUI) van de sr04 (afstandssensor)
-def check_sr04(state, distance): #state: True = on, False = off
-    if state:
-        if not sr04_thread:
-            #Thread voor de sr04 (afstandssensor)
-            stop_thread_sr04 = False
-            thread_sr04 = threading.Thread(target=sr04_distance, args=(lambda: stop_thread_sr04, distance))
-            thread_sr04.start()
-    else:
-        try:
-            stop_thread_sr04 = True
-            #thread_sr04.stop()
-        except:
-            pass
+    # STUUR THREAD BEEPER
+    def recieve_led(self):
+        threading.Thread(target=light, daemon=True).start()
 
 
 #THREADING
 stop_thread_users = False
 
-#Thread voor het sturen van een signaal (switch)
-thread_signal = threading.Thread(target = signal, daemon = True)
-thread_signal.start()
-
 #Thread voor het laten zien van het aantal users (schuifregister)
-thread_users = threading.Thread(target = users, args = (lambda: stop_thread_users,))
-thread_users.start()
+threading.Thread(target = users, args = (lambda: stop_thread_users,)).start()
+
+threading.Thread(target = client, daemon = True).start()
 
 #NETWORKING
 func = functions()
-daemon = Pyro5.api.Daemon(host="192.168.192.24", port=9090)
+daemon = Pyro5.api.Daemon(host = "192.168.192.24", port = 9090)
 Pyro5.api.Daemon.serveSimple(
     { func: "steam.functions" },
-    ns=False,
-    daemon=daemon,
+    ns = False,
+    daemon = daemon,
     verbose = True
 )

@@ -10,18 +10,38 @@ GPIO.setwarnings(0)
 #Switches GPIO (knoppen)
 switch = 23
 switch2 = 24
-GPIO.setup( switch, GPIO.IN, pull_up_down=GPIO.PUD_DOWN )
-GPIO.setup( switch2, GPIO.IN, pull_up_down=GPIO.PUD_DOWN )
+GPIO.setup(switch, GPIO.IN, pull_up_down = GPIO.PUD_DOWN)
+GPIO.setup(switch2, GPIO.IN, pull_up_down = GPIO.PUD_DOWN)
 
 #Beeper GPIO (normaal geluidssignaal maar in dit geval led)
 speaker = 18
-GPIO.setup( speaker, GPIO.OUT )
+GPIO.setup(speaker, GPIO.OUT)
+
+#Led GPIO (vriend niet aanwezig)
+led = 4
+GPIO.setup(led, GPIO.OUT)
 
 #SR04 GPIO (afstandsmeter)
 sr04_trig = 20
 sr04_echo = 21
 GPIO.setup(sr04_trig, GPIO.OUT)
-GPIO.setup(sr04_echo, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(sr04_echo, GPIO.IN, pull_up_down = GPIO.PUD_DOWN)
+
+#Stuurt de beeper aan
+def beep():
+    GPIO.output(speaker, GPIO.HIGH)
+    time.sleep(1)
+    GPIO.output(speaker, GPIO.LOW)
+
+#Stuurt de led aan
+def light():
+    GPIO.output(led, GPIO.HIGH)
+    time.sleep(1)
+    GPIO.output(led, GPIO.LOW)
+    time.sleep(1)
+
+
+#REMOTE FUNCTIONS
 
 #Voor de verbinding met de server
 con = "PYRO:steam.functions@192.168.192.24:9090"
@@ -30,15 +50,20 @@ def send_wave():
     rem = Pyro5.api.Proxy(con)
     while True:
         if (GPIO.input(switch)):
-            rem.recieve_wave()
-            time.sleep(4.18)
+            try:
+                rem.recieve_wave()
+                time.sleep(4.18)
+            except:
+                time.sleep(2)
 
 def send_beep():
     rem = Pyro5.api.Proxy(con)
     while True:
         if (GPIO.input(switch2)):
-            rem.recieve_beep()
-            time.sleep(0.1)
+            try:
+                rem.recieve_beep()
+            except:
+                time.sleep(2)
 
 #Meet de afstand tussen gebruiker en sensor
 def sr04():
@@ -66,20 +91,38 @@ def sr04():
 def send_sr04():
     rem = Pyro5.api.Proxy(con)
     while True:
-        if sr04() < 20:
-            for i in range(1, 6):
-                time.sleep(1)
-                dis = sr04()
-                if i == 5:
+        if sr04() > 20:
+            try:
+                rem.recieve_led()
+                time.sleep(1.99)
+            except:
+                time.sleep(2)
+        else:
+            time.sleep(1)
 
-                    for i in range(0, 5):
-                        rem.change_neo(0, 0, 255)
+@Pyro5.api.expose
+class functions():
+
+    # STUUR THREAD BEEPER
+    def recieve_beep(self):
+        threading.Thread(target=beep, daemon=True).start()
+
+    # STUUR THREAD BEEPER
+    def recieve_led(self):
+        threading.Thread(target=light, daemon=True).start()
 
 
-#Thread voor het laten zien van het aantal users (schuifregister)
-thread_send_wave = threading.Thread(target = send_wave, daemon = True).start()
+#THREADING
+threading.Thread(target = send_wave, daemon = True).start()
+threading.Thread(target = send_beep, daemon = True).start()
+threading.Thread(target = send_sr04, daemon = True).start()
 
-thread_send_beep = threading.Thread(target = send_beep, daemon = True).start()
-
-while True:
-    time.sleep(10)
+#NETWORKING
+func = functions()
+daemon = Pyro5.api.Daemon(host = "192.168.192.64", port = 9091)
+Pyro5.api.Daemon.serveSimple(
+    { func: "steam2.functions" },
+    ns = False,
+    daemon = daemon,
+    verbose = True
+)

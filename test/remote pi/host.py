@@ -12,10 +12,10 @@ class dispatcher(object):
         return ['Work']
 
 disp = dispatcher()
-daemon = Pyro5.api.Daemon(host="192.168.192.24", port=9090)
+daemon = Pyro5.api.Daemon(host = "192.168.192.24", port = 9090)
 Pyro5.api.Daemon.serveSimple(
     { disp: "test.dispatcher" },
-    ns=False,
-    daemon=daemon,
+    ns = False,
+    daemon = daemon,
     verbose = True
 )
