@@ -74,6 +74,9 @@ def neo_send_bytes(clock_pin, data_pin, bytes):
 #Voor het aansturen van de NEO-Pixel
 def neo(color):
 
+    print(color)
+    print(type(color))
+
     # Begin pakket
     neo_send_bytes(neo_clock_pin, neo_data_pin, [[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0]])
 
@@ -232,8 +235,9 @@ def client():
 @Pyro5.api.expose
 class functions():
 
-    def change_neo(rgb):
-        threading.Thread(target = neo, args = (lambda: rgb,), daemon = True).start()
+    def change_neo(self, rgb):
+        print("called")
+        threading.Thread(target = neo, args = rgb, daemon = True).start()
 
     #STUUR THREAD WAVE
     def recieve_wave(self):
