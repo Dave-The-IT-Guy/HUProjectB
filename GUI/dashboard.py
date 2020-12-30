@@ -1,3 +1,5 @@
+# steam project dashboard - verona kragten
+
 from tkinter import *
 import webbrowser
 import json
@@ -23,10 +25,9 @@ global sensordisplay
 sensordisplay = "neopixel"
 
 # -- to do
-# do a binry search for getting the details
 # make graph blue
 # make it so that TI frame gets placed over GUI
-# if i search for someting it undoes the sorting go fix that #edit: fixed it but i havent tested if it works with evertything
+# if i search for someting it undoes the sorting go fix that #edit: fixed it but i havent tested if it works with evertything #edit: undoes the filtering i hate myself
 # add a filtering functionality
 # the sort functions give differing lists containing games that dont appear in the original list
 
@@ -55,7 +56,11 @@ sensordisplay = "neopixel"
 def openReadme():
     webbrowser.open('https://github.com/Dave-The-IT-Guy/HUProjectB/blob/main/README.md')
 
-def json_naar_dict():
+def listInsert(list):
+    for item in list:
+        gameslist.insert(END, item)
+
+def json_naar_dict():#van dani en mark
     global steamdata
     # json file openen
     with open('steam.json') as json_file:
@@ -65,7 +70,7 @@ def json_naar_dict():
         # steamdata = new_dict = dict((item['appid'], item) for item in steamdata_list)
         return steamdata
 
-def sorteren(categorie_input):
+def sorteren(categorie_input):#van dani en mark
     global gesorteerd
     json_naar_dict()
     # laat de gebruiker kiezen waar hij op sorteerd
@@ -106,7 +111,7 @@ def sorteren(categorie_input):
             gesorteerd_names.append(shown_name)
         return gesorteerd_names
 
-def naam_eerste_spel():
+def naam_eerste_spel(): #van dani en mark
     print("naam")
     #print(naam_eerste_spel())
     dictionary = json_naar_dict()
@@ -143,8 +148,6 @@ def getDetails(i):
 
             details.config(state=DISABLED)  # set it back to disabled to the user cant write 'penis' in the textbox
             return None  #python gets mad at me if i dont return anything and i dont know why
-    # details.insert(END, f'no details available for {selected}')
-    # details.config(state=DISABLED)
     # place i got the code from: https://stackoverflow.com/questions/34327244/binary-search-through-strings
 
 def openSortAndFilterWindow():
@@ -167,14 +170,103 @@ def openSortAndFilterWindow():
     datesort = Radiobutton(master=sortframe, variable=sorting, value="date", text="date", command=sortByDate)
     datesort.grid(row=4, column=0)
 
+
+    filter_options = ('no filter', 'genre', 'platform', 'price')
+    global current_filter
+    current_filter = StringVar()
+    current_filter.set(filter_options[0])
+    filter_optionmenu = OptionMenu(settingswindow, current_filter, *filter_options, command=filterBy)#filteroptions
+    filter_optionmenu.grid(row=0, column=1)
+
+    genrefilter_options = ["pick a genre","Action", "Adventure", "Indie", "RPG", "Early Access"]
+    global current_genre
+    current_genre = StringVar()
+    current_genre.set(genrefilter_options[0])
+    global genre_optionmenu
+    genre_optionmenu = OptionMenu(settingswindow, current_genre, *genrefilter_options, command=filterByGenre)#genrefilter options
+
+    platformfilter_options = ["pick a platform","windows", "mac", "linux"]
+    global current_platform
+    current_platform = StringVar()
+    current_platform.set(platformfilter_options[0])
+    global platform_optionmenu
+    platform_optionmenu = OptionMenu(settingswindow, current_platform, *platformfilter_options, command=filterByPlatforms)
+
+    global pricefilterframe
+    pricefilterframe = Frame(settingswindow)
+    labelfrom =  Label(master=pricefilterframe,text="from")
+    labelfrom.pack()
+    global pricefrom
+    pricefrom = Spinbox(master=pricefilterframe)
+    pricefrom.pack()
+    labelto = Label(master=pricefilterframe, text="to")
+    labelto.pack()
+    global priceto
+    priceto = Spinbox(master=pricefilterframe)
+    priceto.pack()
+    getpricefilter_button = Button(master=pricefilterframe, text="filter", command=filterByPrice)
+    getpricefilter_button.pack()
+
     settings_label = Label(master=settingswindow, text="other Settings:")
     settings_label.grid(row=3, column=1)
     case_button = Checkbutton(master=settingswindow, command=caseSensitive, text=f"Case sensitve")
     case_button.grid(row=4, column=1)
 
-def listInsert(list):
-    for item in list:
-        gameslist.insert(END, item)
+
+def filterBy(i):  # same as search but like. different
+    global current_filter
+    selection = current_filter.get()
+
+    pricefilterframe.grid_forget()
+    genre_optionmenu.grid_forget()
+    pricefilterframe.grid_forget()
+
+
+    if selection == "no filter":
+        listInsert(sortedgames)
+
+    if selection == "genre":
+        genre_optionmenu.grid(row=0,column=2)
+
+    if selection == "platform":
+        platform_optionmenu.grid(row=0,column=2)
+
+
+    if selection == "price":
+        pricefilterframe.grid(row=0,column=2)
+
+
+def filterByGenre(i):
+    selection = current_genre.get()
+    gameslist.delete(0, END)
+    if selection == "pick a genre":
+       listInsert(sortedgames)
+    else:
+        for game in json_naar_dict(): #looks at selection and compares it to every game[genres]
+            if selection in game["genres"]:
+                gameslist.insert("end", game["name"])
+
+def filterByPrice():
+    selectionfrom = float(pricefrom.get())
+    selectionto = float(priceto.get())
+    gameslist.delete(0, END)
+    for game in json_naar_dict():
+        if selectionfrom <= game["price"] <= selectionto:
+            gameslist.insert("end", game["name"])
+
+
+def filterByPlatforms(i):
+    gameslist.delete(0, END)
+    selection = current_platform.get()
+    if selection == "pick a platform":
+        listInsert(sortedgames)
+    else:
+        for game in json_naar_dict():
+            if selection in game["platforms"]:
+                gameslist.insert("end", game["name"])
+
+
+
 
 def search(a):
     query = searchbar.get() #get contents of searchbar
@@ -192,6 +284,11 @@ def search(a):
             no_case = game.lower()
             if query.lower() in no_case:
                 gameslist.insert("end", game)
+
+# def currentFilter():
+#     if
+
+
 
     #     for loop in binary search
 
@@ -230,7 +327,7 @@ def sortByDate():
     current_sort_label.config(text=f"sorted by: release date")
     current_sort = "date"
 
-# def filterBy():
+
 
 def showgraph():
     t = [1, 2, 3, 4, 5, 6]
@@ -247,7 +344,7 @@ def showgraph():
     ax.set_facecolor('#0B3545')
     ax.set_title('Voltage vs. time chart', color='white')
     ax.set_xlabel('time (s)', color='white')
-    ax.set_ylabel('voltage (mV)', color='white')
+    ax.set_ylabel('playtime', color='white')
     ax.plot(t, s, 'xkcd:crimson')
     ax.plot(t, s, color='C4', linestyle='--')
     ax.tick_params(labelcolor='white')
