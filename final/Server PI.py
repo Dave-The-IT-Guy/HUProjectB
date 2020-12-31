@@ -60,6 +60,10 @@ def to_binary(value):
     binair.reverse()
     return (binair)
 
+def reverseTuple(tuples):
+    new_tuple = tuples[::-1]
+    return new_tuple
+
 #Zet de gegeven bytes om in code voor de neopixel (ledstrip)
 def neo_send_bytes(clock_pin, data_pin, bytes):
     for byte in bytes:
@@ -73,9 +77,8 @@ def neo_send_bytes(clock_pin, data_pin, bytes):
 
 #Voor het aansturen van de NEO-Pixel
 def neo(color):
-
-    print(color)
-    print(type(color))
+    #De neopixel ziet de waardes als bgr ipv rgb dus de tuple moet omgedraaid worden
+    color = reverseTuple(color)
 
     # Begin pakket
     neo_send_bytes(neo_clock_pin, neo_data_pin, [[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0]])
@@ -138,11 +141,9 @@ def show_users(byte):
     GPIO.output(register_shift_clock_pin, GPIO.LOW)
 
 #Kijkt naar het aantal gebruikers en stuurt de juiste waarde naar de show_users functie
-def users(stop):
+def users():
     users = 0
     while True:
-        if stop == True:
-            return
         users_old = users
         #Lees het aantal gebruikers uit een file
         try:
@@ -228,16 +229,16 @@ def client():
     threading.Thread(target=send_beep, daemon=True).start()
     threading.Thread(target=send_sr04, daemon=True).start()
 
-
-
-
+def send_beep_to_friend():
+    con = "PYRO:steam2.functions@192.168.192.64:9091"
+    rem = Pyro5.api.Proxy(con)
+    rem.recieve_beep()
 
 @Pyro5.api.expose
 class functions():
 
     def change_neo(self, rgb):
-        print("called")
-        threading.Thread(target = neo, args = rgb, daemon = True).start()
+        threading.Thread(target = neo, args = (rgb), daemon = True).start()
 
     #STUUR THREAD WAVE
     def recieve_wave(self):
@@ -247,17 +248,20 @@ class functions():
     def recieve_beep(self):
         threading.Thread(target = beep, daemon = True).start()
 
+    def send_beep(self):
+        threading.Thread(target=send_beep_to_friend, daemon=True).start()
+
     # STUUR THREAD BEEPER
     def recieve_led(self):
         threading.Thread(target=light, daemon=True).start()
-
 
 #THREADING
 stop_thread_users = False
 
 #Thread voor het laten zien van het aantal users (schuifregister)
-threading.Thread(target = users, args = (lambda: stop_thread_users,)).start()
+threading.Thread(target = users, daemon = True).start()
 
+#Start de thread die de server ook client maakt van de vriend zijn server
 threading.Thread(target = client, daemon = True).start()
 
 #NETWORKING
