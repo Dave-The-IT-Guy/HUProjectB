@@ -13,7 +13,6 @@ from tkcolorpicker import askcolor
 import threading
 import Pyro5.api
 import time
-# import RPi.GPIO as GPIO
 
 
 # -- globals
@@ -90,7 +89,7 @@ def sorteren(categorie_input):#van dani en mark
             # Maak er een string van
             i = str(i)
             # Haal met regex de meeste speciale karakters eruit
-            i = re.sub(r'\W+', '', i)  # [^A-Za-z0-9]
+            i = re.sub('[^A-Za-z0-9$()\&\+\'\:\w\-\s\.]+', '', i) #i = re.sub(r'\W+', '', i)  # [^A-Za-z0-9]
             # Als de string niet false is voeg hem toe aan de lijst (strings kunnen false zijn als ze bijv. leeg zijn)
             if i:
                 # print(i)
