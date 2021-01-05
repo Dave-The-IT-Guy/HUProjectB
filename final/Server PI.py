@@ -291,4 +291,4 @@ Pyro5.api.Daemon.serveSimple(
     verbose = True
 )
 
-#GPIO.cleanup()
+GPIO.cleanup()

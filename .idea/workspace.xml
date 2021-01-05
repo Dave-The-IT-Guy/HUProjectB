@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="7aa53e31-68b4-4456-8ba9-91ec7b33b431" name="Default Changelist" comment="Minor changes and bugfixes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/final/Server PI.py" beforeDir="false" afterPath="$PROJECT_DIR$/final/Server PI.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -543,7 +542,7 @@
       <workItem from="1609526560315" duration="4177000" />
       <workItem from="1609831922520" duration="31000" />
       <workItem from="1609832007620" duration="19220000" />
-      <workItem from="1609867256675" duration="2821000" />
+      <workItem from="1609867256675" duration="2892000" />
     </task>
     <task id="LOCAL-00001" summary="dit is een test">
       <created>1608665904250</created>
@@ -818,7 +817,14 @@
       <option name="project" value="LOCAL" />
       <updated>1609858807472</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="Minor changes and bugfixes">
+      <created>1609870345992</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1609870345992</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
