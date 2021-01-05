@@ -491,7 +491,7 @@ TI_soundbutton.grid(row=1, column=1)
 #TI_togglesensor = Button(master=rpi_frame, text="afstandsensor display:neopixel", bg="#042430",fg="white", command=afstandsensordisplay)
 sensordisplay = "neopixel"
 #TI_togglesensor.grid(row=1, column=2,padx=10)
-neopixel_label = Label(master=rpi_frame,text="                      neopixel functions", fg="white", bg="#0B3545")
+neopixel_label = Label(master=rpi_frame,text="neopixel functions", fg="white", bg="#0B3545")
 neopixel_label.grid(row=3)
 neopixel_options = ('off', 'white', 'pick color')
 current_neopxl = StringVar()
@@ -499,8 +499,8 @@ current_neopxl.set(neopixel_options[0])
 TI_neopixel_options = OptionMenu(rpi_frame, current_neopxl, *neopixel_options, command=neopixelChange)
 TI_neopixel_options["menu"].config(bg="#042430", fg="white")
 TI_neopixel_options.grid(row=4)
-TI_slider = Scale(master=rpi_frame, from_=0, to=64, tickinterval=64,background="#0B3545", fg='white', troughcolor='#3D6D7F', activebackground='#09192A', highlightthickness=0)
-TI_slider.grid(row=4, column=1,padx=10, pady=10)
+#TI_slider = Scale(master=rpi_frame, from_=0, to=64, tickinterval=64,background="#0B3545", fg='white', troughcolor='#3D6D7F', activebackground='#09192A', highlightthickness=0)
+#TI_slider.grid(row=4, column=1,padx=10, pady=10)
 
 
 #Notebook Style
