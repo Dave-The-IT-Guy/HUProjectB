@@ -113,9 +113,9 @@ def position(position):
 def wave():
     for x in range(0, 5):
         position(20)
-        time.sleep(0.4)
+        time.sleep(0.29)
         position(80)
-        time.sleep(0.4)
+        time.sleep(0.29)
 
 #Stuurt de gegeven byte naar het schuifregister
 def show_users(byte):
@@ -149,6 +149,7 @@ def users():
         try:
             with open("users.txt") as file:
                 users = int(file.readline())
+                print("go")
             if users != users_old:
                     #Zet het aantal users om naar bytes voor het schuifregister
                     bytes = []
@@ -159,7 +160,7 @@ def users():
                     show_users(bytes)
         except:
             print("An error has occord")
-        time.sleep(1)
+        time.sleep(5)
 
 #Stuurt de beeper aan
 def beep():
