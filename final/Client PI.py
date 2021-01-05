@@ -52,7 +52,7 @@ def send_wave():
         if (GPIO.input(switch)):
             try:
                 rem.recieve_wave()
-                time.sleep(4.18)
+                time.sleep(4)
             except:
                 time.sleep(2)
 

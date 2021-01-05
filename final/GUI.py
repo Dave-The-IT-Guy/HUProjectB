@@ -384,7 +384,7 @@ def send_wave():
     TI_wavebutton.update()
     try:
         rem.recieve_wave()
-        time.sleep(5)
+        time.sleep(4)
     except:
         print("excepted")
         time.sleep(2)
