@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7aa53e31-68b4-4456-8ba9-91ec7b33b431" name="Default Changelist" comment="Minor bugfixes">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/final/GUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/final/GUI.py" afterDir="false" />
-    </list>
+    <list default="true" id="7aa53e31-68b4-4456-8ba9-91ec7b33b431" name="Default Changelist" comment="Minor changes and bugfixes" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -57,7 +54,7 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.editor" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -535,7 +532,7 @@
       <workItem from="1609415662556" duration="8446000" />
       <workItem from="1609526560315" duration="4177000" />
       <workItem from="1609831922520" duration="31000" />
-      <workItem from="1609832007620" duration="18502000" />
+      <workItem from="1609832007620" duration="18921000" />
     </task>
     <task id="LOCAL-00001" summary="dit is een test">
       <created>1608665904250</created>
@@ -796,7 +793,14 @@
       <option name="project" value="LOCAL" />
       <updated>1609857215848</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="Minor changes and bugfixes">
+      <created>1609858189238</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1609858189238</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -833,13 +837,13 @@
     <MESSAGE value="Code voor de NEOpixel" />
     <MESSAGE value="Code voor de NEOpixel met threading" />
     <MESSAGE value="." />
-    <MESSAGE value="Minor changes and bugfixes" />
     <MESSAGE value="Fixed servo movement speed" />
     <MESSAGE value="Removed unnecessary elements" />
     <MESSAGE value="Added shutdown function when closing GUI" />
     <MESSAGE value="Icons" />
     <MESSAGE value="Minor bugfixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Minor bugfixes" />
+    <MESSAGE value="Minor changes and bugfixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor changes and bugfixes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
