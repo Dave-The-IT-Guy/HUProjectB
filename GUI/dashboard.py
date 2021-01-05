@@ -480,8 +480,10 @@ rpilabel.grid(row=0, padx=10, pady=10)
 rpilabel = Label(master=rpi_frame,text="geluids sensor", fg="white", bg="#0B3545")
 rpilabel.grid(row=0, column=1)
 TI_wavebutton = Button(master=rpi_frame, text="zwaai", command=thread_send_wave, bg="#042430",fg="white", )
+tooltip_balloon.bind_widget(TI_wavebutton, balloonmsg='zwaai naar je je vriend via de servo')
 TI_wavebutton.grid(row= 1, padx=10, pady=10)
 TI_soundbutton = Button(master=rpi_frame, text="geluidsignaal geven", command=thread_send_beep, bg="#042430",fg="white")
+tooltip_balloon.bind_widget(TI_soundbutton, balloonmsg='stuur een piep naar je vriend')
 TI_soundbutton.grid(row=1, column=1)
 #TI_togglesensor = Button(master=rpi_frame, text="afstandsensor display:neopixel", bg="#042430",fg="white", command=afstandsensordisplay)
 sensordisplay = "neopixel"
@@ -522,6 +524,7 @@ leftframe_notebook.grid()
 
 #--buttons
 sortbutton = Button(master=rightframe, text="settings", command=openSortAndFilterWindow)
+tooltip_balloon.bind_widget(sortbutton, balloonmsg='more settings for searching \nthrough the list of games')
 sortbutton.pack()
 
 #--menu
