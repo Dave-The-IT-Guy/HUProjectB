@@ -412,24 +412,21 @@ def send_beep():
 def thread_send_beep():
     threading.Thread(target=send_beep, daemon=True).start()
 
-#def afstandsensordisplay():
-#    global sensordisplay
-#
-#    if sensordisplay == "neopixel":
-#        sensordisplay = "light"
-#        TI_togglesensor.config(text="afstandsensor display:light")
-#
-#    elif sensordisplay == "light":
-#        sensordisplay = "neopixel"
-#        TI_togglesensor.config(text="afstandsensor display:neopixel")
+def onExit():
+    rem = Pyro5.api.Proxy(con)
+    root.destroy()
+    threading.Thread(target = rem.shutdown())
+    exit()
 
 
 
 #-- placing wigdets
 root = Tk()
 root.config(bg="#042430")
-# root.iconbitmap("steam_icon.ico") #how the fuck does this slow down the entire app???
+#root.iconbitmap("steam_icon.ico") #how the fuck does this slow down the entire app???
 root.title("steam application")
+root.resizable(False, False)
+root.protocol("WM_DELETE_WINDOW", lambda: onExit())
 theme = ttk.Style(root)
 print(ttk.Style().theme_names())
 

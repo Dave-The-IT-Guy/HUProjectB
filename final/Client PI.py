@@ -111,6 +111,8 @@ class functions():
     def recieve_led(self):
         threading.Thread(target=light, daemon=True).start()
 
+    def shutdown(self):
+        daemon.close()
 
 #THREADING
 threading.Thread(target = send_wave, daemon = True).start()
@@ -126,3 +128,5 @@ Pyro5.api.Daemon.serveSimple(
     daemon = daemon,
     verbose = True
 )
+
+GPIO.cleanup()

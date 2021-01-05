@@ -141,25 +141,28 @@ def show_users(byte):
     GPIO.output(register_shift_clock_pin, GPIO.LOW)
 
 #Kijkt naar het aantal gebruikers en stuurt de juiste waarde naar de show_users functie
-def users():
+def users(stop_thread_users):
     users = 0
     while True:
-        users_old = users
-        #Lees het aantal gebruikers uit een file
-        try:
-            with open("users.txt") as file:
-                users = int(file.readline())
-            if users != users_old:
-                    #Zet het aantal users om naar bytes voor het schuifregister
-                    bytes = []
-                    for i in range(0, 8):
-                        bytes.append(0)
-                    for i in range(0, users):
-                        bytes[i] = 1
-                    show_users(bytes)
-        except:
-            print("An error has occord")
-        time.sleep(5)
+        if not stop_thread_users:
+            users_old = users
+            #Lees het aantal gebruikers uit een file
+            try:
+                with open("users.txt") as file:
+                    users = int(file.readline())
+                if users != users_old:
+                        #Zet het aantal users om naar bytes voor het schuifregister
+                        bytes = []
+                        for i in range(0, 8):
+                            bytes.append(0)
+                        for i in range(0, users):
+                            bytes[i] = 1
+                        show_users(bytes)
+            except:
+                print("An error has occord")
+            time.sleep(5)
+        else:
+            return
 
 #Stuurt de beeper aan
 def beep():
@@ -253,13 +256,26 @@ class functions():
 
     # STUUR THREAD BEEPER
     def recieve_led(self):
-        threading.Thread(target=light, daemon=True).start()
+        threading.Thread(target = light, daemon = True).start()
+
+    def shutdown(self):
+        con = "PYRO:steam2.functions@192.168.192.64:9091"
+        rem = Pyro5.api.Proxy(con)
+        rem.shutdown()
+
+        stop_thread_users = True
+        thread_users.join()
+        byte = [0, 0, 0, 0, 0, 0, 0, 0]
+        show_users(byte)
+        neo(byte)
+        daemon.close()
 
 #THREADING
 stop_thread_users = False
 
 #Thread voor het laten zien van het aantal users (schuifregister)
-threading.Thread(target = users, daemon = True).start()
+thread_users = threading.Thread(target = users, args=(lambda: stop_thread_users,), daemon = True)
+thread_users.start()
 
 #Start de thread die de server ook client maakt van de vriend zijn server
 threading.Thread(target = client, daemon = True).start()
@@ -273,3 +289,5 @@ Pyro5.api.Daemon.serveSimple(
     daemon = daemon,
     verbose = True
 )
+
+GPIO.cleanup()
