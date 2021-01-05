@@ -149,7 +149,6 @@ def users():
         try:
             with open("users.txt") as file:
                 users = int(file.readline())
-                print("go")
             if users != users_old:
                     #Zet het aantal users om naar bytes voor het schuifregister
                     bytes = []

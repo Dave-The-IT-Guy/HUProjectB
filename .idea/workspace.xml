@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7aa53e31-68b4-4456-8ba9-91ec7b33b431" name="Default Changelist" comment=".">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/final/Client PI.py" beforeDir="false" afterPath="$PROJECT_DIR$/final/Client PI.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/final/GUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/final/GUI.py" afterDir="false" />
+    <list default="true" id="7aa53e31-68b4-4456-8ba9-91ec7b33b431" name="Default Changelist" comment="Minor changes and bugfixes">
       <change beforePath="$PROJECT_DIR$/final/Server PI.py" beforeDir="false" afterPath="$PROJECT_DIR$/final/Server PI.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/final/users.txt" beforeDir="false" afterPath="$PROJECT_DIR$/final/users.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -537,7 +533,7 @@
       <workItem from="1609415662556" duration="8446000" />
       <workItem from="1609526560315" duration="4177000" />
       <workItem from="1609831922520" duration="31000" />
-      <workItem from="1609832007620" duration="1391000" />
+      <workItem from="1609832007620" duration="1463000" />
     </task>
     <task id="LOCAL-00001" summary="dit is een test">
       <created>1608665904250</created>
@@ -749,7 +745,21 @@
       <option name="project" value="LOCAL" />
       <updated>1609435803422</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="Fixed servo movement speed">
+      <created>1609833419113</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1609833419113</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Minor changes and bugfixes">
+      <created>1609833449590</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1609833449590</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -786,7 +796,9 @@
     <MESSAGE value="Code voor de NEOpixel" />
     <MESSAGE value="Code voor de NEOpixel met threading" />
     <MESSAGE value="." />
-    <option name="LAST_COMMIT_MESSAGE" value="." />
+    <MESSAGE value="Fixed servo movement speed" />
+    <MESSAGE value="Minor changes and bugfixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor changes and bugfixes" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/HUProjectB$Meten.coverage" NAME="Schuifregister Coverage Results" MODIFIED="1608736330013" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/parts/Schuifregister" />
