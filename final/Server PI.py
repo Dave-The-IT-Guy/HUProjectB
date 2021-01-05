@@ -162,7 +162,7 @@ def users(stop_thread_users):
                 print("An error has occord")
             time.sleep(5)
         else:
-            return
+            exit()
 
 #Stuurt de beeper aan
 def beep():
@@ -274,7 +274,7 @@ class functions():
 stop_thread_users = False
 
 #Thread voor het laten zien van het aantal users (schuifregister)
-thread_users = threading.Thread(target = users, args=(lambda: stop_thread_users,), daemon = True)
+thread_users = threading.Thread(target = users, args=(stop_thread_users,))
 thread_users.start()
 
 #Start de thread die de server ook client maakt van de vriend zijn server

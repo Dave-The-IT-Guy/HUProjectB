@@ -423,7 +423,7 @@ def onExit():
 #-- placing wigdets
 root = Tk()
 root.config(bg="#042430")
-#root.iconbitmap("steam_icon.ico") #how the fuck does this slow down the entire app???
+root.iconbitmap("steam_icon.ico") #how the fuck does this slow down the entire app???
 root.title("steam application")
 root.resizable(False, False)
 root.protocol("WM_DELETE_WINDOW", lambda: onExit())
@@ -546,7 +546,8 @@ for item in json_naar_dict():
 
 # print(testlist)
 
-caseSensitive()
+threading.Thread(target=caseSensitive, daemon=True).start()
+#caseSensitive()
 showgraph()
 listInsert(game_names)
 root.mainloop()
