@@ -10,7 +10,11 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
 from tkcolorpicker import askcolor
-# import RPi.GPIO as GPIO
+import threading
+import Pyro5.api
+import time
+from tkinter import tix
+from tkinter.constants import *
 
 
 # -- globals
@@ -23,6 +27,9 @@ global sortedgames
 sortedgames = game_names
 global sensordisplay
 sensordisplay = "neopixel"
+
+#Voor de verbinding met de server
+con = "PYRO:steam.functions@192.168.192.24:9090"
 
 # -- to do
 # make graph blue
@@ -41,15 +48,6 @@ sensordisplay = "neopixel"
 # beginnen met functies
 # met pyro commands sturen naar rpi
 
-
-# -- TI
-# GPIO.setmode( GPIO.BCM )
-# GPIO.setwarnings( 0 )
-#
-# speaker = 18
-# switch2 = 24
-# GPIO.setup( switch2, GPIO.IN, pull_up_down=GPIO.PUD_DOWN )
-# GPIO.setup( speaker, GPIO.OUT )
 
 
 # -- functions
@@ -84,7 +82,7 @@ def sorteren(categorie_input):#van dani en mark
             # Maak er een string van
             i = str(i)
             # Haal met regex de meeste speciale karakters eruit
-            i = re.sub(r'\W+', '', i)  # [^A-Za-z0-9]
+            i = re.sub('[^A-Za-z0-9$()\&\+\'\:\w\-\s\.]+', '', i) #i = re.sub(r'\W+', '', i)  # [^A-Za-z0-9]
             # Als de string niet false is voeg hem toe aan de lijst (strings kunnen false zijn als ze bijv. leeg zijn)
             if i:
                 # print(i)
@@ -134,17 +132,17 @@ def getDetails(i):
         elif game["name"] < selected:
             start = middle + 1
         else:
-            details.insert(END, f'{game["name"]}\n')
-            details.insert(END, '_____________________________\n\n')  # this ones just for looks
-            details.insert(END, f'release date:{game["release_date"]}\n')
-            details.insert(END, f'developer: {game["developer"]}\n')
-            details.insert(END, f'price: {game["price"]}\n')
-            details.insert(END, f'genres: {game["genres"]}\n')
-            details.insert(END, f'platforms: {game["platforms"]}\n')
-            details.insert(END, f'positive ratings: {game["positive_ratings"]}\n')
-            details.insert(END, f'negative ratings: {game["negative_ratings"]}\n')
-            details.insert(END, f'average playtime: {game["average_playtime"]} hours\n')
-            details.insert(END, f'owners: {game["owners"]} copies\n')
+            details.insert(END, f'{game["name"]}\n'  # insert all the details into the textbox
+                                '_____________________________\n'  # this ones just for looks
+                                f'release date:{game["release_date"]}\n'
+                                f'developer: {game["developer"]}\n'
+                                f'price: {game["price"]}\n'
+                                f'genres: {game["genres"]}\n'
+                                f'platforms: {game["platforms"]}\n'
+                                f'positive ratings: {game["positive_ratings"]}\n '
+                                f'negative ratings: {game["negative_ratings"]}\n'
+                                f'average playtime: {game["average_playtime"]} hours\n'
+                                f'owners: {game["owners"]} copies\n')
 
             details.config(state=DISABLED)  # set it back to disabled to the user cant write 'penis' in the textbox
             return None  #python gets mad at me if i dont return anything and i dont know why
@@ -152,24 +150,19 @@ def getDetails(i):
 
 def openSortAndFilterWindow():
     # --sort window
-    sorting = StringVar()
     settingswindow = Toplevel(master=root)
-    sortframe = Frame(master=settingswindow)
+    settingswindow.resizable(False, False)
+    settingswindow.geometry("400x200")
     settingswindow.wm_attributes("-topmost", 1)
-    sortframe.grid(row=0, column=0)
 
     # --wigdets in window
-    sort_by = Label(master=sortframe, text="Sort by:")
-    sort_by.grid(row=0, column=0)
-    defaultsort = Radiobutton(master=sortframe, variable=sorting,value="none", text="None", command=sortByNone)
-    defaultsort.grid(row=1, column=0)
-    namesort = Radiobutton(master=sortframe, variable=sorting, value="name", text="Name", command=sortByName)
-    namesort.grid(row=2, column=0)
-    pricesort = Radiobutton(master=sortframe, variable=sorting, value="price", text="price", command=sortByPrice)
-    pricesort.grid(row=3, column=0)
-    datesort = Radiobutton(master=sortframe, variable=sorting, value="date", text="date", command=sortByDate)
-    datesort.grid(row=4, column=0)
-
+    sorting_options = ["sort by","name", "price", "date"]
+    global current_sort
+    current_sort = StringVar()
+    current_sort.set(sorting_options[0])
+    global sort_optionmenu
+    sort_optionmenu = OptionMenu(settingswindow, current_sort, *sorting_options, command=sortby)  # genrefilter options
+    sort_optionmenu.grid(row=0,column=0)
 
     filter_options = ('no filter', 'genre', 'platform', 'price')
     global current_filter
@@ -210,6 +203,7 @@ def openSortAndFilterWindow():
     settings_label = Label(master=settingswindow, text="other Settings:")
     settings_label.grid(row=3, column=1)
     case_button = Checkbutton(master=settingswindow, command=caseSensitive, text=f"Case sensitve")
+    tooltip_balloon.bind_widget(case_button, balloonmsg='if checked, search will be case sensitive.')
     case_button.grid(row=4, column=1)
 
 
@@ -285,10 +279,6 @@ def search(a):
             if query.lower() in no_case:
                 gameslist.insert("end", game)
 
-# def currentFilter():
-#     if
-
-
 
     #     for loop in binary search
 
@@ -299,6 +289,18 @@ def caseSensitive():
 
     elif case_sensitive == False:
         case_sensitive = True
+
+def sortby(i):
+    global current_sort
+    selection = current_sort.get()
+    if selection == "name":
+        sortByName()
+    elif selection == "date":
+        sortByDate()
+    elif selection == "price":
+        sortByPrice()
+    else:
+        sortByNone()
 
 def sortByNone():
     gameslist.delete(0, END)
@@ -352,46 +354,78 @@ def showgraph():
     canvas.get_tk_widget().pack()
 
 def neopixelChange(i):
+    rem = Pyro5.api.Proxy(con)
     selection = current_neopxl.get()
     if selection == "off":
-        print(selection)
-    if selection == "pick color":
-        current_color = (askcolor((255, 255, 0), root))[0]
-        print(current_color)
+        try:
+            rem.change_neo([[0, 0, 0]])
+        except:
+            pass
 
-# def TI_sound():
-#     while True:
-#         if (GPIO.input(switch2)):
-#             GPIO.output(speaker, GPIO.HIGH)
-#             GPIO.output(speaker, GPIO.LOW)
+    elif selection == "white":
+        try:
+            rem.change_neo([[255, 255, 255]])
+        except:
+            pass
 
-def afstandsensordisplay():
-    global sensordisplay
+    elif selection == "pick color":
+        try:
+            rem.change_neo([(askcolor((0, 0, 0), root))[0]])
+        except:
+            pass
 
-    if sensordisplay == "neopixel":
-        sensordisplay = "light"
-        TI_togglesensor.config(text="afstandsensor display:light")
+def send_wave():
+    rem = Pyro5.api.Proxy(con)
+    TI_wavebutton.config(state=DISABLED)
+    TI_wavebutton.update()
+    try:
+        rem.recieve_wave()
+        time.sleep(4)
+    except:
+        print("excepted")
+        time.sleep(2)
+    finally:
+        TI_wavebutton.config(state="normal")
+        TI_wavebutton.update()
 
-    elif sensordisplay == "light":
-        sensordisplay = "neopixel"
-        TI_togglesensor.config(text="afstandsensor display:neopixel")
+def thread_send_wave():
+    threading.Thread(target=send_wave, daemon=True).start()
 
 
+def send_beep():
+    rem = Pyro5.api.Proxy(con)
+    TI_soundbutton.config(state=DISABLED)
+    for i in range(0, 5):
+       rem.send_beep()
+       time.sleep(1.3)
+    try:
+        pass
+    except:
+        time.sleep(2)
+    finally:
+        TI_soundbutton.config(state=NORMAL)
 
+def thread_send_beep():
+    threading.Thread(target=send_beep, daemon=True).start()
 
-
-
-
+def onExit():
+    rem = Pyro5.api.Proxy(con)
+    root.destroy()
+    threading.Thread(target = rem.shutdown())
+    exit()
 
 
 
 #-- placing wigdets
-root = Tk()
+root = tix.Tk()
 root.config(bg="#042430")
 # root.iconbitmap("steam_icon.ico") #how the fuck does this slow down the entire app???
 root.title("steam application")
+root.resizable(False, False)
+root.protocol("WM_DELETE_WINDOW", lambda: onExit())
 theme = ttk.Style(root)
-print(ttk.Style().theme_names())
+# print(ttk.Style().theme_names())
+tooltip_balloon = tix.Balloon(root, bg="#2B526F")
 
 rightframe = Frame(master=root, width=768, height=576,bg="#042430")
 rightframe.grid(row=0,column=0, padx=10, pady=10)
@@ -406,6 +440,7 @@ scrollbar = Scrollbar(listframe, orient="vertical")
 gameslist = Listbox(master=listframe, yscrollcommand=scrollbar.set, background="#042430", fg="white",selectbackground="#133d4d",highlightcolor="#133d4d", width=50, activestyle="none")
 scrollbar.config(command=gameslist.yview)
 gameslist.bind("<<ListboxSelect>>", getDetails)
+gameslist.bind("<B1-Leave>", lambda event: "break")
 searchbarframe.pack(side="top")
 search_label.pack(side="left")
 searchbar.pack(side="right")
@@ -418,13 +453,13 @@ current_sort_label.pack(side="top", fill="x")
 detailsframe = Frame(master=rightframe, bg="#0B3545", width=300, height=200)
 detailsframe.pack(side='bottom')
 detailsframe.pack_propagate(False)
-scrollbar = Scrollbar(detailsframe, orient="vertical")
+# scrollbar = Scrollbar(detailsframe, orient="vertical")
 global details
 details = Text(master=detailsframe, bg="#0B3545", fg="white")
 # details.insert(END, "“According to all known laws of aviation, there is no way that a bee should be able to fly. Its wings are too small to get its fat little body off the ground. The bee, of course, flies anyways. Because bees don't care what humans think is impossible.”")
 details.config(state=DISABLED)
-scrollbar.config(command=details.yview)
-scrollbar.pack(side="right", fill="y")
+# scrollbar.config(command=details.yview)
+# scrollbar.pack(side="right", fill="y")
 details.pack(pady=10)
 
 #--leftframe
@@ -444,14 +479,14 @@ rpilabel = Label(master=rpi_frame,text="raspberry pi functions", fg="white", bg=
 rpilabel.grid(row=0, padx=10, pady=10)
 rpilabel = Label(master=rpi_frame,text="geluids sensor", fg="white", bg="#0B3545")
 rpilabel.grid(row=0, column=1)
-TI_wavebutton = Button(master=rpi_frame, text="zwaai",bg="#042430",fg="white", )
+TI_wavebutton = Button(master=rpi_frame, text="zwaai", command=thread_send_wave, bg="#042430",fg="white", )
 TI_wavebutton.grid(row= 1, padx=10, pady=10)
-TI_soundbutton = Button(master=rpi_frame, text="geluidsignaal geven", bg="#042430",fg="white")
+TI_soundbutton = Button(master=rpi_frame, text="geluidsignaal geven", command=thread_send_beep, bg="#042430",fg="white")
 TI_soundbutton.grid(row=1, column=1)
-TI_togglesensor = Button(master=rpi_frame, text="afstandsensor display:neopixel", bg="#042430",fg="white", command=afstandsensordisplay)
+#TI_togglesensor = Button(master=rpi_frame, text="afstandsensor display:neopixel", bg="#042430",fg="white", command=afstandsensordisplay)
 sensordisplay = "neopixel"
-TI_togglesensor.grid(row=1, column=2,padx=10)
-neopixel_label = Label(master=rpi_frame,text="                      neopixel functions", fg="white", bg="#0B3545")
+#TI_togglesensor.grid(row=1, column=2,padx=10)
+neopixel_label = Label(master=rpi_frame,text="neopixel functions", fg="white", bg="#0B3545")
 neopixel_label.grid(row=3)
 neopixel_options = ('off', 'white', 'pick color')
 current_neopxl = StringVar()
@@ -459,8 +494,8 @@ current_neopxl.set(neopixel_options[0])
 TI_neopixel_options = OptionMenu(rpi_frame, current_neopxl, *neopixel_options, command=neopixelChange)
 TI_neopixel_options["menu"].config(bg="#042430", fg="white")
 TI_neopixel_options.grid(row=4)
-TI_slider = Scale(master=rpi_frame, from_=0, to=64, tickinterval=64,background="#0B3545", fg='white', troughcolor='#3D6D7F', activebackground='#09192A', highlightthickness=0)
-TI_slider.grid(row=4, column=1,padx=10, pady=10)
+#TI_slider = Scale(master=rpi_frame, from_=0, to=64, tickinterval=64,background="#0B3545", fg='white', troughcolor='#3D6D7F', activebackground='#09192A', highlightthickness=0)
+#TI_slider.grid(row=4, column=1,padx=10, pady=10)
 
 
 #Notebook Style
@@ -498,18 +533,8 @@ root.config(menu=menubar)
 
 
 
-# filling list
-for item in json_naar_dict():
-    game_names.append(item["name"])
-
-#-- testing
-# for i in range(0,20):
-#     gameslist.insert("end", "item #%s" % i)
-#
-
-# print(testlist)
-
-caseSensitive()
+threading.Thread(target=caseSensitive, daemon=True).start()
+#caseSensitive()
 showgraph()
 listInsert(game_names)
 root.mainloop()
