@@ -150,9 +150,9 @@ def getDetails(i):
 
 def openSortAndFilterWindow():
     # --sort window
-    settingswindow = Toplevel(master=root)
+    settingswindow = Toplevel(master=root, bg="#0B3545")
     settingswindow.resizable(False, False)
-    settingswindow.geometry("400x200")
+    settingswindow.geometry("300x100")
     settingswindow.wm_attributes("-topmost", 1)
 
     # --wigdets in window
@@ -414,7 +414,10 @@ def onExit():
     threading.Thread(target = rem.shutdown())
     exit()
 
-
+def fillList(list):
+    for game in json_naar_dict():
+        list.append(game["name"])
+    return list
 
 #-- placing wigdets
 root = tix.Tk()
@@ -490,7 +493,7 @@ sensordisplay = "neopixel"
 #TI_togglesensor.grid(row=1, column=2,padx=10)
 neopixel_label = Label(master=rpi_frame,text="neopixel functions", fg="white", bg="#0B3545")
 neopixel_label.grid(row=3)
-neopixel_options = ('off', 'white', 'pick color')
+neopixel_options = ('off', 'white', 'pick color', 'flash', "smooth")
 current_neopxl = StringVar()
 current_neopxl.set(neopixel_options[0])
 TI_neopixel_options = OptionMenu(rpi_frame, current_neopxl, *neopixel_options, command=neopixelChange)
@@ -539,5 +542,5 @@ root.config(menu=menubar)
 threading.Thread(target=caseSensitive, daemon=True).start()
 #caseSensitive()
 showgraph()
-listInsert(game_names)
+listInsert(fillList(game_names))
 root.mainloop()
