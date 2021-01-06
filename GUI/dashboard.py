@@ -15,6 +15,9 @@ import Pyro5.api
 import time
 from tkinter import tix
 from tkinter.constants import *
+import numpy as np
+from matplotlib.colors import hsv_to_rgb, to_hex
+
 
 
 # -- globals
@@ -375,8 +378,10 @@ def neopixelChange(i):
             pass
 
     elif selection == "pick color":
+        color = (askcolor((0, 0, 0), root))[0]
         try:
-            rem.change_neo([(askcolor((0, 0, 0), root))[0]])
+            # rem.change_neo([color])
+            TI_neopixel_options.config(bg=f"{fromRGB(color)}" , activebackground=f"{fromRGB(color)}" )
         except:
             pass
 
@@ -424,6 +429,15 @@ def fillList(list):
     for game in json_naar_dict():
         list.append(game["name"])
     return list
+
+def fromRGB(rgb):
+    """translates an rgb tuple of int to a tkinter friendly color code
+    """
+    # bron: https://stackoverflow.com/a/51592104
+    return "#%02x%02x%02x" % rgb
+
+
+
 
 #-- placing wigdets
 root = tix.Tk()
@@ -488,25 +502,32 @@ rpilabel = Label(master=rpi_frame,text="raspberry pi functions", fg="white", bg=
 rpilabel.grid(row=0, padx=10, pady=10)
 rpilabel = Label(master=rpi_frame,text="geluids sensor", fg="white", bg="#0B3545")
 rpilabel.grid(row=0, column=1)
-TI_wavebutton = Button(master=rpi_frame, text="zwaai", command=thread_send_wave, bg="#042430",fg="white", )
+
+TI_wavebutton = Button(master=rpi_frame, text="zwaai", bg="#042430",fg="white", borderwidth=0)
 tooltip_balloon.bind_widget(TI_wavebutton, balloonmsg='zwaai naar je je vriend via de servo')
 TI_wavebutton.grid(row= 1, padx=10, pady=10)
-TI_soundbutton = Button(master=rpi_frame, text="geluidsignaal geven", command=thread_send_beep, bg="#042430",fg="white")
+
+TI_soundbutton = Button(master=rpi_frame, text="geluidsignaal geven", command=thread_send_beep, bg="#042430",fg="white",borderwidth=0)
 tooltip_balloon.bind_widget(TI_soundbutton, balloonmsg='stuur een piep naar je vriend')
 TI_soundbutton.grid(row=1, column=1)
+
 #TI_togglesensor = Button(master=rpi_frame, text="afstandsensor display:neopixel", bg="#042430",fg="white", command=afstandsensordisplay)
 sensordisplay = "neopixel"
 #TI_togglesensor.grid(row=1, column=2,padx=10)
-neopixel_label = Label(master=rpi_frame,text="neopixel functions", fg="white", bg="#0B3545")
+neopixel_label = Label(master=rpi_frame,text="neopixel functions", fg="white", bg="#0B3545",)
 neopixel_label.grid(row=3)
 neopixel_options = ('off', 'white', 'pick color', 'flash', "smooth")
 current_neopxl = StringVar()
 current_neopxl.set(neopixel_options[0])
 TI_neopixel_options = OptionMenu(rpi_frame, current_neopxl, *neopixel_options, command=neopixelChange)
-TI_neopixel_options["menu"].config(bg="#042430", fg="white")
-TI_neopixel_options.config(bg="#0B3545",fg="white",
+TI_neopixel_options["menu"].config(bg="#042430",fg="white",
+                                   borderwidth=0)
+TI_neopixel_options.config(bg="#042430",fg="white",
                            activebackground='#092F3E',
-                            activeforeground='white', highlightthickness = 0)
+                            activeforeground='white',
+                           borderwidth=0,
+                           highlightthickness = 0)
+tooltip_balloon.bind_widget(TI_neopixel_options, balloonmsg="colors and effects with your ledstrip")
 TI_neopixel_options.grid(row=4)
 #TI_slider = Scale(master=rpi_frame, from_=0, to=64, tickinterval=64,background="#0B3545", fg='white', troughcolor='#3D6D7F', activebackground='#09192A', highlightthickness=0)
 #TI_slider.grid(row=4, column=1,padx=10, pady=10)
@@ -535,7 +556,7 @@ noteStyler.configure("TFrame", background="#0B3545", foreground="white")
 leftframe_notebook.grid()
 
 #--buttons
-sortbutton = Button(master=rightframe, text="settings", command=openSortAndFilterWindow, bg="042430", fg="white", borderwidth=0)
+sortbutton = Button(master=rightframe, text="settings", command=openSortAndFilterWindow, bg="#03202b", fg="white", borderwidth=0, highlightcolor="#092F3E", overrelief="sunken")
 tooltip_balloon.bind_widget(sortbutton, balloonmsg='more settings for searching \nthrough the list of games')
 sortbutton.pack()
 
