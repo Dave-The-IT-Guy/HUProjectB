@@ -161,14 +161,20 @@ def openSortAndFilterWindow():
     current_sort = StringVar()
     current_sort.set(sorting_options[0])
     global sort_optionmenu
-    sort_optionmenu = OptionMenu(settingswindow, current_sort, *sorting_options, command=sortby)  # genrefilter options
-    sort_optionmenu.grid(row=0,column=0)
+    sort_optionmenu = OptionMenu(settingswindow, current_sort, *sorting_options, command=sortby)
+    sort_optionmenu.config(bg="#0B3545",fg="white",
+                           activebackground='#092F3E',
+                            activeforeground='white', highlightthickness = 0)
+    sort_optionmenu.grid(row=0,column=0, pady=10, padx=10)
 
     filter_options = ('no filter', 'genre', 'platform', 'price')
     global current_filter
     current_filter = StringVar()
     current_filter.set(filter_options[0])
     filter_optionmenu = OptionMenu(settingswindow, current_filter, *filter_options, command=filterBy)#filteroptions
+    filter_optionmenu.config(bg="#0B3545",fg="white",
+                           activebackground='#092F3E',
+                            activeforeground='white', highlightthickness = 0)
     filter_optionmenu.grid(row=0, column=1)
 
     genrefilter_options = ["pick a genre","Action", "Adventure", "Indie", "RPG", "Early Access"]
@@ -200,10 +206,10 @@ def openSortAndFilterWindow():
     getpricefilter_button = Button(master=pricefilterframe, text="filter", command=filterByPrice)
     getpricefilter_button.pack()
 
-    settings_label = Label(master=settingswindow, text="other Settings:")
+    settings_label = Label(master=settingswindow, text="search", bg="#0B3545", fg="white")
     settings_label.grid(row=3, column=1)
-    case_button = Checkbutton(master=settingswindow, command=caseSensitive, text=f"Case sensitve")
-    tooltip_balloon.bind_widget(case_button, balloonmsg='if checked, search will be case sensitive.')
+    case_button = Checkbutton(master=settingswindow, command=caseSensitive, text=f"Case sensitve", bg="#0B3545", fg="white", selectcolor="#042430", highlightbackground="#0B3545", indicatoron=0,)
+    tooltip_balloon.bind_widget(case_button, balloonmsg='if on, search will be case sensitive.')
     case_button.grid(row=4, column=1)
 
 
@@ -498,6 +504,9 @@ current_neopxl = StringVar()
 current_neopxl.set(neopixel_options[0])
 TI_neopixel_options = OptionMenu(rpi_frame, current_neopxl, *neopixel_options, command=neopixelChange)
 TI_neopixel_options["menu"].config(bg="#042430", fg="white")
+TI_neopixel_options.config(bg="#0B3545",fg="white",
+                           activebackground='#092F3E',
+                            activeforeground='white', highlightthickness = 0)
 TI_neopixel_options.grid(row=4)
 #TI_slider = Scale(master=rpi_frame, from_=0, to=64, tickinterval=64,background="#0B3545", fg='white', troughcolor='#3D6D7F', activebackground='#09192A', highlightthickness=0)
 #TI_slider.grid(row=4, column=1,padx=10, pady=10)
@@ -526,7 +535,7 @@ noteStyler.configure("TFrame", background="#0B3545", foreground="white")
 leftframe_notebook.grid()
 
 #--buttons
-sortbutton = Button(master=rightframe, text="settings", command=openSortAndFilterWindow)
+sortbutton = Button(master=rightframe, text="settings", command=openSortAndFilterWindow, bg="042430", fg="white", borderwidth=0)
 tooltip_balloon.bind_widget(sortbutton, balloonmsg='more settings for searching \nthrough the list of games')
 sortbutton.pack()
 
