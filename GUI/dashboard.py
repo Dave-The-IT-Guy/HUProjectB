@@ -155,7 +155,7 @@ def openSortAndFilterWindow():
     # --sort window
     settingswindow = Toplevel(master=root, bg="#0B3545")
     settingswindow.resizable(False, False)
-    settingswindow.geometry("300x100")
+    settingswindow.geometry("350x200")
     settingswindow.wm_attributes("-topmost", 1)
 
     # --wigdets in window
@@ -165,9 +165,11 @@ def openSortAndFilterWindow():
     current_sort.set(sorting_options[0])
     global sort_optionmenu
     sort_optionmenu = OptionMenu(settingswindow, current_sort, *sorting_options, command=sortby)
-    sort_optionmenu.config(bg="#0B3545",fg="white",
+    sort_optionmenu.config(bg="#042430",fg="white",
                            activebackground='#092F3E',
-                            activeforeground='white', highlightthickness = 0)
+                            activeforeground='white',
+                           borderwidth=0,
+                           highlightthickness = 0)
     sort_optionmenu.grid(row=0,column=0, pady=10, padx=10)
 
     filter_options = ('no filter', 'genre', 'platform', 'price')
@@ -175,9 +177,11 @@ def openSortAndFilterWindow():
     current_filter = StringVar()
     current_filter.set(filter_options[0])
     filter_optionmenu = OptionMenu(settingswindow, current_filter, *filter_options, command=filterBy)#filteroptions
-    filter_optionmenu.config(bg="#0B3545",fg="white",
+    filter_optionmenu.config(bg="#042430",fg="white",
                            activebackground='#092F3E',
-                            activeforeground='white', highlightthickness = 0)
+                            activeforeground='white',
+                           borderwidth=0,
+                           highlightthickness = 0)
     filter_optionmenu.grid(row=0, column=1)
 
     genrefilter_options = ["pick a genre","Action", "Adventure", "Indie", "RPG", "Early Access"]
@@ -185,7 +189,12 @@ def openSortAndFilterWindow():
     current_genre = StringVar()
     current_genre.set(genrefilter_options[0])
     global genre_optionmenu
-    genre_optionmenu = OptionMenu(settingswindow, current_genre, *genrefilter_options, command=filterByGenre)#genrefilter options
+    genre_optionmenu = OptionMenu(settingswindow, current_genre, *genrefilter_options, command=filterByGenre)
+    genre_optionmenu.config(bg="#042430",fg="white",
+                           activebackground='#092F3E',
+                            activeforeground='white',
+                           borderwidth=0,
+                           highlightthickness = 0)
 
     platformfilter_options = ["pick a platform","windows", "mac", "linux"]
     global current_platform
@@ -193,21 +202,26 @@ def openSortAndFilterWindow():
     current_platform.set(platformfilter_options[0])
     global platform_optionmenu
     platform_optionmenu = OptionMenu(settingswindow, current_platform, *platformfilter_options, command=filterByPlatforms)
+    platform_optionmenu.config(bg="#042430",fg="white",
+                           activebackground='#092F3E',
+                            activeforeground='white',
+                           borderwidth=0,
+                           highlightthickness = 0)
 
     global pricefilterframe
-    pricefilterframe = Frame(settingswindow)
-    labelfrom =  Label(master=pricefilterframe,text="from")
+    pricefilterframe = Frame(settingswindow, bg="#0B3545")
+    labelfrom =  Label(master=pricefilterframe,text="from", bg="#0B3545",fg="white")
     labelfrom.pack()
     global pricefrom
-    pricefrom = Spinbox(master=pricefilterframe)
+    pricefrom = Entry(master=pricefilterframe, bg="#042430", fg="white", insertbackground="white", insertwidth=1)
     pricefrom.pack()
-    labelto = Label(master=pricefilterframe, text="to")
+    labelto = Label(master=pricefilterframe, text="to", bg="#0B3545",fg="white")
     labelto.pack()
     global priceto
-    priceto = Spinbox(master=pricefilterframe)
+    priceto = Entry(master=pricefilterframe, bg="#042430", fg="white", insertbackground="white", insertwidth=1)
     priceto.pack()
-    getpricefilter_button = Button(master=pricefilterframe, text="filter", command=filterByPrice)
-    getpricefilter_button.pack()
+    getpricefilter_button = Button(master=pricefilterframe, text="filter", command=filterByPrice, bg="#042430",fg="white",borderwidth=0)
+    getpricefilter_button.pack(pady=10)
 
     settings_label = Label(master=settingswindow, text="search", bg="#0B3545", fg="white")
     settings_label.grid(row=3, column=1)
@@ -229,14 +243,14 @@ def filterBy(i):  # same as search but like. different
         listInsert(sortedgames)
 
     if selection == "genre":
-        genre_optionmenu.grid(row=0,column=2)
+        genre_optionmenu.grid(row=0,column=2,pady=10, padx=10)
 
     if selection == "platform":
-        platform_optionmenu.grid(row=0,column=2)
+        platform_optionmenu.grid(row=0,column=2,pady=10, padx=10)
 
 
     if selection == "price":
-        pricefilterframe.grid(row=0,column=2)
+        pricefilterframe.grid(row=0,column=2 ,pady=10, padx=10)
 
 
 def filterByGenre(i):
@@ -380,7 +394,7 @@ def neopixelChange(i):
     elif selection == "pick color":
         color = (askcolor((0, 0, 0), root))[0]
         try:
-            # rem.change_neo([color])
+            rem.change_neo([color])
             TI_neopixel_options.config(bg=f"{fromRGB(color)}" , activebackground=f"{fromRGB(color)}" )
         except:
             pass
