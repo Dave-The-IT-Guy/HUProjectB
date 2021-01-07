@@ -338,7 +338,10 @@ class functions():
     def shutdown(self):
         con = "PYRO:steam2.functions@192.168.192.64:9091"
         rem = Pyro5.api.Proxy(con)
-        rem.shutdown()
+        try:
+            rem.shutdown()
+        except:
+            time.sleep(2)
 
         thread_users.join()
         byte = [0, 0, 0, 0, 0, 0, 0, 0]
