@@ -15,8 +15,7 @@ import Pyro5.api
 import time
 from tkinter import tix
 from tkinter.constants import *
-import numpy as np
-from matplotlib.colors import hsv_to_rgb, to_hex
+from PIL import ImageTk,Image
 
 
 
@@ -159,6 +158,7 @@ def openSortAndFilterWindow():
     settingswindow.wm_attributes("-topmost", 1)
 
     # --wigdets in window
+    # img = ImageTk.PhotoImage(Image.open(""))
     sorting_options = ["sort by","name", "price", "date"]
     global current_sort
     current_sort = StringVar()
@@ -170,6 +170,7 @@ def openSortAndFilterWindow():
                             activeforeground='white',
                            borderwidth=0,
                            highlightthickness = 0)
+    sort_optionmenu["menu"].config(bg="#042430",fg="white", activebackground="#0b3a4d")
     sort_optionmenu.grid(row=0,column=0, pady=10, padx=10)
 
     filter_options = ('no filter', 'genre', 'platform', 'price')
@@ -182,6 +183,7 @@ def openSortAndFilterWindow():
                             activeforeground='white',
                            borderwidth=0,
                            highlightthickness = 0)
+    filter_optionmenu["menu"].config(bg="#042430",fg="white", activebackground="#0b3a4d")
     filter_optionmenu.grid(row=0, column=1)
 
     genrefilter_options = ["pick a genre","Action", "Adventure", "Indie", "RPG", "Early Access"]
@@ -195,6 +197,7 @@ def openSortAndFilterWindow():
                             activeforeground='white',
                            borderwidth=0,
                            highlightthickness = 0)
+    genre_optionmenu["menu"].config(bg="#042430",fg="white", activebackground="#0b3a4d")
 
     platformfilter_options = ["pick a platform","windows", "mac", "linux"]
     global current_platform
@@ -207,6 +210,7 @@ def openSortAndFilterWindow():
                             activeforeground='white',
                            borderwidth=0,
                            highlightthickness = 0)
+    platform_optionmenu["menu"].config(bg="#042430",fg="white", activebackground="#0b3a4d")
 
     global pricefilterframe
     pricefilterframe = Frame(settingswindow, bg="#0B3545")
@@ -225,7 +229,7 @@ def openSortAndFilterWindow():
 
     settings_label = Label(master=settingswindow, text="search", bg="#0B3545", fg="white")
     settings_label.grid(row=3, column=1)
-    case_button = Checkbutton(master=settingswindow, command=caseSensitive, text=f"Case sensitve", bg="#0B3545", fg="white", selectcolor="#042430", highlightbackground="#0B3545", indicatoron=0,)
+    case_button = Checkbutton(master=settingswindow, command=caseSensitive, text=f"Case sensitve", bg="#0B3545", fg="white", selectcolor="#042430", highlightbackground="#0B3545", indicatoron=0, overrelief="sunken")
     tooltip_balloon.bind_widget(case_button, balloonmsg='if on, search will be case sensitive.')
     case_button.grid(row=4, column=1)
 
@@ -534,8 +538,8 @@ neopixel_options = ('off', 'white', 'pick color', 'flash', "smooth")
 current_neopxl = StringVar()
 current_neopxl.set(neopixel_options[0])
 TI_neopixel_options = OptionMenu(rpi_frame, current_neopxl, *neopixel_options, command=neopixelChange)
-TI_neopixel_options["menu"].config(bg="#042430",fg="white",
-                                   borderwidth=0)
+TI_neopixel_options["menu"].config(bg="#042430",fg="white", activebackground="#0b3a4d")
+print(f"menu parameters{TI_neopixel_options.config()}")
 TI_neopixel_options.config(bg="#042430",fg="white",
                            activebackground='#092F3E',
                             activeforeground='white',
