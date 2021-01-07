@@ -1,44 +1,62 @@
-import json
-import re
+# Python program for implementation of MergeSort
+def mergeSort(arr):
+    if len(arr) > 1:
 
-def json_to_dict():
-    #Open de json file en zet alle in een dictonairy
-    with open('steam.json') as json_file:
-        steamdata = json.load(json_file)
-    return steamdata
+        # Finding the mid of the array
+        mid = len(arr) // 2
+
+        # Dividing the array elements
+        L = arr[:mid]
+
+        # into 2 halves
+        R = arr[mid:]
+
+        # Sorting the first half
+        mergeSort(L)
+
+        # Sorting the second half
+        mergeSort(R)
+
+        i = j = k = 0
+
+        # Copy data to temp arrays L[] and R[]
+        while i < len(L) and j < len(R):
+            if L[i] < R[j]:
+                arr[k] = L[i]
+                i += 1
+            else:
+                arr[k] = R[j]
+                j += 1
+            k += 1
+
+        # Checking if any element was left
+        while i < len(L):
+            arr[k] = L[i]
+            i += 1
+            k += 1
+
+        while j < len(R):
+            arr[k] = R[j]
+            j += 1
+            k += 1
 
 
-def clean():
-    steamdata = json_to_dict()
-    # Maak een lege lijst aan voor de namen
-    names = []
-    # Loop door de dictionaries in de lijst
-    for i in steamdata:
-        # Haal de waarde van de name key uit de dict
-        i = i['name']
-        # Maak er een string van
-        i = str(i)
-        # Haal met regex de meeste speciale karakters eruit
-        i = re.sub(r'\W+', '', i)  # [^A-Za-z0-9]
-        # Als de string niet false is voeg hem toe aan de lijst (strings kunnen false zijn als ze bijv. leeg zijn)
-        if i:
-            names.append(i)
-    return names
+# Code to print the list
 
-def sort():
-    pass
 
-def name_first_game():
-    json_to_dict()
-    clean()
-    # check welk type de variable gesorteerd is om te bepalen hoe je de naam moet returnen
-    # als je op naam sorteerd krijg je een lijst namen en is de eerste naam een string
-    # als je op andere dingen sorteerd krijg je een lijst met dict's dus moet je nu specificeren dat je op 'name'zoekt
-    if type(sort[0]) is str:
-        first_game = sort[0]
-        return first_game
-    else:
-        first_game = sort[0]
-        return first_game['name']
+def printList(arr):
+    for i in range(len(arr)):
+        print(arr[i], end=" ")
+    print()
 
-print(name_first_game())
+
+# Driver Code
+if __name__ == '__main__':
+    arr = [12, 11, 13, 5, 6, 7]
+    print("Given array is", end="\n")
+    printList(arr)
+    mergeSort(arr)
+    print("Sorted array is: ", end="\n")
+    printList(arr)
+
+# This code is contributed by Mayank Khanna

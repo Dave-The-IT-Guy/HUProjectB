@@ -56,46 +56,96 @@ def listInsert(list):
     for item in list:
         gameslist.insert(END, item)
 
-def json_to_dict():
+def json_to_dict(location):
     #Open de json file en zet alle in een dictonairy
-    with open('steam.json') as json_file:
+    with open(location) as json_file:
         steamdata = json.load(json_file)
     return steamdata
 
-
-def clean():
-    steamdata = json_to_dict()
+def select(dict, selection):
     # Maak een lege lijst aan voor de namen
-    names = []
+    result = []
     # Loop door de dictionaries in de lijst
-    for i in steamdata:
+    for i in dict:
         # Haal de waarde van de name key uit de dict
-        i = i['name']
+        i = i[selection]
         # Maak er een string van
         i = str(i)
         # Haal met regex de meeste speciale karakters eruit
-        i = re.sub(r'\W+', '', i)  # [^A-Za-z0-9]
+        i = re.sub('[^A-Za-z0-9$()\&\+\'\:\w\-\s\.]+', '', i)  # [^A-Za-z0-9]
+
+        # Haal alle onnodige spaties weg
+        i = " ".join(i.split())
+        # Haal wat extra rotzooi uit de string
+        (i).replace('()', '')
+        i.strip()
+
+        # Als een string met ' begint en eindigd verwijder deze dan
+        if i.startswith('\'') == True and i.endswith('\'') == True:
+            i = i[1:(len(i) - 1)]
+
+        ## Onderstaande code Werkt nog niet helemaal. De laatste conditie moet aangepast worden anders worden bij sommige titles de naam aangepast terwijl dat niet de bedoeling is...
+        #if i.startswith('(') == True and i.endswith(')') == True and i.count('(') < 2:
+        #    i = i[1:(len(i) - 1)]
+
         # Als de string niet false is voeg hem toe aan de lijst (strings kunnen false zijn als ze bijv. leeg zijn)
         if i:
-            names.append(i)
-    return names
+            result.append(i)
+    return result
 
-def sort():
-    pass
+#Source: https://www.geeksforgeeks.org/merge-sort/
+def sort(lst):
 
-def name_first_game():
-    json_to_dict()
-    clean()
-    # check welk type de variable gesorteerd is om te bepalen hoe je de naam moet returnen
-    # als je op naam sorteerd krijg je een lijst namen en is de eerste naam een string
-    # als je op andere dingen sorteerd krijg je een lijst met dict's dus moet je nu specificeren dat je op 'name'zoekt
-    if type(sort[0]) is str:
-        first_game = sort[0]
-        return first_game
-    else:
-        first_game = sort[0]
-        return first_game['name']
-    
+    if len(lst) > 1:
+
+        # Vind het midden van de lijst
+        center = len(lst) // 2
+
+        # Bepaal de linkerkant van de lijst
+        left = lst[:center]
+
+        # Bepaal de rechterkant van de lijst
+        right = lst[center:]
+
+        # Sorteerd de eerste helft van de lijst
+        sort(left)
+
+        # Sorteerd de tweede helft van de lijst
+        sort(right)
+
+        # Variabelen die gebruit worden om te tellen
+        i = j = k = 0
+
+        # Kopieeert de data in 2 tijdelijke lijsten
+        while i < len(left) and j < len(right):
+            if left[i] < right[j]:
+                lst[k] = left[i]
+                i += 1
+            else:
+                lst[k] = right[j]
+                j += 1
+            k += 1
+
+        # Checkt voor overgebleven elementen als die er zijn (links)
+        while i < len(left):
+            lst[k] = left[i]
+            i += 1
+            k += 1
+
+        # Checkt voor overgebleven elementen als die er zijn (rechts)
+        while j < len(right):
+            lst[k] = right[j]
+            j += 1
+            k += 1
+    return lst
+
+def sort_json(location, sort_by):
+    # Maak van de json een dict
+    dict = json_to_dict(location)
+    # Maakt een lijst van alle data die bij de gekozen sleutel hoort
+    lst = select(dict, sort_by)
+    # Returnt een gesorteerde variant van de lijst
+    return sort(lst)
 
 def getDetails(i):
     selected = gameslist.get(gameslist.curselection()) # get the current selection in the listbox
