@@ -28,6 +28,8 @@ global sortedgames
 sortedgames = game_names
 global sensordisplay
 sensordisplay = "neopixel"
+#Locatie van de steamdata
+data_location = 'steam.json'
 #Voor de verbinding met de server
 con = "PYRO:steam.functions@192.168.192.24:9090"
 
@@ -142,17 +144,21 @@ def sort(lst):
 def sort_json(location, sort_by):
     # Maak van de json een dict
     dict = json_to_dict(location)
+
     # Maakt een lijst van alle data die bij de gekozen sleutel hoort
     lst = select(dict, sort_by)
+
     # Returnt een gesorteerde variant van de lijst
     return sort(lst)
+
+
 
 def getDetails(i):
     selected = gameslist.get(gameslist.curselection()) # get the current selection in the listbox
     details.config(state=NORMAL) # set state to normal so that changes can be made to the textbox
     details.delete('1.0', END) #clear whatevers currently in the textbox
 
-    sorted_dict = sorted(json_to_dict(), key=lambda k: k['name'])   # sort list of dicts
+    sorted_dict = sorted(sort_json(data_location, 'name'), key=lambda k: k['name'])   # sort list of dicts
     start = 0  # yes im going to try and implement a  binary search and im in hell
     end = len(sorted_dict) - 1
     while start <= end:
@@ -516,11 +522,6 @@ def onExit():
     threading.Thread(target = rem.shutdown())
     exit()
 
-def fillList(list):
-    for game in json_to_dict():
-        list.append(game["name"])
-    return list
-
 def fromRGB(rgb):
     """translates an rgb tuple of int to a tkinter friendly color code
     """
@@ -558,7 +559,7 @@ searchbar.pack(side="right")
 listframe.pack(side="top")
 gameslist.pack(side="left", expand=True, fill="both")
 scrollbar.pack(side="right", fill="y")
-current_sort_label = Label(master=rightframe, text=f"sorted by: not sorted", fg="white", bg="#042430")
+current_sort_label = Label(master=rightframe, text=f"sorted by: name", fg="white", bg="#042430")
 current_sort_label.pack(side="top", fill="x")
 
 detailsframe = Frame(master=rightframe, bg="#0B3545", width=300, height=200)
@@ -661,5 +662,5 @@ root.config(menu=menubar)
 threading.Thread(target=caseSensitive, daemon=True).start()
 #caseSensitive()
 showgraph()
-listInsert(fillList(game_names))
+listInsert(sort_json(data_location, 'name'))
 root.mainloop()
