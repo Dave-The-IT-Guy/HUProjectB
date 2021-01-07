@@ -1,0 +1,674 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="7aa53e31-68b4-4456-8ba9-91ec7b33b431" name="Default Changelist" comment="Minor changes and bugfixes">
+      <change afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AI/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AI/old/steam.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AI/steam.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AI/old/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/old/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AI/temp.txt" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="FlaskConsoleOptions" custom-start-script="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))">
+    <envs>
+      <env key="FLASK_APP" value="app" />
+    </envs>
+    <option name="myCustomStartScript" value="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))" />
+    <option name="myEnvs">
+      <map>
+        <entry key="FLASK_APP" value="app" />
+      </map>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
+  <component name="ProblemsViewState">
+    <hideBySeverity>
+      <option value="15" />
+      <option value="200" />
+    </hideBySeverity>
+    <option name="showPreview" value="true" />
+  </component>
+  <component name="ProjectId" id="1m1eDomavgFang3x9u8MaUjgEz1" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="credentialsType com.jetbrains.python.remote.PyCreateRemoteInterpreterDialog$PyCreateRemoteSdkForm" value="Web Deployment" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/AI/old" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="restartRequiresConfirmation" value="false" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.editor" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\davev\Documents\GitHub\HUProjectB\AI\old" />
+      <recent name="C:\Users\davev\Documents\GitHub\HUProjectB\AI" />
+      <recent name="C:\Users\davev\Documents\GitHub\HUProjectB\final" />
+      <recent name="C:\Users\davev\Documents\GitHub\HUProjectB\parts\SR04" />
+      <recent name="C:\Users\davev\Documents\GitHub\HUProjectB\parts\geluidsingaal" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\davev\Documents\GitHub\HUProjectB\final" />
+      <recent name="C:\Users\davev\Documents\GitHub\HUProjectB\test\local" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="DjangoTestsConfigurationType">
+      <module name="HUProjectB" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="TARGET" value="" />
+      <option name="SETTINGS_FILE" value="" />
+      <option name="CUSTOM_SETTINGS" value="false" />
+      <option name="USE_OPTIONS" value="false" />
+      <option name="OPTIONS" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="PyBehaveRunConfigurationType" factoryName="Behave">
+      <module name="HUProjectB" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="ADDITIONAL_ARGS" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <module name="HUProjectB" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="HUProjectB" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\davev\venv\Scripts\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/AI" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/AI/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="Python.FlaskServer">
+      <module name="HUProjectB" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="Tox" factoryName="Tox">
+      <module name="HUProjectB" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="docs" factoryName="Docutils task">
+      <module name="HUProjectB" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="docutils_input_file" value="" />
+      <option name="docutils_output_file" value="" />
+      <option name="docutils_params" value="" />
+      <option name="docutils_task" value="" />
+      <option name="docutils_open_in_browser" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="docs" factoryName="Sphinx task">
+      <module name="HUProjectB" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="docutils_input_file" value="" />
+      <option name="docutils_output_file" value="" />
+      <option name="docutils_params" value="" />
+      <option name="docutils_task" value="" />
+      <option name="docutils_open_in_browser" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Doctests">
+      <module name="HUProjectB" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Unittests">
+      <module name="HUProjectB" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7aa53e31-68b4-4456-8ba9-91ec7b33b431" name="Default Changelist" comment="" />
+      <created>1608665407323</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1608665407323</updated>
+      <workItem from="1608665409702" duration="4340000" />
+      <workItem from="1608725870273" duration="16678000" />
+      <workItem from="1608827239261" duration="2479000" />
+      <workItem from="1608897644437" duration="240000" />
+      <workItem from="1608898008975" duration="64000" />
+      <workItem from="1609073510158" duration="4082000" />
+      <workItem from="1609145699287" duration="11648000" />
+      <workItem from="1609169182291" duration="14078000" />
+      <workItem from="1609253659167" duration="10143000" />
+      <workItem from="1609331483948" duration="11614000" />
+      <workItem from="1609358496712" duration="3428000" />
+      <workItem from="1609415662556" duration="8446000" />
+      <workItem from="1609526560315" duration="4177000" />
+      <workItem from="1609831922520" duration="31000" />
+      <workItem from="1609832007620" duration="19220000" />
+      <workItem from="1609867256675" duration="7763000" />
+      <workItem from="1609919852342" duration="14551000" />
+      <workItem from="1610008231859" duration="14762000" />
+    </task>
+    <task id="LOCAL-00001" summary="dit is een test">
+      <created>1608665904250</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1608665904250</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Een omschrijving van wat dit onderdeel zal doen">
+      <created>1608666916885</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1608666916885</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Werkende thread (die gestopt kan worden)">
+      <created>1608669724629</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1608669724629</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Maakt de GPIO schoon">
+      <created>1608727948147</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1608727948147</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Template voor multithreading">
+      <created>1608727973190</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1608727973190</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Klaar">
+      <created>1608727997803</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1608727997803</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Klaar">
+      <created>1608728007162</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1608728007162</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Beschrijving van het schuifregister">
+      <created>1608737853725</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1608737853726</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Beschrijving van de afstandssensor">
+      <created>1608737868334</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1608737868334</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Werkend schuifregister">
+      <created>1608737887360</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1608737887360</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Werkend schuifregister met multithreading">
+      <created>1608737901862</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1608737901862</updated>
+    </task>
+    <task id="LOCAL-00012" summary="File voor aantal users online">
+      <created>1608737915246</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1608737915246</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Zwaaien met multithreading">
+      <created>1608737936583</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1608737936583</updated>
+    </task>
+    <task id="LOCAL-00014" summary=".">
+      <created>1608737947898</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1608737947898</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Voor het bekijken van de GUI">
+      <created>1608739379998</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1608739379998</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Voor het veranderen van kleur van de neopixel">
+      <created>1608739404505</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1608739404505</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Beschrijving van de neopixel">
+      <created>1608742507581</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1608742507581</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Code voor de NEOpixel">
+      <created>1608742524179</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1608742524179</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Code voor de NEOpixel met threading">
+      <created>1608742533482</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1608742533482</updated>
+    </task>
+    <task id="LOCAL-00020" summary=".">
+      <created>1608742548402</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1608742548402</updated>
+    </task>
+    <task id="LOCAL-00021" summary=".">
+      <created>1609159816371</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1609159816371</updated>
+    </task>
+    <task id="LOCAL-00022" summary=".">
+      <created>1609159994394</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1609159994394</updated>
+    </task>
+    <task id="LOCAL-00023" summary=".">
+      <created>1609164252041</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1609164252041</updated>
+    </task>
+    <task id="LOCAL-00024" summary=".">
+      <created>1609173964337</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1609173964337</updated>
+    </task>
+    <task id="LOCAL-00025" summary=".">
+      <created>1609254309028</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1609254309028</updated>
+    </task>
+    <task id="LOCAL-00026" summary=".">
+      <created>1609259102914</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1609259102914</updated>
+    </task>
+    <task id="LOCAL-00027" summary=".">
+      <created>1609269040017</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1609269040017</updated>
+    </task>
+    <task id="LOCAL-00028" summary=".">
+      <created>1609342389310</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1609342389310</updated>
+    </task>
+    <task id="LOCAL-00029" summary=".">
+      <created>1609343884535</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1609343884535</updated>
+    </task>
+    <task id="LOCAL-00030" summary=".">
+      <created>1609435803422</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1609435803422</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Fixed servo movement speed">
+      <created>1609833419113</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1609833419113</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Minor changes and bugfixes">
+      <created>1609833449590</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1609833449590</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Fixed servo movement speed">
+      <created>1609833487172</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1609833487172</updated>
+    </task>
+    <task id="LOCAL-00034" summary="Removed unnecessary elements">
+      <created>1609838510771</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1609838510771</updated>
+    </task>
+    <task id="LOCAL-00035" summary="Added shutdown function when closing GUI">
+      <created>1609853437943</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1609853437943</updated>
+    </task>
+    <task id="LOCAL-00036" summary="Icons">
+      <created>1609853455593</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1609853455593</updated>
+    </task>
+    <task id="LOCAL-00037" summary="Minor bugfixes">
+      <created>1609857215848</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1609857215848</updated>
+    </task>
+    <task id="LOCAL-00038" summary="Minor changes and bugfixes">
+      <created>1609858189238</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1609858189238</updated>
+    </task>
+    <task id="LOCAL-00039" summary="Minor changes and bugfixes">
+      <created>1609858807472</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1609858807472</updated>
+    </task>
+    <task id="LOCAL-00040" summary="Minor changes and bugfixes">
+      <created>1609870345992</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1609870345992</updated>
+    </task>
+    <task id="LOCAL-00041" summary="Fixed bug which keeped latchregister-thread alive">
+      <created>1609870411308</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1609870411308</updated>
+    </task>
+    <task id="LOCAL-00042" summary="Added smooth and flashy trasitioning optiens for the neopixel">
+      <created>1610028602852</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1610028602852</updated>
+    </task>
+    <task id="LOCAL-00043" summary="File for testing purposes">
+      <created>1610028627706</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1610028627706</updated>
+    </task>
+    <task id="LOCAL-00044" summary="Minor changes and bugfixes">
+      <created>1610031046449</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1610031046449</updated>
+    </task>
+    <task id="LOCAL-00045" summary="Minor changes and bugfixes">
+      <created>1610031753804</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1610031753804</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Werkende thread (die gestopt kan worden)" />
+    <MESSAGE value="Maakt de GPIO schoon" />
+    <MESSAGE value="Template voor multithreading" />
+    <MESSAGE value="Klaar" />
+    <MESSAGE value="Beschrijving van het schuifregister" />
+    <MESSAGE value="Beschrijving van de afstandssensor" />
+    <MESSAGE value="Werkend schuifregister" />
+    <MESSAGE value="Werkend schuifregister met multithreading" />
+    <MESSAGE value="File voor aantal users online" />
+    <MESSAGE value="Zwaaien met multithreading" />
+    <MESSAGE value="Voor het bekijken van de GUI" />
+    <MESSAGE value="Voor het veranderen van kleur van de neopixel" />
+    <MESSAGE value="Beschrijving van de neopixel" />
+    <MESSAGE value="Code voor de NEOpixel" />
+    <MESSAGE value="Code voor de NEOpixel met threading" />
+    <MESSAGE value="." />
+    <MESSAGE value="Fixed servo movement speed" />
+    <MESSAGE value="Removed unnecessary elements" />
+    <MESSAGE value="Added shutdown function when closing GUI" />
+    <MESSAGE value="Icons" />
+    <MESSAGE value="Minor bugfixes" />
+    <MESSAGE value="Fixed bug which keeped latchregister-thread alive" />
+    <MESSAGE value="Added smooth and flashy trasitioning optiens for the neopixel" />
+    <MESSAGE value="File for testing purposes" />
+    <MESSAGE value="Minor changes and bugfixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor changes and bugfixes" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/HUProjectB$Meten.coverage" NAME="Schuifregister Coverage Results" MODIFIED="1608736330013" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/parts/Schuifregister" />
+    <SUITE FILE_PATH="coverage/HUProjectB$SR04.coverage" NAME="SR04 Coverage Results" MODIFIED="1609164171828" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/parts/SR04" />
+    <SUITE FILE_PATH="coverage/HUProjectB$NEOpixel___WT.coverage" NAME="NEOpixel - WT Coverage Results" MODIFIED="1609343056882" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/parts/NEOpixel" />
+    <SUITE FILE_PATH="coverage/HUProjectB$GUI.coverage" NAME="GUI Coverage Results" MODIFIED="1608739197568" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
+    <SUITE FILE_PATH="coverage/HUProjectB$teserdietest___locate_ns.coverage" NAME="teserdietest - locate ns Coverage Results" MODIFIED="1609158736216" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test/remote pi" />
+    <SUITE FILE_PATH="coverage/HUProjectB$Zwaaien___WT.coverage" NAME="Zwaaien - WT Coverage Results" MODIFIED="1609161300794" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/parts/Servo" />
+    <SUITE FILE_PATH="coverage/HUProjectB$Server_PI.coverage" NAME="Server PI Coverage Results" MODIFIED="1610030671094" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/final" />
+    <SUITE FILE_PATH="coverage/HUProjectB$TEST___Threading_double_daemon.coverage" NAME="TEST - Threading double daemon Coverage Results" MODIFIED="1609181675632" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test/local" />
+    <SUITE FILE_PATH="coverage/HUProjectB$print_test_pi2.coverage" NAME="print test pi2 - client Coverage Results" MODIFIED="1609077122319" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test/remote pi" />
+    <SUITE FILE_PATH="coverage/HUProjectB$geluidsignaal.coverage" NAME="geluidsignaal Coverage Results" MODIFIED="1609254416094" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/parts/geluidsingaal" />
+    <SUITE FILE_PATH="coverage/HUProjectB$NS___pi1.coverage" NAME="NS - pi1 Coverage Results" MODIFIED="1609158757403" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test/remote pi" />
+    <SUITE FILE_PATH="coverage/HUProjectB$GUI_PC.coverage" NAME="GUI PC Coverage Results" MODIFIED="1610030672435" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/final" />
+    <SUITE FILE_PATH="coverage/HUProjectB$NEOpixel.coverage" NAME="NEOpixel Coverage Results" MODIFIED="1608741358809" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/parts/NEOpixel" />
+    <SUITE FILE_PATH="coverage/HUProjectB$NS___plop.coverage" NAME="NS - plop Coverage Results" MODIFIED="1609076313746" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test/remote pi" />
+    <SUITE FILE_PATH="coverage/HUProjectB$print_test_pi2___client.coverage" NAME="print test pi2 - client Coverage Results" MODIFIED="1609159966550" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test/remote pi" />
+    <SUITE FILE_PATH="coverage/HUProjectB$Schuifregister___WT.coverage" NAME="Schuifregister - WT Coverage Results" MODIFIED="1609868842489" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/parts/Schuifregister" />
+    <SUITE FILE_PATH="coverage/HUProjectB$Client_PI.coverage" NAME="Client PI Coverage Results" MODIFIED="1610030578845" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/final" />
+    <SUITE FILE_PATH="coverage/HUProjectB$geluidsingaal___WT.coverage" NAME="geluidsingaal - WT Coverage Results" MODIFIED="1608746919999" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/parts/geluidsingaal" />
+    <SUITE FILE_PATH="coverage/HUProjectB$geluidsignaal___WT.coverage" NAME="geluidsignaal - WT Coverage Results" MODIFIED="1609160576210" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/parts/geluidsingaal" />
+    <SUITE FILE_PATH="coverage/HUProjectB$Zwaaien.coverage" NAME="Zwaaien Coverage Results" MODIFIED="1609160525235" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/parts/Servo" />
+    <SUITE FILE_PATH="coverage/HUProjectB$Cleanup.coverage" NAME="Cleanup Coverage Results" MODIFIED="1608727730083" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/PycharmProjects/TI" />
+    <SUITE FILE_PATH="coverage/HUProjectB$TI_test_pi.coverage" NAME="TI test pi Coverage Results" MODIFIED="1609257462743" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
+    <SUITE FILE_PATH="coverage/HUProjectB$GPIO_Cleanup.coverage" NAME="GPIO Cleanup Coverage Results" MODIFIED="1609361869198" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/HUProjectB$Server_PI_2___test.coverage" NAME="Server PI 2 - test Coverage Results" MODIFIED="1609342730144" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/final" />
+    <SUITE FILE_PATH="coverage/HUProjectB$print_test_pi1.coverage" NAME="print test pi1 - host Coverage Results" MODIFIED="1609077471431" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test/remote pi" />
+    <SUITE FILE_PATH="coverage/HUProjectB$TEST___Threading.coverage" NAME="TEST - Threading Coverage Results" MODIFIED="1608669753156" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
+    <SUITE FILE_PATH="coverage/HUProjectB$print_test_pi1___host.coverage" NAME="print test pi1 - host Coverage Results" MODIFIED="1609159934283" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test/remote pi" />
+  </component>
+</project>
