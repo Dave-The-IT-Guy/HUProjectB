@@ -25,7 +25,6 @@ global sortedgames
 sortedgames = game_names
 global sensordisplay
 sensordisplay = "neopixel"
-
 #Voor de verbinding met de server
 con = "PYRO:steam.functions@192.168.192.24:9090"
 
@@ -45,17 +44,6 @@ con = "PYRO:steam.functions@192.168.192.24:9090"
 
 # beginnen met functies
 # met pyro commands sturen naar rpi
-
-
-# -- TI
-# GPIO.setmode( GPIO.BCM )
-# GPIO.setwarnings( 0 )
-#
-# speaker = 18
-# switch2 = 24
-# GPIO.setup( switch2, GPIO.IN, pull_up_down=GPIO.PUD_DOWN )
-# GPIO.setup( speaker, GPIO.OUT )
-
 
 # -- functions
 def openReadme():
@@ -356,26 +344,71 @@ def showgraph():
 
     canvas.get_tk_widget().pack()
 
+state = 0
+
 def neopixelChange(i):
+    global state
     rem = Pyro5.api.Proxy(con)
     selection = current_neopxl.get()
     if selection == "off":
         try:
+            if state != 0:
+                if state == 1:
+                    rem.recieve_smooth(False)
+                else:
+                    rem.recieve_flash(False)
             rem.change_neo([[0, 0, 0]])
+            state = 0
         except:
-            pass
+            time.sleep(2)
 
     elif selection == "white":
         try:
+            if state != 0:
+                if state == 1:
+                    rem.recieve_smooth(False)
+                else:
+                    rem.recieve_flash(False)
             rem.change_neo([[255, 255, 255]])
+            state = 0
         except:
-            pass
+            time.sleep(2)
+
+    elif selection == "smooth":
+        try:
+            if state != 0:
+                if state == 1:
+                    rem.recieve_smooth(False)
+                else:
+                    rem.recieve_flash(False)
+            rem.recieve_smooth(True)
+            state = 1
+        except:
+            time.sleep(2)
+
+    elif selection == "flash":
+        try:
+            if state != 0:
+                if state == 1:
+                    rem.recieve_smooth(False)
+                else:
+                    rem.recieve_flash(False)
+            rem.recieve_flash(True)
+            state = 2
+        except:
+            time.sleep(2)
 
     elif selection == "pick color":
         try:
+            if state != 0:
+                if state == 1:
+                    rem.recieve_smooth(False)
+                else:
+                    rem.recieve_flash(False)
             rem.change_neo([(askcolor((0, 0, 0), root))[0]])
+            state = 0
         except:
-            pass
+            time.sleep(2)
 
 def send_wave():
     rem = Pyro5.api.Proxy(con)
@@ -385,7 +418,6 @@ def send_wave():
         rem.recieve_wave()
         time.sleep(4)
     except:
-        print("excepted")
         time.sleep(2)
     finally:
         TI_wavebutton.config(state="normal")
@@ -398,11 +430,10 @@ def thread_send_wave():
 def send_beep():
     rem = Pyro5.api.Proxy(con)
     TI_soundbutton.config(state=DISABLED)
-    for i in range(0, 5):
-       rem.send_beep()
-       time.sleep(1.3)
     try:
-        pass
+        for i in range(0, 5):
+           rem.send_beep()
+           time.sleep(1.3)
     except:
         time.sleep(2)
     finally:
@@ -489,7 +520,7 @@ sensordisplay = "neopixel"
 #TI_togglesensor.grid(row=1, column=2,padx=10)
 neopixel_label = Label(master=rpi_frame,text="neopixel functions", fg="white", bg="#0B3545")
 neopixel_label.grid(row=3)
-neopixel_options = ('off', 'white', 'pick color')
+neopixel_options = ('off', 'white', 'smooth', 'flash', 'pick color')
 current_neopxl = StringVar()
 current_neopxl.set(neopixel_options[0])
 TI_neopixel_options = OptionMenu(rpi_frame, current_neopxl, *neopixel_options, command=neopixelChange)
@@ -545,8 +576,7 @@ for item in json_naar_dict():
 
 # print(testlist)
 
-threading.Thread(target=caseSensitive, daemon=True).start()
-#caseSensitive()
+caseSensitive()
 showgraph()
 listInsert(game_names)
 root.mainloop()

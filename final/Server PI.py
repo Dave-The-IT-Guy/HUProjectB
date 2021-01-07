@@ -2,6 +2,7 @@ import threading
 import Pyro5.api
 import RPi.GPIO as GPIO
 import time
+import random
 
 #Klaarmaken van de GPIO's
 GPIO.setmode(GPIO.BCM)
@@ -65,15 +66,15 @@ def reverseTuple(tuples):
     return new_tuple
 
 #Zet de gegeven bytes om in code voor de neopixel (ledstrip)
-def neo_send_bytes(clock_pin, data_pin, bytes):
+def neo_send_bytes(bytes):
     for byte in bytes:
         for bit in byte:
             if bit % 2 == 1:
-                GPIO.output(data_pin, GPIO.HIGH)
+                GPIO.output(neo_data_pin, GPIO.HIGH)
             else:
-                GPIO.output(data_pin, GPIO.LOW)
-            GPIO.output(clock_pin, GPIO.HIGH)
-            GPIO.output(clock_pin, GPIO.LOW)
+                GPIO.output(neo_data_pin, GPIO.LOW)
+            GPIO.output(neo_clock_pin, GPIO.HIGH)
+            GPIO.output(neo_clock_pin, GPIO.LOW)
 
 #Voor het aansturen van de NEO-Pixel
 def neo(color):
@@ -81,7 +82,7 @@ def neo(color):
     color = reverseTuple(color)
 
     # Begin pakket
-    neo_send_bytes(neo_clock_pin, neo_data_pin, [[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0]])
+    neo_send_bytes([[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0]])
 
     # Stuur de kleuren
     counter = 0
@@ -97,10 +98,10 @@ def neo(color):
             counter = 0
         counter += 1
     for x in range(0, 8):
-        neo_send_bytes(neo_clock_pin, neo_data_pin, [[1, 1, 1, 1, 1, 1, 1, 1], blue, green, red])
+        neo_send_bytes([[1, 1, 1, 1, 1, 1, 1, 1], blue, green, red])
 
     # Stuur het eindpakket
-    neo_send_bytes(neo_clock_pin, neo_data_pin, [[1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1]])
+    neo_send_bytes([[1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1]])
 
 #Bepaald de positie van de servo (zwaai)
 def position(position):
@@ -238,8 +239,83 @@ def send_beep_to_friend():
     rem = Pyro5.api.Proxy(con)
     rem.recieve_beep()
 
+stop_thread_flash = False
+
+def flash():
+    while True:
+        if not stop_thread_flash:
+            functions.change_neo(functions, [[int(256 * random.random()), int(256 * random.random()), int(256 * random.random())]])
+            time.sleep(1)
+        else:
+            exit()
+
+stop_thread_smooth = False
+
+def smooth():
+    #Colors are based on this wheel: https://static-cse.canva.com/_next/static/assets/warm-cool-colors.1200x707.217f638962f8da17d66dc775cc16807a.png
+    colors = [[128,1,255], [255,0,255], [255,0,127], [255,10,0], [255,127,1], [255,255,0], [128,255,1], [0,255,1], [0,255,128], [0,255,255], [0,128,255], [10,0,255]]
+    start = 0
+    end = 1
+    while True:
+        if not stop_thread_smooth:
+            start_color = colors[start]
+            end_color = colors[end]
+            if end == (len(colors) - 1):
+                end = 0
+                start += 1
+            elif start == (len(colors) - 1):
+                start = 0
+                end += 1
+            else:
+                start += 1
+                end += 1
+
+            steps = 255
+            step_r = (end_color[0] - start_color[0]) / steps
+            step_g = (end_color[1] - start_color[1]) / steps
+            step_b = (end_color[2] - start_color[2]) / steps
+            r = int(start_color[0])
+            g = int(start_color[1])
+            b = int(start_color[2])
+
+            for x in range(steps):
+                if not stop_thread_smooth:
+                    rgb = [int(r), int(g), int(b)]
+                    functions.change_neo(functions, [rgb])
+                    r += step_r
+                    g += step_g
+                    b += step_b
+                else:
+                    exit()
+        else:
+            exit()
+
 @Pyro5.api.expose
 class functions():
+
+    def recieve_flash(self, state):
+        global thread_flash
+        global stop_thread_flash
+        if state:
+            stop_thread_flash = False
+            thread_flash = threading.Thread(target = flash)
+            thread_flash.start()
+        else:
+            stop_thread_flash = True
+            thread_flash.join()
+            functions.change_neo(functions, [[0,0,0]])
+
+    def recieve_smooth(self, state):
+        global thread_smooth
+        global stop_thread_smooth
+        if state:
+            stop_thread_smooth = False
+            thread_smooth = threading.Thread(target = smooth)
+            thread_smooth.start()
+        else:
+            stop_thread_smooth = True
+            thread_smooth.join()
+            functions.change_neo(functions, [[0,0,0]])
 
     def change_neo(self, rgb):
         threading.Thread(target = neo, args = (rgb), daemon = True).start()
