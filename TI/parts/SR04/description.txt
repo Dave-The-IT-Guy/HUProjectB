@@ -1,0 +1,4 @@
+De SR04 kan (door het bepalen van de afstand) kijken of iemand achter zijn/haar bureau zit.
+
+Als de optie aangezet is en je niet achter je bureau zit krijgt je vriend te zien dat je niet achter je bureau zit door middel
+van een veranderende kleur(en) op zijn neopixel
