@@ -18,7 +18,6 @@ from tkinter.constants import *
 from PIL import ImageTk,Image
 
 
-
 # -- globals
 global game_names
 game_names = []
@@ -29,7 +28,6 @@ global sortedgames
 sortedgames = game_names
 global sensordisplay
 sensordisplay = "neopixel"
-
 #Voor de verbinding met de server
 con = "PYRO:steam.functions@192.168.192.24:9090"
 
@@ -49,8 +47,6 @@ con = "PYRO:steam.functions@192.168.192.24:9090"
 
 # beginnen met functies
 # met pyro commands sturen naar rpi
-
-
 
 # -- functions
 def openReadme():
@@ -158,7 +154,9 @@ def openSortAndFilterWindow():
     settingswindow.wm_attributes("-topmost", 1)
 
     # --wigdets in window
-    # img = ImageTk.PhotoImage(Image.open(""))
+    steamlogo_img = ImageTk.PhotoImage(Image.open("steam_logo.png"))
+    steamlogo = Label(master=settingswindow, image=steamlogo_img, compound=CENTER)
+    steamlogo.place()
     sorting_options = ["sort by","name", "price", "date"]
     global current_sort
     current_sort = StringVar()
@@ -234,6 +232,7 @@ def openSortAndFilterWindow():
     case_button.grid(row=4, column=1)
 
 
+
 def filterBy(i):  # same as search but like. different
     global current_filter
     selection = current_filter.get()
@@ -247,14 +246,13 @@ def filterBy(i):  # same as search but like. different
         listInsert(sortedgames)
 
     if selection == "genre":
-        genre_optionmenu.grid(row=0,column=2,pady=10, padx=10)
+        genre_optionmenu.grid(row=0, column=2, pady=10, padx=10)
 
     if selection == "platform":
-        platform_optionmenu.grid(row=0,column=2,pady=10, padx=10)
-
+        platform_optionmenu.grid(row=0, column=2, pady=10, padx=10)
 
     if selection == "price":
-        pricefilterframe.grid(row=0,column=2 ,pady=10, padx=10)
+        pricefilterframe.grid(row=0, column=2, pady=10, padx=10)
 
 
 def filterByGenre(i):
@@ -306,8 +304,7 @@ def search(a):
             if query.lower() in no_case:
                 gameslist.insert("end", game)
 
-
-    #     for loop in binary search
+                  #     for loop in binary search
 
 def caseSensitive():
     global case_sensitive
@@ -380,28 +377,73 @@ def showgraph():
 
     canvas.get_tk_widget().pack()
 
+state = 0
+
 def neopixelChange(i):
+    global state
     rem = Pyro5.api.Proxy(con)
     selection = current_neopxl.get()
     if selection == "off":
         try:
+            if state != 0:
+                if state == 1:
+                    rem.recieve_smooth(False)
+                else:
+                    rem.recieve_flash(False)
             rem.change_neo([[0, 0, 0]])
+            state = 0
         except:
-            pass
+            time.sleep(2)
 
     elif selection == "white":
         try:
+            if state != 0:
+                if state == 1:
+                    rem.recieve_smooth(False)
+                else:
+                    rem.recieve_flash(False)
             rem.change_neo([[255, 255, 255]])
+            state = 0
         except:
-            pass
+            time.sleep(2)
+
+    elif selection == "smooth":
+        try:
+            if state != 0:
+                if state == 1:
+                    rem.recieve_smooth(False)
+                else:
+                    rem.recieve_flash(False)
+            rem.recieve_smooth(True)
+            state = 1
+        except:
+            time.sleep(2)
+
+    elif selection == "flash":
+        try:
+            if state != 0:
+                if state == 1:
+                    rem.recieve_smooth(False)
+                else:
+                    rem.recieve_flash(False)
+            rem.recieve_flash(True)
+            state = 2
+        except:
+            time.sleep(2)
 
     elif selection == "pick color":
         color = (askcolor((0, 0, 0), root))[0]
         try:
+            if state != 0:
+                if state == 1:
+                    rem.recieve_smooth(False)
+                else:
+                    rem.recieve_flash(False)
             rem.change_neo([color])
-            TI_neopixel_options.config(bg=f"{fromRGB(color)}" , activebackground=f"{fromRGB(color)}" )
+            TI_neopixel_options.config(bg=f"{fromRGB(color)}", activebackground=f"{fromRGB(color)}")
+            state = 0
         except:
-            pass
+            time.sleep(2)
 
 def send_wave():
     rem = Pyro5.api.Proxy(con)
@@ -411,7 +453,6 @@ def send_wave():
         rem.recieve_wave()
         time.sleep(4)
     except:
-        print("excepted")
         time.sleep(2)
     finally:
         TI_wavebutton.config(state="normal")
@@ -424,11 +465,10 @@ def thread_send_wave():
 def send_beep():
     rem = Pyro5.api.Proxy(con)
     TI_soundbutton.config(state=DISABLED)
-    for i in range(0, 5):
-       rem.send_beep()
-       time.sleep(1.3)
     try:
-        pass
+        for i in range(0, 5):
+           rem.send_beep()
+           time.sleep(1.3)
     except:
         time.sleep(2)
     finally:
@@ -455,17 +495,14 @@ def fromRGB(rgb):
     return "#%02x%02x%02x" % rgb
 
 
-
-
 #-- placing wigdets
 root = tix.Tk()
 root.config(bg="#042430")
-# root.iconbitmap("steam_icon.ico") #how the fuck does this slow down the entire app???
+root.iconbitmap("steam_icon.ico") #how the fuck does this slow down the entire app???
 root.title("steam application")
 root.resizable(False, False)
 root.protocol("WM_DELETE_WINDOW", lambda: onExit())
 theme = ttk.Style(root)
-# print(ttk.Style().theme_names())
 tooltip_balloon = tix.Balloon(root, bg="#2B526F")
 
 rightframe = Frame(master=root, width=768, height=576,bg="#042430")
@@ -521,24 +558,22 @@ rpilabel.grid(row=0, padx=10, pady=10)
 rpilabel = Label(master=rpi_frame,text="geluids sensor", fg="white", bg="#0B3545")
 rpilabel.grid(row=0, column=1)
 
-TI_wavebutton = Button(master=rpi_frame, text="zwaai", bg="#042430",fg="white", borderwidth=0)
+TI_wavebutton = Button(master=rpi_frame, text="zwaai", command=thread_send_wave, bg="#042430",fg="white", borderwidth=0)
 tooltip_balloon.bind_widget(TI_wavebutton, balloonmsg='zwaai naar je je vriend via de servo')
 TI_wavebutton.grid(row= 1, padx=10, pady=10)
-
 TI_soundbutton = Button(master=rpi_frame, text="geluidsignaal geven", command=thread_send_beep, bg="#042430",fg="white",borderwidth=0)
 tooltip_balloon.bind_widget(TI_soundbutton, balloonmsg='stuur een piep naar je vriend')
 TI_soundbutton.grid(row=1, column=1)
-
 #TI_togglesensor = Button(master=rpi_frame, text="afstandsensor display:neopixel", bg="#042430",fg="white", command=afstandsensordisplay)
 sensordisplay = "neopixel"
 #TI_togglesensor.grid(row=1, column=2,padx=10)
-neopixel_label = Label(master=rpi_frame,text="neopixel functions", fg="white", bg="#0B3545",)
+neopixel_label = Label(master=rpi_frame,text="neopixel functions", fg="white", bg="#0B3545")
 neopixel_label.grid(row=3)
-neopixel_options = ('off', 'white', 'pick color', 'flash', "smooth")
+neopixel_options = ('off', 'white', 'smooth', 'flash', 'pick color')
 current_neopxl = StringVar()
 current_neopxl.set(neopixel_options[0])
 TI_neopixel_options = OptionMenu(rpi_frame, current_neopxl, *neopixel_options, command=neopixelChange)
-TI_neopixel_options["menu"].config(bg="#042430",fg="white", activebackground="#0b3a4d")
+TI_neopixel_options["menu"].config(bg="#042430", fg="white", activebackground="#0b3a4d")
 print(f"menu parameters{TI_neopixel_options.config()}")
 TI_neopixel_options.config(bg="#042430",fg="white",
                            activebackground='#092F3E',
@@ -546,6 +581,7 @@ TI_neopixel_options.config(bg="#042430",fg="white",
                            borderwidth=0,
                            highlightthickness = 0)
 tooltip_balloon.bind_widget(TI_neopixel_options, balloonmsg="colors and effects with your ledstrip")
+
 TI_neopixel_options.grid(row=4)
 #TI_slider = Scale(master=rpi_frame, from_=0, to=64, tickinterval=64,background="#0B3545", fg='white', troughcolor='#3D6D7F', activebackground='#09192A', highlightthickness=0)
 #TI_slider.grid(row=4, column=1,padx=10, pady=10)
@@ -584,6 +620,8 @@ helpmenu = Menu(menubar, tearoff=0)
 menubar.add_cascade(label="Help", menu=helpmenu)
 helpmenu.add_command(label="Readme", command=openReadme)
 root.config(menu=menubar)
+
+
 
 
 
