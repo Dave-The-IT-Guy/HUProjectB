@@ -12,7 +12,6 @@ def json_naar_dict():
         return steamdata
 
 
-
 def sorteren():
     global gesorteerd
     json_naar_dict()
@@ -44,12 +43,6 @@ def sorteren():
         # sorteer op de prijs
         gesorteerd = sorted(steamdata, key=lambda k: k['price'], reverse=False)
         return gesorteerd
-
-
-
-
-
-
 
 
 def naam_eerste_spel():
