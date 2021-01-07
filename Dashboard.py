@@ -56,70 +56,53 @@ def listInsert(list):
     for item in list:
         gameslist.insert(END, item)
 
-def json_naar_dict():#van dani en mark
-    global steamdata
-    # json file openen
+def json_to_dict():
+    #Open de json file en zet alle in een dictonairy
     with open('steam.json') as json_file:
-        #json naar lijst
         steamdata = json.load(json_file)
-        # #lijst naar dict
-        # steamdata = new_dict = dict((item['appid'], item) for item in steamdata_list)
-        return steamdata
+    return steamdata
 
-def sorteren(categorie_input):#van dani en mark
-    global gesorteerd
-    json_naar_dict()
-    # laat de gebruiker kiezen waar hij op sorteerd
-    if categorie_input == '1':
-        # Maak een lege lijst aan voor de namen
-        names = []
-        # Loop door de dictionaries in de lijst
-        for i in steamdata:
-            # Haal de waarde van de name key uit de dict
-            i = i['name']
-            # Maak er een string van
-            i = str(i)
-            # Haal met regex de meeste speciale karakters eruit
-            i = re.sub('[^A-Za-z0-9$()\&\+\'\:\w\-\s\.]+', '', i) #i = re.sub(r'\W+', '', i)  # [^A-Za-z0-9]
-            # Als de string niet false is voeg hem toe aan de lijst (strings kunnen false zijn als ze bijv. leeg zijn)
-            if i:
-                # print(i)
-                names.append(i)
-        names.sort()
-        gesorteerd = names
-        return gesorteerd
-    elif categorie_input == '2':
-        #sorteer op de release date
-        gesorteerd = sorted(steamdata, key=lambda k: k['release_date'], reverse=False)
-        gesorteerd_names = []#alleen de namen terug geven
-        for i in gesorteerd:
-            shown_name: ""
-            shown_name = i["name"]
-            gesorteerd_names.append(shown_name)
-        return gesorteerd_names
-    elif categorie_input == '3':
-        # sorteer op de prijs
-        gesorteerd = sorted(steamdata, key=lambda k: k['price'], reverse=False)
-        gesorteerd_names = []
-        for i in gesorteerd:
-            shown_name: ""
-            shown_name = i["name"]
-            gesorteerd_names.append(shown_name)
-        return gesorteerd_names
 
-def naam_eerste_spel(): #van dani en mark
-    print("naam")
-    #print(naam_eerste_spel())
-    dictionary = json_naar_dict()
-    print(type(dictionary))
-    sorteren(dictionary)
+def clean():
+    steamdata = json_to_dict()
+    # Maak een lege lijst aan voor de namen
+    names = []
+    # Loop door de dictionaries in de lijst
+    for i in steamdata:
+        # Haal de waarde van de name key uit de dict
+        i = i['name']
+        # Maak er een string van
+        i = str(i)
+        # Haal met regex de meeste speciale karakters eruit
+        i = re.sub(r'\W+', '', i)  # [^A-Za-z0-9]
+        # Als de string niet false is voeg hem toe aan de lijst (strings kunnen false zijn als ze bijv. leeg zijn)
+        if i:
+            names.append(i)
+    return names
+
+def sort():
+    pass
+
+def name_first_game():
+    json_to_dict()
+    clean()
+    # check welk type de variable gesorteerd is om te bepalen hoe je de naam moet returnen
+    # als je op naam sorteerd krijg je een lijst namen en is de eerste naam een string
+    # als je op andere dingen sorteerd krijg je een lijst met dict's dus moet je nu specificeren dat je op 'name'zoekt
+    if type(sort[0]) is str:
+        first_game = sort[0]
+        return first_game
+    else:
+        first_game = sort[0]
+        return first_game['name']
+    
 
 def getDetails(i):
     selected = gameslist.get(gameslist.curselection()) # get the current selection in the listbox
     details.config(state=NORMAL) # set state to normal so that changes can be made to the textbox
     details.delete('1.0', END) #clear whatevers currently in the textbox
 
-    sorted_dict = sorted(json_naar_dict(), key=lambda k: k['name'])   # sort list of dicts
+    sorted_dict = sorted(json_to_dict(), key=lambda k: k['name'])   # sort list of dicts
     start = 0  # yes im going to try and implement a  binary search and im in hell
     end = len(sorted_dict) - 1
     while start <= end:
@@ -261,7 +244,7 @@ def filterByGenre(i):
     if selection == "pick a genre":
        listInsert(sortedgames)
     else:
-        for game in json_naar_dict(): #looks at selection and compares it to every game[genres]
+        for game in json_to_dict(): #looks at selection and compares it to every game[genres]
             if selection in game["genres"]:
                 gameslist.insert("end", game["name"])
 
@@ -269,7 +252,7 @@ def filterByPrice():
     selectionfrom = float(pricefrom.get())
     selectionto = float(priceto.get())
     gameslist.delete(0, END)
-    for game in json_naar_dict():
+    for game in json_to_dict():
         if selectionfrom <= game["price"] <= selectionto:
             gameslist.insert("end", game["name"])
 
@@ -280,7 +263,7 @@ def filterByPlatforms(i):
     if selection == "pick a platform":
         listInsert(sortedgames)
     else:
-        for game in json_naar_dict():
+        for game in json_to_dict():
             if selection in game["platforms"]:
                 gameslist.insert("end", game["name"])
 
@@ -334,21 +317,21 @@ def sortByNone():
 def sortByName():
     gameslist.delete(0, END)
     global sortedgames
-    sortedgames = sorteren("1") #get the sorted list
+    sortedgames = sort("1") #get the sorted list
     listInsert(sortedgames)#and put it in the listbox
     current_sort_label.config(text=f"sorted by: name")
 
 def sortByPrice():
     gameslist.delete(0, END)
     global sortedgames
-    sortedgames = sorteren("2")
+    sortedgames = sort("2")
     listInsert(sortedgames)
     current_sort_label.config(text=f"sorted by: price")
 
 def sortByDate():
     gameslist.delete(0, END)
     global sortedgames
-    sortedgames = sorteren("3")
+    sortedgames = sort("3")
     listInsert(sortedgames)
     current_sort_label.config(text=f"sorted by: release date")
     current_sort = "date"
@@ -484,7 +467,7 @@ def onExit():
     exit()
 
 def fillList(list):
-    for game in json_naar_dict():
+    for game in json_to_dict():
         list.append(game["name"])
     return list
 
