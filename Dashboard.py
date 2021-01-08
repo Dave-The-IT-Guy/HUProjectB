@@ -302,21 +302,21 @@ def sortByNone():
 def sortByName():
     gameslist.delete(0, END)
     global sortedgames
-    sortedgames = sorteren("1") #get the sorted list
+    sortedgames = sort("1") #get the sorted list
     listInsert(sortedgames)#and put it in the listbox
     current_sort_label.config(text=f"sorted by: name")
 
 def sortByPrice():
     gameslist.delete(0, END)
     global sortedgames
-    sortedgames = sorteren("2")
+    sortedgames = sort("2")
     listInsert(sortedgames)
     current_sort_label.config(text=f"sorted by: price")
 
 def sortByDate():
     gameslist.delete(0, END)
     global sortedgames
-    sortedgames = sorteren("3")
+    sortedgames = sort("3")
     listInsert(sortedgames)
     current_sort_label.config(text=f"sorted by: release date")
     current_sort = "date"
@@ -377,7 +377,7 @@ def neopixelChange(i):
                     rem.recieve_flash(False)
             rem.change_neo([[0, 0, 0]])
             state = 0
-            changeButtonColor(color)
+            changeButtonColor(None)
         except:
             time.sleep(2)
 
@@ -390,7 +390,7 @@ def neopixelChange(i):
                     rem.recieve_flash(False)
             rem.change_neo([[255, 255, 255]])
             state = 0
-            changeButtonColor(color)
+            changeButtonColor(None)
         except:
             time.sleep(2)
 
@@ -403,7 +403,7 @@ def neopixelChange(i):
                     rem.recieve_flash(False)
             rem.recieve_smooth(True)
             state = 1
-            changeButtonColor(color)
+            changeButtonColor(None)
         except:
             time.sleep(2)
 
@@ -416,7 +416,7 @@ def neopixelChange(i):
                     rem.recieve_flash(False)
             rem.recieve_flash(True)
             state = 2
-            changeButtonColor(color)
+            changeButtonColor(None)
         except:
             time.sleep(2)
 
@@ -428,7 +428,7 @@ def neopixelChange(i):
                     rem.recieve_smooth(False)
                 else:
                     rem.recieve_flash(False)
-            # rem.change_neo([color])
+            rem.change_neo([color])
             changeButtonColor(color)
             state = 0
         except:
@@ -485,7 +485,7 @@ def fromRGB(rgb):
 
 def changeButtonColor(color):
       # De rgb kleuren
-    if not color:
+    if color is None:
         TI_neopixel_options.config(bg="#042430", fg="white",
                                    activebackground='#092F3E',
                                    activeforeground='white',
@@ -564,14 +564,12 @@ leftframe_notebook.add(rpi_frame, text='raspberry pi')
 #rpi_frame
 rpilabel = Label(master=rpi_frame,text="raspberry pi functions", fg="white", bg="#0B3545")
 rpilabel.grid(row=0, padx=10, pady=10)
-rpilabel = Label(master=rpi_frame,text="geluids sensor", fg="white", bg="#0B3545")
-rpilabel.grid(row=0, column=1)
 
-TI_wavebutton = Button(master=rpi_frame, text="zwaai", command=thread_send_wave, bg="#042430",fg="white", borderwidth=0)
-tooltip_balloon.bind_widget(TI_wavebutton, balloonmsg='zwaai naar je je vriend via de servo')
+TI_wavebutton = Button(master=rpi_frame, text="wave", command=thread_send_wave, bg="#042430",fg="white", borderwidth=0)
+tooltip_balloon.bind_widget(TI_wavebutton, balloonmsg='wave to your friend with the servo')
 TI_wavebutton.grid(row= 1, padx=10, pady=10)
-TI_soundbutton = Button(master=rpi_frame, text="geluidsignaal geven", command=thread_send_beep, bg="#042430",fg="white",borderwidth=0)
-tooltip_balloon.bind_widget(TI_soundbutton, balloonmsg='stuur een piep naar je vriend')
+TI_soundbutton = Button(master=rpi_frame, text="send signal", command=thread_send_beep, bg="#042430",fg="white",borderwidth=0)
+tooltip_balloon.bind_widget(TI_soundbutton, balloonmsg='send a sound signal to your friend')
 TI_soundbutton.grid(row=1, column=1)
 #TI_togglesensor = Button(master=rpi_frame, text="afstandsensor display:neopixel", bg="#042430",fg="white", command=afstandsensordisplay)
 sensordisplay = "neopixel"
