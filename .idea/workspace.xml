@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7aa53e31-68b4-4456-8ba9-91ec7b33b431" name="Default Changelist" comment="Added pie chart">
+    <list default="true" id="7aa53e31-68b4-4456-8ba9-91ec7b33b431" name="Default Changelist" comment="Added Steam API">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AI/test.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AI/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AI/test2.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/test2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AI/test3.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/test3.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Dashboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/Dashboard.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -60,6 +56,11 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.highlight.symlinks" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
     <property name="credentialsType com.jetbrains.python.remote.PyCreateRemoteInterpreterDialog$PyCreateRemoteSdkForm" value="Web Deployment" />
     <property name="last_opened_file_path" value="$USER_HOME$/PycharmProjects/TI" />
     <property name="node.js.detected.package.eslint" value="true" />
@@ -401,14 +402,7 @@
       <workItem from="1609867256675" duration="7763000" />
       <workItem from="1609919852342" duration="14551000" />
       <workItem from="1610008231859" duration="25621000" />
-      <workItem from="1610092702373" duration="22280000" />
-    </task>
-    <task id="LOCAL-00004" summary="Maakt de GPIO schoon">
-      <created>1608727948147</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1608727948147</updated>
+      <workItem from="1610092702373" duration="23274000" />
     </task>
     <task id="LOCAL-00005" summary="Template voor multithreading">
       <created>1608727973190</created>
@@ -746,7 +740,14 @@
       <option name="project" value="LOCAL" />
       <updated>1610121042057</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="Added Steam API">
+      <created>1610133229367</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1610133229367</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -765,7 +766,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Beschrijving van het schuifregister" />
     <MESSAGE value="Beschrijving van de afstandssensor" />
     <MESSAGE value="Werkend schuifregister" />
     <MESSAGE value="Werkend schuifregister met multithreading" />
@@ -790,14 +790,15 @@
     <MESSAGE value="Added sorting function" />
     <MESSAGE value="Minor changes and bugfixes" />
     <MESSAGE value="Added pie chart" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added pie chart" />
+    <MESSAGE value="Added Steam API" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Steam API" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/HUProjectB$Meten.coverage" NAME="Schuifregister Coverage Results" MODIFIED="1608736330013" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/parts/Schuifregister" />
     <SUITE FILE_PATH="coverage/HUProjectB$SR04.coverage" NAME="SR04 Coverage Results" MODIFIED="1609164171828" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/parts/SR04" />
     <SUITE FILE_PATH="coverage/HUProjectB$NEOpixel___WT.coverage" NAME="NEOpixel - WT Coverage Results" MODIFIED="1609343056882" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/parts/NEOpixel" />
     <SUITE FILE_PATH="coverage/HUProjectB$teserdietest___locate_ns.coverage" NAME="teserdietest - locate ns Coverage Results" MODIFIED="1609158736216" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test/remote pi" />
-    <SUITE FILE_PATH="coverage/HUProjectB$GUI.coverage" NAME="GUI Coverage Results" MODIFIED="1610133182881" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/HUProjectB$GUI.coverage" NAME="GUI Coverage Results" MODIFIED="1610134079528" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/HUProjectB$Zwaaien___WT.coverage" NAME="Zwaaien - WT Coverage Results" MODIFIED="1609161300794" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/parts/Servo" />
     <SUITE FILE_PATH="coverage/HUProjectB$Dashboard.coverage" NAME="Dashboard Coverage Results" MODIFIED="1610048099903" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/HUProjectB$Server_PI.coverage" NAME="Server PI Coverage Results" MODIFIED="1610030671094" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/final" />

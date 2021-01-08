@@ -354,44 +354,43 @@ def caseSensitive():
     elif case_sensitive == False:
         case_sensitive = True
 
-#def sortby(i):
-#    global current_sort
-#    selection = current_sort.get()
-#    if selection == "name":
-#        sortByName()
-#    elif selection == "date":
-#        sortByDate()
-#    elif selection == "price":
-#        sortByPrice()
-#    else:
-#        sortByNone()
+def sortby(i):
+    global current_sort
+    selection = current_sort.get()
+    if selection == "name":
+        sortByName()
+    elif selection == "date":
+        sortByDate()
+    elif selection == "price":
+        sortByPrice()
+    else:
+        sortByNone()
+def sortByNone():
+    gameslist.delete(0, END)
+    listInsert(game_names)
+    current_sort_label.config(text=f"sorted by: not sorted")
 
-#def sortByNone():
-#    gameslist.delete(0, END)
-#    listInsert(game_names)
-#    current_sort_label.config(text=f"sorted by: not sorted")
-#
-#def sortByName():
-#    gameslist.delete(0, END)
-#    global sortedgames
-#    sortedgames = sort("1") #get the sorted list
-#    listInsert(sortedgames)#and put it in the listbox
-#    current_sort_label.config(text=f"sorted by: name")
-#
-#def sortByPrice():
-#    gameslist.delete(0, END)
-#    global sortedgames
-#    sortedgames = sort("2")
-#    listInsert(sortedgames)
-#    current_sort_label.config(text=f"sorted by: price")
-#
-#def sortByDate():
-#    gameslist.delete(0, END)
-#    global sortedgames
-#    sortedgames = sort("3")
-#    listInsert(sortedgames)
-#    current_sort_label.config(text=f"sorted by: release date")
-#    current_sort = "date"
+def sortByName():
+    gameslist.delete(0, END)
+    global sortedgames
+    sortedgames = sort("1") #get the sorted list
+    listInsert(sortedgames)#and put it in the listbox
+    current_sort_label.config(text=f"sorted by: name")
+
+def sortByPrice():
+    gameslist.delete(0, END)
+    global sortedgames
+    sortedgames = sort("2")
+    listInsert(sortedgames)
+    current_sort_label.config(text=f"sorted by: price")
+
+def sortByDate():
+    gameslist.delete(0, END)
+    global sortedgames
+    sortedgames = sort("3")
+    listInsert(sortedgames)
+    current_sort_label.config(text=f"sorted by: release date")
+    current_sort = "date"
 
 
 def get_request(url, parameters=None):
@@ -411,23 +410,6 @@ def get_request(url, parameters=None):
         return get_request(url, parameters)
 
 
-def showgraph():
-    # Pie chart, where the slices will be ordered and plotted counter-clockwise:
-    labels = 'Goed', 'Slecht'
-    sizes = [900, 100]
-    explode = (0, 0.1)
-
-    fig1, ax1 = plt.subplots(figsize=(4, 4))
-    ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.0f%%', shadow=True, startangle=45)
-    ax1.axis('equal')
-
-
-    canvas = FigureCanvasTkAgg(fig1, master=leftframe1)
-    canvas.draw()
-    toolbar = NavigationToolbar2Tk(canvas, leftframe1)
-    toolbar.update()
-
-    canvas.get_tk_widget().pack()
 
 
 def collectInfo(**kwargs):
@@ -446,6 +428,32 @@ def collectInfo(**kwargs):
         json_data = pd.DataFrame.from_dict(json_data, orient='index')
 
     return (json_data)
+
+
+def showgraph(appID):
+    # Pie chart, where the slices will be ordered and plotted counter-clockwise:
+    labels = 'Positive', 'Negative'
+
+    app = collectInfo(gameID = appID)
+
+    positive = app['positive']
+    negative = app['negative']
+
+
+    sizes = [positive, negative]
+    explode = (0, 0.1)
+
+    fig1, ax1 = plt.subplots(figsize=(4, 4))
+    ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.0f%%', shadow=True, startangle=45)
+    ax1.axis('equal')
+
+
+    canvas = FigureCanvasTkAgg(fig1, master=leftframe1)
+    canvas.draw()
+    toolbar = NavigationToolbar2Tk(canvas, leftframe1)
+    toolbar.update()
+
+    canvas.get_tk_widget().pack()
 
 
 state = 0
@@ -693,6 +701,6 @@ root.config(menu=menubar)
 
 threading.Thread(target=caseSensitive, daemon=True).start()
 #caseSensitive()
-showgraph()
-listInsert(sort_json(data_location, 'name'))
+showgraph(30)
+#listInsert(sort_json(data_location, 'name'))
 root.mainloop()
