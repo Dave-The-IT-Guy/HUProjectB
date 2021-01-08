@@ -395,24 +395,22 @@ def sortByDate():
 
 
 def showgraph():
-    t = [1, 2, 3, 4, 5, 6]
-    s = [1, 2, 3, 4, 5, 6]
-    testgraph = plt.Figure(figsize=(5, 4), dpi=100)
-    testgraph.add_subplot(111).plot(t,s)
+    import matplotlib.pyplot as plt
 
-    canvas = FigureCanvasTkAgg(testgraph, master=leftframe1)
+    # Pie chart, where the slices will be ordered and plotted counter-clockwise:
+    labels = 'Goed', 'Slecht'
+    sizes = [900, 100]
+    explode = (0, 0.1)
+
+    fig1, ax1 = plt.subplots(figsize=(4, 4))
+    ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.0f%%', shadow=True, startangle=45)
+    ax1.axis('equal')
+
+
+    canvas = FigureCanvasTkAgg(fig1, master=leftframe1)
     canvas.draw()
     toolbar = NavigationToolbar2Tk(canvas, leftframe1)
     toolbar.update()
-
-    fig, ax = plt.subplots(facecolor="#042430")
-    ax.set_facecolor('#0B3545')
-    ax.set_title('Voltage vs. time chart', color='white')
-    ax.set_xlabel('time (s)', color='white')
-    ax.set_ylabel('playtime', color='white')
-    ax.plot(t, s, 'xkcd:crimson')
-    ax.plot(t, s, color='C4', linestyle='--')
-    ax.tick_params(labelcolor='white')
 
     canvas.get_tk_widget().pack()
 

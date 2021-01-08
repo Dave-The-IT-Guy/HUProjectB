@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/HUProjectB.iml" filepath="$PROJECT_DIR$/.idea/HUProjectB.iml" />
+      <module fileurl="file://$USER_HOME$/PycharmProjects/TI/.idea/TI.iml" filepath="$USER_HOME$/PycharmProjects/TI/.idea/TI.iml" />
     </modules>
   </component>
 </project>
