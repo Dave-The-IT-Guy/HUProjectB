@@ -4,31 +4,13 @@ import time
 import requests
 import pandas as pd
 pd.set_option('display.max_columns', None)
-pd.set_option('display.max_rows', 1)
+pd.set_option('display.max_rows', None)
 def get_request(url, parameters=None):
-    """Return json-formatted response of a get request using optional parameters.
 
-    Parameters
-    ----------
-    url : string
-    parameters : {'parameter': 'value'}
-        parameters to pass as part of get request
-
-    Returns
-    -------
-    json_data
-        json-formatted response (dict-like)
-    """
     try:
         response = requests.get(url=url, params=parameters)
     except:
-        print('SSL Error:')
-
-        for i in range(5, 0, -1):
-            print('\rWaiting... ({})'.format(i), end='')
-            time.sleep(1)
-        print('\rRetrying.' + ' ' * 10)
-
+        time.sleep(2)
         # recusively try again
         return get_request(url, parameters)
 
@@ -36,9 +18,7 @@ def get_request(url, parameters=None):
         return response.json()
     else:
         # response is none usually means too many requests. Wait and try again
-        print('No response, waiting 10 seconds...')
-        time.sleep(10)
-        print('Retrying.')
+        time.sleep(2)
         return get_request(url, parameters)
 
 
@@ -51,7 +31,9 @@ json_data = get_request(url, parameters=parameters)
 
 steam_spy_all = pd.DataFrame.from_dict(json_data, orient='index')
 
-# generate sorted app_list from steamspy data
-#app_list = steam_spy_all[['appid', 'name']].sort_values('appid').reset_index(drop=True)
-print(steam_spy_all)
+lst = []
 
+for i in steam_spy_all:
+    lst.append(i)
+
+print(lst)

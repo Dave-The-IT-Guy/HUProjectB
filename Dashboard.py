@@ -16,7 +16,8 @@ import time
 from tkinter import tix
 from tkinter.constants import *
 from PIL import ImageTk,Image
-
+import requests
+import pandas as pd
 
 # -- globals
 global game_names
@@ -28,8 +29,8 @@ global sortedgames
 sortedgames = game_names
 global sensordisplay
 sensordisplay = "neopixel"
-#Locatie van de steamdata
-data_location = 'steam.json'
+####Locatie van de steamdata
+###data_location = 'steam.json'
 #Voor de verbinding met de server
 con = "PYRO:steam.functions@192.168.192.24:9090"
 
@@ -353,50 +354,64 @@ def caseSensitive():
     elif case_sensitive == False:
         case_sensitive = True
 
-def sortby(i):
-    global current_sort
-    selection = current_sort.get()
-    if selection == "name":
-        sortByName()
-    elif selection == "date":
-        sortByDate()
-    elif selection == "price":
-        sortByPrice()
+#def sortby(i):
+#    global current_sort
+#    selection = current_sort.get()
+#    if selection == "name":
+#        sortByName()
+#    elif selection == "date":
+#        sortByDate()
+#    elif selection == "price":
+#        sortByPrice()
+#    else:
+#        sortByNone()
+
+#def sortByNone():
+#    gameslist.delete(0, END)
+#    listInsert(game_names)
+#    current_sort_label.config(text=f"sorted by: not sorted")
+#
+#def sortByName():
+#    gameslist.delete(0, END)
+#    global sortedgames
+#    sortedgames = sort("1") #get the sorted list
+#    listInsert(sortedgames)#and put it in the listbox
+#    current_sort_label.config(text=f"sorted by: name")
+#
+#def sortByPrice():
+#    gameslist.delete(0, END)
+#    global sortedgames
+#    sortedgames = sort("2")
+#    listInsert(sortedgames)
+#    current_sort_label.config(text=f"sorted by: price")
+#
+#def sortByDate():
+#    gameslist.delete(0, END)
+#    global sortedgames
+#    sortedgames = sort("3")
+#    listInsert(sortedgames)
+#    current_sort_label.config(text=f"sorted by: release date")
+#    current_sort = "date"
+
+
+def get_request(url, parameters=None):
+
+    try:
+        response = requests.get(url=url, params=parameters)
+    except:
+        time.sleep(2)
+        # recusively try again
+        return get_request(url, parameters)
+
+    if response:
+        return response.json()
     else:
-        sortByNone()
-
-def sortByNone():
-    gameslist.delete(0, END)
-    listInsert(game_names)
-    current_sort_label.config(text=f"sorted by: not sorted")
-
-def sortByName():
-    gameslist.delete(0, END)
-    global sortedgames
-    sortedgames = sort("1") #get the sorted list
-    listInsert(sortedgames)#and put it in the listbox
-    current_sort_label.config(text=f"sorted by: name")
-
-def sortByPrice():
-    gameslist.delete(0, END)
-    global sortedgames
-    sortedgames = sort("2")
-    listInsert(sortedgames)
-    current_sort_label.config(text=f"sorted by: price")
-
-def sortByDate():
-    gameslist.delete(0, END)
-    global sortedgames
-    sortedgames = sort("3")
-    listInsert(sortedgames)
-    current_sort_label.config(text=f"sorted by: release date")
-    current_sort = "date"
-
+        # response is none usually means too many requests. Wait and try again
+        time.sleep(2)
+        return get_request(url, parameters)
 
 
 def showgraph():
-    import matplotlib.pyplot as plt
-
     # Pie chart, where the slices will be ordered and plotted counter-clockwise:
     labels = 'Goed', 'Slecht'
     sizes = [900, 100]
@@ -413,6 +428,25 @@ def showgraph():
     toolbar.update()
 
     canvas.get_tk_widget().pack()
+
+
+def collectInfo(**kwargs):
+
+    game = kwargs.get('gameID', None)
+
+    if game == None or game == "all":
+        url = "https://steamspy.com/api.php?request=all"
+    else:
+        url = "https://steamspy.com/api.php?request=appdetails&appid=" + str(game)
+
+    # request 'all' from steam spy and parse into dataframe
+    json_data = get_request(url)
+
+    if game == None or game == "all":
+        json_data = pd.DataFrame.from_dict(json_data, orient='index')
+
+    return (json_data)
+
 
 state = 0
 
