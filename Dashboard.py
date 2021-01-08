@@ -37,8 +37,6 @@ con = "PYRO:steam.functions@192.168.192.24:9090"
 # repair getdetails function
 # put more graphs in graphframe
 # fix neopixel button
-
-
 # the sort functions give differing lists containing games that dont appear in the original list
 
 # neopxel functies
@@ -126,9 +124,7 @@ def openSortAndFilterWindow():
     settingswindow.wm_attributes("-topmost", 1)
 
     # --wigdets in window
-    steamlogo_img = ImageTk.PhotoImage(Image.open("steam_logo.png"))
-    steamlogo = Label(master=settingswindow, image=steamlogo_img, compound=CENTER)
-    steamlogo.place()
+
     sorting_options = ["sort by","name", "price", "date"]
     global current_sort
     current_sort = StringVar()
@@ -359,7 +355,7 @@ def showratings():
     explode = (0, 0, 0, 0)  # only "explode" the 2nd slice (i.e. 'Hogs')
 
     fig1, ax1 = plt.subplots()
-    # fig1.set_size_inches(2.5, 2.5)
+    fig1.set_size_inches(6.0, 5.0)
     ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
             shadow=True, startangle=90)
     ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
@@ -513,6 +509,8 @@ root.resizable(False, False)
 root.protocol("WM_DELETE_WINDOW", lambda: onExit())
 theme = ttk.Style(root)
 tooltip_balloon = tix.Balloon(root, bg="#2B526F")
+
+
 
 rightframe = Frame(master=root, width=768, height=576,bg="#042430")
 rightframe.grid(row=0,column=0, padx=10, pady=10)
