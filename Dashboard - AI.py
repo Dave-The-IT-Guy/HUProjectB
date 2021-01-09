@@ -16,8 +16,8 @@ import time
 from tkinter import tix
 from tkinter.constants import *
 from PIL import ImageTk,Image
-
-
+import requests
+import pandas as pd
 
 # -- globals
 global game_names
@@ -29,14 +29,16 @@ global sortedgames
 sortedgames = game_names
 global sensordisplay
 sensordisplay = "neopixel"
+####Locatie van de steamdata
+###data_location = 'steam.json'
 #Voor de verbinding met de server
 con = "PYRO:steam.functions@192.168.192.24:9090"
 
 # -- to do
 # make graph blue
-# repair getdetails function
-# put more graphs in graphframe
-# fix neopixel button
+# make it so that TI frame gets placed over GUI
+# if i search for someting it undoes the sorting go fix that #edit: fixed it but i havent tested if it works with evertything #edit: undoes the filtering i hate myself
+# add a filtering functionality
 # the sort functions give differing lists containing games that dont appear in the original list
 
 # neopxel functies
@@ -57,39 +59,107 @@ def listInsert(list):
     for item in list:
         gameslist.insert(END, item)
 
-def json_to_dict():
+def json_to_dict(location):
     #Open de json file en zet alle in een dictonairy
-    with open('steam.json') as json_file:
+    with open(location) as json_file:
         steamdata = json.load(json_file)
     return steamdata
 
-
-def clean():
-    steamdata = json_to_dict()
+def select(dict, selection):
     # Maak een lege lijst aan voor de namen
-    names = []
+    result = []
     # Loop door de dictionaries in de lijst
-    for i in steamdata:
+    for i in dict:
         # Haal de waarde van de name key uit de dict
-        i = i['name']
+        i = i[selection]
         # Maak er een string van
         i = str(i)
         # Haal met regex de meeste speciale karakters eruit
-        i = re.sub(r'\W+', '', i)  # [^A-Za-z0-9]
+        i = re.sub('[^A-Za-z0-9$()\&\+\'\:\w\-\s\.]+', '', i)  # [^A-Za-z0-9]
+
+        # Haal alle onnodige spaties weg
+        i = " ".join(i.split())
+        # Haal wat extra rotzooi uit de string
+        (i).replace('()', '')
+        i.strip()
+
+        # Als een string met ' begint en eindigd verwijder deze dan
+        if i.startswith('\'') == True and i.endswith('\'') == True:
+            i = i[1:(len(i) - 1)]
+
+        ## Onderstaande code Werkt nog niet helemaal. De laatste conditie moet aangepast worden anders worden bij sommige titles de naam aangepast terwijl dat niet de bedoeling is...
+        #if i.startswith('(') == True and i.endswith(')') == True and i.count('(') < 2:
+        #    i = i[1:(len(i) - 1)]
+
         # Als de string niet false is voeg hem toe aan de lijst (strings kunnen false zijn als ze bijv. leeg zijn)
         if i:
-            names.append(i)
-    return names
+            result.append(i)
+    return result
 
-def sort():
-    pass
+#Source: https://www.geeksforgeeks.org/merge-sort/
+def sort(lst):
+
+    if len(lst) > 1:
+
+        # Vind het midden van de lijst
+        center = len(lst) // 2
+
+        # Bepaal de linkerkant van de lijst
+        left = lst[:center]
+
+        # Bepaal de rechterkant van de lijst
+        right = lst[center:]
+
+        # Sorteerd de eerste helft van de lijst
+        sort(left)
+
+        # Sorteerd de tweede helft van de lijst
+        sort(right)
+
+        # Variabelen die gebruit worden om te tellen
+        i = j = k = 0
+
+        # Kopieeert de data in 2 tijdelijke lijsten
+        while i < len(left) and j < len(right):
+            if left[i] < right[j]:
+                lst[k] = left[i]
+                i += 1
+            else:
+                lst[k] = right[j]
+                j += 1
+            k += 1
+
+        # Checkt voor overgebleven elementen als die er zijn (links)
+        while i < len(left):
+            lst[k] = left[i]
+            i += 1
+            k += 1
+
+        # Checkt voor overgebleven elementen als die er zijn (rechts)
+        while j < len(right):
+            lst[k] = right[j]
+            j += 1
+            k += 1
+    return lst
+
+def sort_json(location, sort_by):
+    # Maak van de json een dict
+    dict = json_to_dict(location)
+
+    # Maakt een lijst van alle data die bij de gekozen sleutel hoort
+    lst = select(dict, sort_by)
+
+    # Returnt een gesorteerde variant van de lijst
+    return sort(lst)
+
+
 
 def getDetails(i):
     selected = gameslist.get(gameslist.curselection()) # get the current selection in the listbox
     details.config(state=NORMAL) # set state to normal so that changes can be made to the textbox
     details.delete('1.0', END) #clear whatevers currently in the textbox
 
-    sorted_dict = sorted(json_to_dict(), key=lambda k: k['name'])   # sort list of dicts
+    sorted_dict = sorted(sort_json(data_location, 'name'), key=lambda k: k['name'])   # sort list of dicts
     start = 0  # yes im going to try and implement a  binary search and im in hell
     end = len(sorted_dict) - 1
     while start <= end:
@@ -124,7 +194,9 @@ def openSortAndFilterWindow():
     settingswindow.wm_attributes("-topmost", 1)
 
     # --wigdets in window
-
+    steamlogo_img = ImageTk.PhotoImage(Image.open("steam_logo.png"))
+    steamlogo = Label(master=settingswindow, image=steamlogo_img, compound=CENTER)
+    steamlogo.place()
     sorting_options = ["sort by","name", "price", "date"]
     global current_sort
     current_sort = StringVar()
@@ -293,7 +365,6 @@ def sortby(i):
         sortByPrice()
     else:
         sortByNone()
-
 def sortByNone():
     gameslist.delete(0, END)
     listInsert(game_names)
@@ -322,48 +393,71 @@ def sortByDate():
     current_sort = "date"
 
 
+def get_request(url, parameters=None):
 
-def showPlaytime():
-    t = [1, 2, 3, 4, 5, 6]
-    s = [1, 2, 3, 4, 5, 6]
-    fig, ax = plt.subplots(facecolor="#042430")
-    # fig.set_size_inches(2.5, 2.5)
-    ax.set_facecolor('#0B3545')
-    ax.set_title('playtime', color='white')
-    ax.set_xlabel('time (s)', color='white')
-    ax.set_ylabel('playtime', color='white')
-    ax.plot(t, s, 'xkcd:red')
-    ax.plot(t, s, color='white', linestyle='--')
-    ax.tick_params(labelcolor='white')
+    try:
+        response = requests.get(url=url, params=parameters)
+    except:
+        time.sleep(2)
+        # recusively try again
+        return get_request(url, parameters)
 
-
-    canvas1 = FigureCanvasTkAgg(fig, master=ntbk_frame1,)
-    canvas1.draw()
+    if response:
+        return response.json()
+    else:
+        # response is none usually means too many requests. Wait and try again
+        time.sleep(2)
+        return get_request(url, parameters)
 
 
-    toolbar = NavigationToolbar2Tk(canvas1, ntbk_frame1)
+
+
+def collectInfo(**kwargs):
+
+    game = kwargs.get('gameID', None)
+
+    if game == None or game == "all":
+        url = "https://steamspy.com/api.php?request=all"
+    else:
+        url = "https://steamspy.com/api.php?request=appdetails&appid=" + str(game)
+
+    # request 'all' from steam spy and parse into dataframe
+    json_data = get_request(url)
+
+    if game == None or game == "all":
+        json_data = pd.DataFrame.from_dict(json_data, orient='index')
+
+    return (json_data)
+
+
+def showgraph(appID):
+    # Pie chart, where the slices will be ordered and plotted counter-clockwise:
+    labels = 'Positive', 'Negative'
+
+    app = collectInfo(gameID = appID)
+
+    positive = app['positive']
+    negative = app['negative']
+
+
+    sizes = [positive, negative]
+    explode = (0, 0.1)
+
+    fig1, ax1 = plt.subplots(figsize=(4, 4))
+    ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.0f%%', shadow=True, startangle=45)
+    ax1.axis('equal')
+
+
+    canvas = FigureCanvasTkAgg(fig1, master=leftframe1)
+    canvas.draw()
+    toolbar = NavigationToolbar2Tk(canvas, leftframe1)
     toolbar.update()
 
-    canvas1.get_tk_widget().pack()
+    canvas.get_tk_widget().pack()
 
 
-
-def showratings():
-    # ---
-    labels = 'Frogs', 'Hogs', 'Dogs', 'Logs'
-    sizes = [15, 30, 45, 10]
-    explode = (0, 0, 0, 0)  # only "explode" the 2nd slice (i.e. 'Hogs')
-
-    fig1, ax1 = plt.subplots()
-    fig1.set_size_inches(6.0, 5.0)
-    ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
-            shadow=True, startangle=90)
-    ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-    canvas2 = FigureCanvasTkAgg(fig1, master=ntbk_frame2, )
-    canvas2.draw()
-
-    canvas2.get_tk_widget().pack()
 state = 0
+
 def neopixelChange(i):
     global state
     rem = Pyro5.api.Proxy(con)
@@ -377,7 +471,6 @@ def neopixelChange(i):
                     rem.recieve_flash(False)
             rem.change_neo([[0, 0, 0]])
             state = 0
-            changeButtonColor(None)
         except:
             time.sleep(2)
 
@@ -390,7 +483,6 @@ def neopixelChange(i):
                     rem.recieve_flash(False)
             rem.change_neo([[255, 255, 255]])
             state = 0
-            changeButtonColor(None)
         except:
             time.sleep(2)
 
@@ -403,7 +495,6 @@ def neopixelChange(i):
                     rem.recieve_flash(False)
             rem.recieve_smooth(True)
             state = 1
-            changeButtonColor(None)
         except:
             time.sleep(2)
 
@@ -416,7 +507,6 @@ def neopixelChange(i):
                     rem.recieve_flash(False)
             rem.recieve_flash(True)
             state = 2
-            changeButtonColor(None)
         except:
             time.sleep(2)
 
@@ -429,7 +519,7 @@ def neopixelChange(i):
                 else:
                     rem.recieve_flash(False)
             rem.change_neo([color])
-            changeButtonColor(color)
+            TI_neopixel_options.config(bg=f"{fromRGB(color)}", activebackground=f"{fromRGB(color)}")
             state = 0
         except:
             time.sleep(2)
@@ -472,35 +562,14 @@ def onExit():
     threading.Thread(target = rem.shutdown())
     exit()
 
-def fillList(list):
-    for game in json_to_dict():
-        list.append(game["name"])
-    return list
-
 def fromRGB(rgb):
     """translates an rgb tuple of int to a tkinter friendly color code
     """
     # bron: https://stackoverflow.com/a/51592104
     return "#%02x%02x%02x" % rgb
 
-def changeButtonColor(color):
-      # De rgb kleuren
-    if color is None:
-        TI_neopixel_options.config(bg="#042430", fg="white",
-                                   activebackground='#092F3E',
-                                   activeforeground='white',
-                                   borderwidth=0,
-                                   highlightthickness=0)
-    else:
-        TI_neopixel_options.config(bg=f"{fromRGB(color)}", activebackground=f"{fromRGB(color)}")
-        print(max(color))
-        if max(color) >= 200:
-            TI_neopixel_options.config(fg='black',activeforeground='black')
-        else:
-            TI_neopixel_options.config(fg='white', activeforeground='white')
 
-
-    #-- placing wigdets
+#-- placing wigdets
 root = tix.Tk()
 root.config(bg="#042430")
 root.iconbitmap("steam_icon.ico") #how the fuck does this slow down the entire app???
@@ -509,8 +578,6 @@ root.resizable(False, False)
 root.protocol("WM_DELETE_WINDOW", lambda: onExit())
 theme = ttk.Style(root)
 tooltip_balloon = tix.Balloon(root, bg="#2B526F")
-
-
 
 rightframe = Frame(master=root, width=768, height=576,bg="#042430")
 rightframe.grid(row=0,column=0, padx=10, pady=10)
@@ -532,7 +599,7 @@ searchbar.pack(side="right")
 listframe.pack(side="top")
 gameslist.pack(side="left", expand=True, fill="both")
 scrollbar.pack(side="right", fill="y")
-current_sort_label = Label(master=rightframe, text=f"sorted by: not sorted", fg="white", bg="#042430")
+current_sort_label = Label(master=rightframe, text=f"sorted by: name", fg="white", bg="#042430")
 current_sort_label.pack(side="top", fill="x")
 
 detailsframe = Frame(master=rightframe, bg="#0B3545", width=300, height=200)
@@ -554,22 +621,22 @@ leftframe.grid(row=0,column=1, padx=10, pady=10)
 
 leftframe_notebook = ttk.Notebook(leftframe)
 # leftframe_notebook.config(background="#042430")
-ntbk_frame1 = ttk.Frame(leftframe_notebook) 
-ntbk_frame2 = ttk.Frame(leftframe_notebook)
-rpi_frame = ttk.Frame(leftframe_notebook)
-leftframe_notebook.add(ntbk_frame1, text='playtime')
-leftframe_notebook.add(ntbk_frame2, text='ratings')
+leftframe1 = ttk.Frame(leftframe_notebook)   # first page, which would get widgets gridded into it
+rpi_frame = ttk.Frame(leftframe_notebook)   # second page
+leftframe_notebook.add(leftframe1, text='graph')
 leftframe_notebook.add(rpi_frame, text='raspberry pi')
 
 #rpi_frame
 rpilabel = Label(master=rpi_frame,text="raspberry pi functions", fg="white", bg="#0B3545")
 rpilabel.grid(row=0, padx=10, pady=10)
+rpilabel = Label(master=rpi_frame,text="geluids sensor", fg="white", bg="#0B3545")
+rpilabel.grid(row=0, column=1)
 
-TI_wavebutton = Button(master=rpi_frame, text="wave", command=thread_send_wave, bg="#042430",fg="white", borderwidth=0)
-tooltip_balloon.bind_widget(TI_wavebutton, balloonmsg='wave to your friend with the servo')
+TI_wavebutton = Button(master=rpi_frame, text="zwaai", command=thread_send_wave, bg="#042430",fg="white", borderwidth=0)
+tooltip_balloon.bind_widget(TI_wavebutton, balloonmsg='zwaai naar je je vriend via de servo')
 TI_wavebutton.grid(row= 1, padx=10, pady=10)
-TI_soundbutton = Button(master=rpi_frame, text="send signal", command=thread_send_beep, bg="#042430",fg="white",borderwidth=0)
-tooltip_balloon.bind_widget(TI_soundbutton, balloonmsg='send a sound signal to your friend')
+TI_soundbutton = Button(master=rpi_frame, text="geluidsignaal geven", command=thread_send_beep, bg="#042430",fg="white",borderwidth=0)
+tooltip_balloon.bind_widget(TI_soundbutton, balloonmsg='stuur een piep naar je vriend')
 TI_soundbutton.grid(row=1, column=1)
 #TI_togglesensor = Button(master=rpi_frame, text="afstandsensor display:neopixel", bg="#042430",fg="white", command=afstandsensordisplay)
 sensordisplay = "neopixel"
@@ -634,7 +701,6 @@ root.config(menu=menubar)
 
 threading.Thread(target=caseSensitive, daemon=True).start()
 #caseSensitive()
-showPlaytime()
-showratings()
-listInsert(fillList(game_names))
+showgraph(30)
+#listInsert(sort_json(data_location, 'name'))
 root.mainloop()
