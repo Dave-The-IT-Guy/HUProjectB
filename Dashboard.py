@@ -16,6 +16,8 @@ import time
 from tkinter import tix
 from tkinter.constants import *
 from PIL import ImageTk,Image
+import requests
+import pandas as pd
 
 
 
@@ -57,64 +59,232 @@ def listInsert(list):
     for item in list:
         gameslist.insert(END, item)
 
-def json_to_dict():
-    #Open de json file en zet alle in een dictonairy
-    with open('steam.json') as json_file:
-        steamdata = json.load(json_file)
-    return steamdata
+###############################################################
+###############SINDS GEBRUIK API NIET MEER NODIG###############
+###############################################################
+#def json_to_dict(location):
+#    #Open de json file en zet alle in een dictonairy
+#    with open(location) as json_file:
+#        steamdata = json.load(json_file)
+#    return steamdata
+#
+#def select(dict, selection):
+#    # Maak een lege lijst aan voor de namen
+#    result = []
+#    # Loop door de dictionaries in de lijst
+#    for i in dict:
+#        # Haal de waarde van de name key uit de dict
+#        i = i[selection]
+#        # Maak er een string van
+#        i = str(i)
+#        # Haal met regex de meeste speciale karakters eruit
+#        i = re.sub('[^A-Za-z0-9$()\&\+\'\:\w\-\s\.]+', '', i)  # [^A-Za-z0-9]
+#
+#        # Haal alle onnodige spaties weg
+#        i = " ".join(i.split())
+#        # Haal wat extra rotzooi uit de string
+#        (i).replace('()', '')
+#        i.strip()
+#
+#        # Als een string met ' begint en eindigd verwijder deze dan
+#        if i.startswith('\'') == True and i.endswith('\'') == True:
+#            i = i[1:(len(i) - 1)]
+#
+#        ## Onderstaande code Werkt nog niet helemaal. De laatste conditie moet aangepast worden anders worden bij sommige titles de naam aangepast terwijl dat niet de bedoeling is...
+#        #if i.startswith('(') == True and i.endswith(')') == True and i.count('(') < 2:
+#        #    i = i[1:(len(i) - 1)]
+#
+#        # Als de string niet false is voeg hem toe aan de lijst (strings kunnen false zijn als ze bijv. leeg zijn)
+#        if i:
+#            result.append(i)
+#    return result
 
 
-def clean():
-    steamdata = json_to_dict()
-    # Maak een lege lijst aan voor de namen
-    names = []
-    # Loop door de dictionaries in de lijst
-    for i in steamdata:
-        # Haal de waarde van de name key uit de dict
-        i = i['name']
-        # Maak er een string van
-        i = str(i)
-        # Haal met regex de meeste speciale karakters eruit
-        i = re.sub(r'\W+', '', i)  # [^A-Za-z0-9]
-        # Als de string niet false is voeg hem toe aan de lijst (strings kunnen false zijn als ze bijv. leeg zijn)
-        if i:
-            names.append(i)
-    return names
+#Source: https://www.geeksforgeeks.org/merge-sort/
+def sort(lst):
 
-def sort():
-    pass
+    if len(lst) > 1:
+
+        # Vind het midden van de lijst
+        center = len(lst) // 2
+
+        # Bepaal de linkerkant van de lijst
+        left = lst[:center]
+
+        # Bepaal de rechterkant van de lijst
+        right = lst[center:]
+
+        # Sorteerd de eerste helft van de lijst
+        sort(left)
+
+        # Sorteerd de tweede helft van de lijst
+        sort(right)
+
+        # Variabelen die gebruit worden om te tellen
+        i = j = k = 0
+
+        # Kopieeert de data in 2 tijdelijke lijsten
+        while i < len(left) and j < len(right):
+            if left[i] < right[j]:
+                lst[k] = left[i]
+                i += 1
+            else:
+                lst[k] = right[j]
+                j += 1
+            k += 1
+
+        # Checkt voor overgebleven elementen als die er zijn (links)
+        while i < len(left):
+            lst[k] = left[i]
+            i += 1
+            k += 1
+
+        # Checkt voor overgebleven elementen als die er zijn (rechts)
+        while j < len(right):
+            lst[k] = right[j]
+            j += 1
+            k += 1
+    return lst
+
+###############################################################
+###############SINDS GEBRUIK API NIET MEER NODIG###############
+###############################################################
+#def sort_json(location, sort_by):
+#    # Maak van de json een dict
+#    dict = json_to_dict(location)
+#
+#    # Maakt een lijst van alle data die bij de gekozen sleutel hoort
+#    lst = select(dict, sort_by)
+#
+#    # Returnt een gesorteerde variant van de lijst
+#    return sort(lst)
+
+###############################################################################################################################################################
+#####################################################VAN DE AI BRANCH#########################################################################################
+###############################################################################################################################################################
+
+def get_request(url, parameters=None):
+
+    try:
+        response = requests.get(url=url, params=parameters)
+    except:
+        time.sleep(2)
+        # recusively try again
+        return get_request(url, parameters)
+
+    if response:
+        return response.json()
+    else:
+        # response is none usually means too many requests. Wait and try again
+        time.sleep(2)
+        return get_request(url, parameters)
+
+
+
+
+def collectInfo(**kwargs):
+
+    game = kwargs.get('gameID', None)
+
+    if game == None or game == "all":
+        url = "https://steamspy.com/api.php?request=all"
+    else:
+        url = "https://steamspy.com/api.php?request=appdetails&appid=" + str(game)
+
+    # request 'all' from steam spy and parse into dataframe
+    json_data = get_request(url)
+
+    if game == None or game == "all":
+        json_data = pd.DataFrame.from_dict(json_data, orient='index')
+
+    return (json_data)
+
+
+def showgraph(appID):
+    ##TODO: remove old diagram when new one is placed
+    # Pie chart, where the slices will be ordered and plotted counter-clockwise:
+    labels = 'Positive', 'Negative'
+
+    app = collectInfo(gameID = appID)
+
+    positive = app['positive']
+    negative = app['negative']
+
+
+    sizes = [positive, negative]
+    explode = (0, 0.1)
+
+    fig1, ax1 = plt.subplots(figsize=(4, 4))
+    ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.0f%%', shadow=True, startangle=45)
+    ax1.axis('equal')
+
+    canvas = FigureCanvasTkAgg(fig1, master=ntbk_frame2)#leftframe1?
+    canvas.draw()
+    toolbar = NavigationToolbar2Tk(canvas, ntbk_frame2)#leftframe1?
+    toolbar.update()
+
+    canvas.get_tk_widget().pack()
+
+###############################################################################################################################################################
+###############################################################################################################################################################
+###############################################################################################################################################################
+
+def showPlaytime():
+    t = [1, 2, 3, 4, 5, 6]
+    s = [1, 2, 3, 4, 5, 6]
+    fig, ax = plt.subplots(facecolor="#042430")
+    # fig.set_size_inches(2.5, 2.5)
+    ax.set_facecolor('#0B3545')
+    ax.set_title('playtime', color='white')
+    ax.set_xlabel('time (s)', color='white')
+    ax.set_ylabel('playtime', color='white')
+    ax.plot(t, s, 'xkcd:red')
+    ax.plot(t, s, color='white', linestyle='--')
+    ax.tick_params(labelcolor='white')
+
+
+    canvas1 = FigureCanvasTkAgg(fig, master=ntbk_frame1,)
+    canvas1.draw()
+
+
+    toolbar = NavigationToolbar2Tk(canvas1, ntbk_frame1)
+    toolbar.update()
+
+    canvas1.get_tk_widget().pack()
+
+
+def fillList(fill_with):
+    games = collectInfo()
+    list = games[fill_with].to_list()
+    return list
 
 def getDetails(i):
     selected = gameslist.get(gameslist.curselection()) # get the current selection in the listbox
     details.config(state=NORMAL) # set state to normal so that changes can be made to the textbox
     details.delete('1.0', END) #clear whatevers currently in the textbox
 
-    sorted_dict = sorted(json_to_dict(), key=lambda k: k['name'])   # sort list of dicts
-    start = 0  # yes im going to try and implement a  binary search and im in hell
-    end = len(sorted_dict) - 1
-    while start <= end:
-        middle = (start + end)// 2
-        game = sorted_dict[middle]
-        if game["name"] > selected:
-            end = middle - 1
-        elif game["name"] < selected:
-            start = middle + 1
-        else:
-            details.insert(END, f'{game["name"]}\n'  # insert all the details into the textbox
+    #sorted_dict = sorted(json_to_dict(), key=lambda k: k['name'])   # sort list of dicts
+    data = collectInfo()
+    row = data[data['name'] == selected]
+    appid_info = row["appid"]
+    appid = int(appid_info[0])
+    game = collectInfo(gameID = appid)
+
+    details.insert(END,         f'{game["name"]}\n'  # insert all the details into the textbox
                                 '_____________________________\n'  # this ones just for looks
-                                f'release date:{game["release_date"]}\n'
                                 f'developer: {game["developer"]}\n'
                                 f'price: {game["price"]}\n'
-                                f'genres: {game["genres"]}\n'
-                                f'platforms: {game["platforms"]}\n'
-                                f'positive ratings: {game["positive_ratings"]}\n '
-                                f'negative ratings: {game["negative_ratings"]}\n'
-                                f'average playtime: {game["average_playtime"]} hours\n'
+                                f'positive ratings: {game["positive"]}\n'
+                                f'negative ratings: {game["negative"]}\n'
+                                f'average playtime: {game["average_forever"]} minutes\n'
                                 f'owners: {game["owners"]} copies\n')
+    details.config(state=DISABLED)  # set it back to disabled to the user cant write 'penis' in the textbox
 
-            details.config(state=DISABLED)  # set it back to disabled to the user cant write 'penis' in the textbox
-            return None  #python gets mad at me if i dont return anything and i dont know why
+    showgraph(game['appid'])
+
+    return None  #python gets mad at me if i dont return anything and i dont know why
     # place i got the code from: https://stackoverflow.com/questions/34327244/binary-search-through-strings
+
 
 def openSortAndFilterWindow():
     # --sort window
@@ -322,47 +492,6 @@ def sortByDate():
     current_sort = "date"
 
 
-
-def showPlaytime():
-    t = [1, 2, 3, 4, 5, 6]
-    s = [1, 2, 3, 4, 5, 6]
-    fig, ax = plt.subplots(facecolor="#042430")
-    # fig.set_size_inches(2.5, 2.5)
-    ax.set_facecolor('#0B3545')
-    ax.set_title('playtime', color='white')
-    ax.set_xlabel('time (s)', color='white')
-    ax.set_ylabel('playtime', color='white')
-    ax.plot(t, s, 'xkcd:red')
-    ax.plot(t, s, color='white', linestyle='--')
-    ax.tick_params(labelcolor='white')
-
-
-    canvas1 = FigureCanvasTkAgg(fig, master=ntbk_frame1,)
-    canvas1.draw()
-
-
-    toolbar = NavigationToolbar2Tk(canvas1, ntbk_frame1)
-    toolbar.update()
-
-    canvas1.get_tk_widget().pack()
-
-
-
-def showratings():
-    # ---
-    labels = 'Frogs', 'Hogs', 'Dogs', 'Logs'
-    sizes = [15, 30, 45, 10]
-    explode = (0, 0, 0, 0)  # only "explode" the 2nd slice (i.e. 'Hogs')
-
-    fig1, ax1 = plt.subplots()
-    fig1.set_size_inches(6.0, 5.0)
-    ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
-            shadow=True, startangle=90)
-    ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-    canvas2 = FigureCanvasTkAgg(fig1, master=ntbk_frame2, )
-    canvas2.draw()
-
-    canvas2.get_tk_widget().pack()
 state = 0
 def neopixelChange(i):
     global state
@@ -471,11 +600,6 @@ def onExit():
     root.destroy()
     threading.Thread(target = rem.shutdown())
     exit()
-
-def fillList(list):
-    for game in json_to_dict():
-        list.append(game["name"])
-    return list
 
 def fromRGB(rgb):
     """translates an rgb tuple of int to a tkinter friendly color code
@@ -635,6 +759,6 @@ root.config(menu=menubar)
 threading.Thread(target=caseSensitive, daemon=True).start()
 #caseSensitive()
 showPlaytime()
-showratings()
-listInsert(fillList(game_names))
+#showratings()
+listInsert(fillList('name'))
 root.mainloop()

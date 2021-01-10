@@ -59,42 +59,45 @@ def listInsert(list):
     for item in list:
         gameslist.insert(END, item)
 
-def json_to_dict(location):
-    #Open de json file en zet alle in een dictonairy
-    with open(location) as json_file:
-        steamdata = json.load(json_file)
-    return steamdata
-
-def select(dict, selection):
-    # Maak een lege lijst aan voor de namen
-    result = []
-    # Loop door de dictionaries in de lijst
-    for i in dict:
-        # Haal de waarde van de name key uit de dict
-        i = i[selection]
-        # Maak er een string van
-        i = str(i)
-        # Haal met regex de meeste speciale karakters eruit
-        i = re.sub('[^A-Za-z0-9$()\&\+\'\:\w\-\s\.]+', '', i)  # [^A-Za-z0-9]
-
-        # Haal alle onnodige spaties weg
-        i = " ".join(i.split())
-        # Haal wat extra rotzooi uit de string
-        (i).replace('()', '')
-        i.strip()
-
-        # Als een string met ' begint en eindigd verwijder deze dan
-        if i.startswith('\'') == True and i.endswith('\'') == True:
-            i = i[1:(len(i) - 1)]
-
-        ## Onderstaande code Werkt nog niet helemaal. De laatste conditie moet aangepast worden anders worden bij sommige titles de naam aangepast terwijl dat niet de bedoeling is...
-        #if i.startswith('(') == True and i.endswith(')') == True and i.count('(') < 2:
-        #    i = i[1:(len(i) - 1)]
-
-        # Als de string niet false is voeg hem toe aan de lijst (strings kunnen false zijn als ze bijv. leeg zijn)
-        if i:
-            result.append(i)
-    return result
+###############################################################
+###############SINDS GEBRUIK API NIET MEER NODIG###############
+###############################################################
+#def json_to_dict(location):
+#    #Open de json file en zet alle in een dictonairy
+#    with open(location) as json_file:
+#        steamdata = json.load(json_file)
+#    return steamdata
+#
+#def select(dict, selection):
+#    # Maak een lege lijst aan voor de namen
+#    result = []
+#    # Loop door de dictionaries in de lijst
+#    for i in dict:
+#        # Haal de waarde van de name key uit de dict
+#        i = i[selection]
+#        # Maak er een string van
+#        i = str(i)
+#        # Haal met regex de meeste speciale karakters eruit
+#        i = re.sub('[^A-Za-z0-9$()\&\+\'\:\w\-\s\.]+', '', i)  # [^A-Za-z0-9]
+#
+#        # Haal alle onnodige spaties weg
+#        i = " ".join(i.split())
+#        # Haal wat extra rotzooi uit de string
+#        (i).replace('()', '')
+#        i.strip()
+#
+#        # Als een string met ' begint en eindigd verwijder deze dan
+#        if i.startswith('\'') == True and i.endswith('\'') == True:
+#            i = i[1:(len(i) - 1)]
+#
+#        ## Onderstaande code Werkt nog niet helemaal. De laatste conditie moet aangepast worden anders worden bij sommige titles de naam aangepast terwijl dat niet de bedoeling is...
+#        #if i.startswith('(') == True and i.endswith(')') == True and i.count('(') < 2:
+#        #    i = i[1:(len(i) - 1)]
+#
+#        # Als de string niet false is voeg hem toe aan de lijst (strings kunnen false zijn als ze bijv. leeg zijn)
+#        if i:
+#            result.append(i)
+#    return result
 
 #Source: https://www.geeksforgeeks.org/merge-sort/
 def sort(lst):
