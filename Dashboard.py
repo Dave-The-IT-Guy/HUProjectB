@@ -456,9 +456,12 @@ def filterByPlatforms(i):
 def search(a):
     query = searchbar.get() #get contents of searchbar
 
+    sortedgames = fillList('name')
+
     gameslist.delete(0, END)  # clear listbox
     if query == "":#if searchbar is empty, insert entire list
         listInsert(sortedgames)
+        return
 
     if case_sensitive == True:
         for game in sortedgames:
@@ -808,8 +811,7 @@ canvas.get_tk_widget().pack()
 ##################################################################################################
 
 
-threading.Thread(target=caseSensitive, daemon=True).start()
-#caseSensitive()
+caseSensitive()
 showPlaytime()
 #showratings()
 listInsert(fillList('name'))

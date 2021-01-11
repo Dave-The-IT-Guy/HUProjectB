@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/HUProjectB.iml" filepath="$PROJECT_DIR$/.idea/HUProjectB.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../v1oict-ti/.idea/v1oict-ti.iml" filepath="$PROJECT_DIR$/../v1oict-ti/.idea/v1oict-ti.iml" />
     </modules>
   </component>
 </project>
