@@ -33,6 +33,8 @@ global sensordisplay
 sensordisplay = "neopixel"
 #Voor de verbinding met de server
 con = "PYRO:steam.functions@192.168.192.24:9090"
+#Locatie van steam.json voor als de API niet werkt
+data_location = "steam.json"
 
 # -- to do
 # make graph blue
@@ -62,43 +64,44 @@ def listInsert(list):
 ###############################################################
 ###############SINDS GEBRUIK API NIET MEER NODIG###############
 ###############################################################
-#def json_to_dict(location):
-#    #Open de json file en zet alle in een dictonairy
-#    with open(location) as json_file:
-#        steamdata = json.load(json_file)
-#    return steamdata
-#
-#def select(dict, selection):
-#    # Maak een lege lijst aan voor de namen
-#    result = []
-#    # Loop door de dictionaries in de lijst
-#    for i in dict:
-#        # Haal de waarde van de name key uit de dict
-#        i = i[selection]
-#        # Maak er een string van
-#        i = str(i)
-#        # Haal met regex de meeste speciale karakters eruit
-#        i = re.sub('[^A-Za-z0-9$()\&\+\'\:\w\-\s\.]+', '', i)  # [^A-Za-z0-9]
-#
-#        # Haal alle onnodige spaties weg
-#        i = " ".join(i.split())
-#        # Haal wat extra rotzooi uit de string
-#        (i).replace('()', '')
-#        i.strip()
-#
-#        # Als een string met ' begint en eindigd verwijder deze dan
-#        if i.startswith('\'') == True and i.endswith('\'') == True:
-#            i = i[1:(len(i) - 1)]
-#
-#        ## Onderstaande code Werkt nog niet helemaal. De laatste conditie moet aangepast worden anders worden bij sommige titles de naam aangepast terwijl dat niet de bedoeling is...
-#        #if i.startswith('(') == True and i.endswith(')') == True and i.count('(') < 2:
-#        #    i = i[1:(len(i) - 1)]
-#
-#        # Als de string niet false is voeg hem toe aan de lijst (strings kunnen false zijn als ze bijv. leeg zijn)
-#        if i:
-#            result.append(i)
-#    return result
+def json_to_dict(location):
+    #Open de json file en zet alles in een dictonairy
+    with open(location) as json_file:
+        steamdata = json.load(json_file)
+    return steamdata
 
+def select(dict, selection):
+    # Maak een lege lijst aan voor de namen
+    result = []
+    # Loop door de dictionaries in de lijst
+    for i in dict:
+        # Haal de waarde van de name key uit de dict
+        i = i[selection]
+        # Maak er een string van
+        i = str(i)
+        # Haal met regex de meeste speciale karakters eruit
+        i = re.sub('[^A-Za-z0-9$()\&\+\'\:\w\-\s\.]+', '', i)  # [^A-Za-z0-9]
+
+        # Haal alle onnodige spaties weg
+        i = " ".join(i.split())
+        # Haal wat extra rotzooi uit de string
+        (i).replace('()', '')
+        i.strip()
+
+        # Als een string met ' begint en eindigd verwijder deze dan
+        if i.startswith('\'') == True and i.endswith('\'') == True:
+            i = i[1:(len(i) - 1)]
+
+        ## Onderstaande code Werkt nog niet helemaal. De laatste conditie moet aangepast worden anders worden bij sommige titles de naam aangepast terwijl dat niet de bedoeling is...
+        #if i.startswith('(') == True and i.endswith(')') == True and i.count('(') < 2:
+        #    i = i[1:(len(i) - 1)]
+
+        # Als de string niet false is voeg hem toe aan de lijst (strings kunnen false zijn als ze bijv. leeg zijn)
+        if i:
+            result.append(i)
+    return result
+
+###############################################################################################################################################################
 
 #Source: https://www.geeksforgeeks.org/merge-sort/
 def sort(lst):
@@ -149,18 +152,16 @@ def sort(lst):
 ###############################################################
 ###############SINDS GEBRUIK API NIET MEER NODIG###############
 ###############################################################
-#def sort_json(location, sort_by):
-#    # Maak van de json een dict
-#    dict = json_to_dict(location)
-#
-#    # Maakt een lijst van alle data die bij de gekozen sleutel hoort
-#    lst = select(dict, sort_by)
-#
-#    # Returnt een gesorteerde variant van de lijst
-#    return sort(lst)
+def sort_json(location, sort_by):
+    # Maak van de json een dict
+    dict = json_to_dict(location)
 
-###############################################################################################################################################################
-#####################################################VAN DE AI BRANCH#########################################################################################
+    # Maakt een lijst van alle data die bij de gekozen sleutel hoort
+    lst = select(dict, sort_by)
+
+    # Returnt een gesorteerde variant van de lijst
+    return sort(lst)
+
 ###############################################################################################################################################################
 
 def get_request(url, parameters=None):
@@ -178,8 +179,6 @@ def get_request(url, parameters=None):
         # response is none usually means too many requests. Wait and try again
         time.sleep(2)
         return get_request(url, parameters)
-
-
 
 
 def collectInfo(**kwargs):
@@ -200,30 +199,22 @@ def collectInfo(**kwargs):
     return (json_data)
 
 
-def showgraph(appID):
+def showgraph(appID, *rating):
     ##TODO: remove old diagram when new one is placed
-    # Pie chart, where the slices will be ordered and plotted counter-clockwise:
-    labels = 'Positive', 'Negative'
 
-    app = collectInfo(gameID = appID)
+    if appID != 0:
+        app = collectInfo(gameID = appID)
 
-    positive = app['positive']
-    negative = app['negative']
+        positive = app['positive']
+        negative = app['negative']
+        sizes = [positive, negative]
+    #Als de api niet werkt kan er op deze manier toch een grafiek getoont worden
+    else:
+        sizes = rating[0]
 
-
-    sizes = [positive, negative]
-    explode = (0, 0.1)
-
-    fig1, ax1 = plt.subplots(figsize=(4, 4))
-    ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.0f%%', shadow=True, startangle=45)
-    ax1.axis('equal')
-
-    canvas = FigureCanvasTkAgg(fig1, master=ntbk_frame2)#leftframe1?
-    canvas.draw()
-    toolbar = NavigationToolbar2Tk(canvas, ntbk_frame2)#leftframe1?
-    toolbar.update()
-
-    canvas.get_tk_widget().pack()
+    ax1.clear()
+    ax1.pie(sizes, explode=[0.1, 0], labels=["Positief", "Negatief"], autopct='%1.0f%%', shadow=True, startangle=45)
+    fig1.canvas.draw_idle()
 
 ###############################################################################################################################################################
 ###############################################################################################################################################################
@@ -242,10 +233,8 @@ def showPlaytime():
     ax.plot(t, s, color='white', linestyle='--')
     ax.tick_params(labelcolor='white')
 
-
     canvas1 = FigureCanvasTkAgg(fig, master=ntbk_frame1,)
     canvas1.draw()
-
 
     toolbar = NavigationToolbar2Tk(canvas1, ntbk_frame1)
     toolbar.update()
@@ -254,8 +243,13 @@ def showPlaytime():
 
 
 def fillList(fill_with):
-    games = collectInfo()
-    list = games[fill_with].to_list()
+    try:
+        games = collectInfo()
+        list = games[fill_with].to_list()
+    except:
+        list = []
+        for game in json_to_dict(data_location):
+            list.append(game[fill_with])
     return list
 
 def getDetails(i):
@@ -263,24 +257,60 @@ def getDetails(i):
     details.config(state=NORMAL) # set state to normal so that changes can be made to the textbox
     details.delete('1.0', END) #clear whatevers currently in the textbox
 
-    #sorted_dict = sorted(json_to_dict(), key=lambda k: k['name'])   # sort list of dicts
-    data = collectInfo()
-    row = data[data['name'] == selected]
-    appid_info = row["appid"]
-    appid = int(appid_info[0])
-    game = collectInfo(gameID = appid)
+    try:
+        data = collectInfo()
+        row = data[data['name'] == selected]
+        appid_info = row["appid"]
+        appid = int(appid_info[0])
 
-    details.insert(END,         f'{game["name"]}\n'  # insert all the details into the textbox
-                                '_____________________________\n'  # this ones just for looks
-                                f'developer: {game["developer"]}\n'
-                                f'price: {game["price"]}\n'
-                                f'positive ratings: {game["positive"]}\n'
-                                f'negative ratings: {game["negative"]}\n'
-                                f'average playtime: {game["average_forever"]} minutes\n'
-                                f'owners: {game["owners"]} copies\n')
+        #Als de API het niet doet gaat hij om een of andere reden niet naar de except. Vandaar dit
+        try:
+            game = collectInfo(gameID = appid)
+        except:
+            pass
+
+        details.insert(END, f'{game["name"]}\n'  # insert all the details into the textbox
+                            f'_____________________________\n'  # this ones just for looks
+                            f'developer: {game["developer"]}\n'
+                            f'price: {game["price"]}\n'
+                            f'positive ratings: {game["positive"]}\n'
+                            f'negative ratings: {game["negative"]}\n'
+                            f'average playtime: {game["average_forever"]} minutes\n'
+                            f'owners: {game["owners"]} copies\n')
+        showgraph(game['appid'])
+    #Zodat de games weergegeven kunnen worden als de API niet werkt
+    except:
+        sorted_dict = sorted(json_to_dict(data_location), key=lambda k: k['name'])  # sort list of dicts
+
+        start = 0  # yes im going to try and implement a  binary search and im in hell
+        end = len(sorted_dict) - 1
+        while True:
+            middle = (start + end) // 2
+            game = sorted_dict[middle]
+            if game["name"] > selected:
+                end = middle - 1
+            elif game["name"] < selected:
+                start = middle + 1
+            else:
+                details.insert(END, f'_____________________________\n'  # this ones just for looks
+                                    f'Recente informatie kan niet opgehaald worden. Deze informatie is mogelijk verouderd.\n'
+                                    f'_____________________________\n'  # this ones just for looks
+                                    f'{game["name"]}\n'  # insert all the details into the textbox
+                                    f'_____________________________\n'  # this ones just for looks
+                                    f'release date:{game["release_date"]}\n'
+                                    f'developer: {game["developer"]}\n'
+                                    f'price: {game["price"]}\n'
+                                    f'genres: {game["genres"]}\n'
+                                    f'platforms: {game["platforms"]}\n'
+                                    f'positive ratings: {game["positive_ratings"]}\n'
+                                    f'negative ratings: {game["negative_ratings"]}\n'
+                                    f'average playtime: {game["average_playtime"]} hours\n'
+                                    f'owners: {game["owners"]} copies\n')
+                break
+        showgraph(0, [game["positive_ratings"], game["negative_ratings"]])
     details.config(state=DISABLED)  # set it back to disabled to the user cant write 'penis' in the textbox
 
-    showgraph(game['appid'])
+
 
     return None  #python gets mad at me if i dont return anything and i dont know why
     # place i got the code from: https://stackoverflow.com/questions/34327244/binary-search-through-strings
@@ -303,7 +333,7 @@ def openSortAndFilterWindow():
     sort_optionmenu = OptionMenu(settingswindow, current_sort, *sorting_options, command=sortby)
     sort_optionmenu.config(bg="#042430",fg="white",
                            activebackground='#092F3E',
-                            activeforeground='white',
+                           activeforeground='white',
                            borderwidth=0,
                            highlightthickness = 0)
     sort_optionmenu["menu"].config(bg="#042430",fg="white", activebackground="#0b3a4d")
@@ -316,7 +346,7 @@ def openSortAndFilterWindow():
     filter_optionmenu = OptionMenu(settingswindow, current_filter, *filter_options, command=filterBy)#filteroptions
     filter_optionmenu.config(bg="#042430",fg="white",
                            activebackground='#092F3E',
-                            activeforeground='white',
+                           activeforeground='white',
                            borderwidth=0,
                            highlightthickness = 0)
     filter_optionmenu["menu"].config(bg="#042430",fg="white", activebackground="#0b3a4d")
@@ -330,7 +360,7 @@ def openSortAndFilterWindow():
     genre_optionmenu = OptionMenu(settingswindow, current_genre, *genrefilter_options, command=filterByGenre)
     genre_optionmenu.config(bg="#042430",fg="white",
                            activebackground='#092F3E',
-                            activeforeground='white',
+                           activeforeground='white',
                            borderwidth=0,
                            highlightthickness = 0)
     genre_optionmenu["menu"].config(bg="#042430",fg="white", activebackground="#0b3a4d")
@@ -343,7 +373,7 @@ def openSortAndFilterWindow():
     platform_optionmenu = OptionMenu(settingswindow, current_platform, *platformfilter_options, command=filterByPlatforms)
     platform_optionmenu.config(bg="#042430",fg="white",
                            activebackground='#092F3E',
-                            activeforeground='white',
+                           activeforeground='white',
                            borderwidth=0,
                            highlightthickness = 0)
     platform_optionmenu["menu"].config(bg="#042430",fg="white", activebackground="#0b3a4d")
@@ -379,7 +409,6 @@ def filterBy(i):  # same as search but like. different
     genre_optionmenu.grid_forget()
     pricefilterframe.grid_forget()
 
-
     if selection == "no filter":
         listInsert(sortedgames)
 
@@ -403,6 +432,7 @@ def filterByGenre(i):
             if selection in game["genres"]:
                 gameslist.insert("end", game["name"])
 
+
 def filterByPrice():
     selectionfrom = float(pricefrom.get())
     selectionto = float(priceto.get())
@@ -421,8 +451,6 @@ def filterByPlatforms(i):
         for game in json_to_dict():
             if selection in game["platforms"]:
                 gameslist.insert("end", game["name"])
-
-
 
 
 def search(a):
@@ -444,6 +472,7 @@ def search(a):
 
                   #     for loop in binary search
 
+
 def caseSensitive():
     global case_sensitive
     if case_sensitive == True:
@@ -451,6 +480,7 @@ def caseSensitive():
 
     elif case_sensitive == False:
         case_sensitive = True
+
 
 def sortby(i):
     global current_sort
@@ -464,10 +494,12 @@ def sortby(i):
     else:
         sortByNone()
 
+
 def sortByNone():
     gameslist.delete(0, END)
     listInsert(game_names)
     current_sort_label.config(text=f"sorted by: not sorted")
+
 
 def sortByName():
     gameslist.delete(0, END)
@@ -476,12 +508,14 @@ def sortByName():
     listInsert(sortedgames)#and put it in the listbox
     current_sort_label.config(text=f"sorted by: name")
 
+
 def sortByPrice():
     gameslist.delete(0, END)
     global sortedgames
     sortedgames = sort("2")
     listInsert(sortedgames)
     current_sort_label.config(text=f"sorted by: price")
+
 
 def sortByDate():
     gameslist.delete(0, END)
@@ -563,6 +597,7 @@ def neopixelChange(i):
         except:
             time.sleep(2)
 
+
 def send_wave():
     rem = Pyro5.api.Proxy(con)
     TI_wavebutton.config(state=DISABLED)
@@ -575,6 +610,7 @@ def send_wave():
     finally:
         TI_wavebutton.config(state="normal")
         TI_wavebutton.update()
+
 
 def thread_send_wave():
     threading.Thread(target=send_wave, daemon=True).start()
@@ -592,8 +628,10 @@ def send_beep():
     finally:
         TI_soundbutton.config(state=NORMAL)
 
+
 def thread_send_beep():
     threading.Thread(target=send_beep, daemon=True).start()
+
 
 def onExit():
     rem = Pyro5.api.Proxy(con)
@@ -601,11 +639,13 @@ def onExit():
     threading.Thread(target = rem.shutdown())
     exit()
 
+
 def fromRGB(rgb):
     """translates an rgb tuple of int to a tkinter friendly color code
     """
     # bron: https://stackoverflow.com/a/51592104
     return "#%02x%02x%02x" % rgb
+
 
 def changeButtonColor(color):
       # De rgb kleuren
@@ -708,7 +748,7 @@ TI_neopixel_options["menu"].config(bg="#042430", fg="white", activebackground="#
 print(f"menu parameters{TI_neopixel_options.config()}")
 TI_neopixel_options.config(bg="#042430",fg="white",
                            activebackground='#092F3E',
-                            activeforeground='white',
+                           activeforeground='white',
                            borderwidth=0,
                            highlightthickness = 0)
 tooltip_balloon.bind_widget(TI_neopixel_options, balloonmsg="colors and effects with your ledstrip")
@@ -753,7 +793,19 @@ helpmenu.add_command(label="Readme", command=openReadme)
 root.config(menu=menubar)
 
 
+##################################################################################################
+fig1, ax1 = plt.subplots(figsize=(4, 4))
+ax1.pie([1, 0], explode=[0.1, 0], labels=["Positief", "Negatief"], autopct='%1.0f%%', shadow=True, startangle=45)
+ax1.axis('equal')
 
+canvas = FigureCanvasTkAgg(fig1, master=ntbk_frame2)#leftframe1?
+canvas.draw()
+
+toolbar = NavigationToolbar2Tk(canvas, ntbk_frame2)#leftframe1?
+toolbar.update()
+
+canvas.get_tk_widget().pack()
+##################################################################################################
 
 
 threading.Thread(target=caseSensitive, daemon=True).start()
