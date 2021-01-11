@@ -92,10 +92,6 @@ def select(dict, selection):
         if i.startswith('\'') == True and i.endswith('\'') == True:
             i = i[1:(len(i) - 1)]
 
-        ## Onderstaande code Werkt nog niet helemaal. De laatste conditie moet aangepast worden anders worden bij sommige titles de naam aangepast terwijl dat niet de bedoeling is...
-        #if i.startswith('(') == True and i.endswith(')') == True and i.count('(') < 2:
-        #    i = i[1:(len(i) - 1)]
-
         # Als de string niet false is voeg hem toe aan de lijst (strings kunnen false zijn als ze bijv. leeg zijn)
         if i:
             result.append(i)
