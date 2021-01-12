@@ -98,7 +98,7 @@ def neo(color):
             counter = 0
         counter += 1
     for x in range(0, 8):
-        neo_send_bytes([[1, 1, 1, 1, 1, 1, 1, 1], blue, green, red])
+        neo_send_bytes([[1, 1, 1, 0, 0, 0, 0, 1], blue, green, red])
 
     # Stuur het eindpakket
     neo_send_bytes([[1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1]])

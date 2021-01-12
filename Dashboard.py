@@ -196,8 +196,6 @@ def collectInfo(**kwargs):
 
 
 def showgraph(appID, *rating):
-    ##TODO: remove old diagram when new one is placed
-
     if appID != 0:
         app = collectInfo(gameID = appID)
 
@@ -402,51 +400,58 @@ def filterBy(i):  # same as search but like. different
     selection = current_filter.get()
 
     pricefilterframe.grid_forget()
-    genre_optionmenu.grid_forget()
-    pricefilterframe.grid_forget()
+    #genre_optionmenu.grid_forget()
+    #pricefilterframe.grid_forget()
 
     if selection == "no filter":
         listInsert(sortedgames)
 
-    if selection == "genre":
-        genre_optionmenu.grid(row=0, column=2, pady=10, padx=10)
+    #if selection == "genre":
+    #    genre_optionmenu.grid(row=0, column=2, pady=10, padx=10)
 
-    if selection == "platform":
-        platform_optionmenu.grid(row=0, column=2, pady=10, padx=10)
+    #elif selection == "platform":
+    #    platform_optionmenu.grid(row=0, column=2, pady=10, padx=10)
 
-    if selection == "price":
+    elif selection == "price":
         pricefilterframe.grid(row=0, column=2, pady=10, padx=10)
 
 
-def filterByGenre(i):
-    selection = current_genre.get()
-    gameslist.delete(0, END)
-    if selection == "pick a genre":
-       listInsert(sortedgames)
-    else:
-        for game in json_to_dict(): #looks at selection and compares it to every game[genres]
-            if selection in game["genres"]:
-                gameslist.insert("end", game["name"])
+#def filterByGenre(i):
+#    selection = current_genre.get()
+#    gameslist.delete(0, END)
+#    if selection == "pick a genre":
+#       listInsert(sortedgames)
+#    else:
+#        for game in json_to_dict(): #looks at selection and compares it to every game[genres]
+#            if selection in game["genres"]:
+#                gameslist.insert("end", game["name"])
 
 
 def filterByPrice():
-    selectionfrom = float(pricefrom.get())
-    selectionto = float(priceto.get())
     gameslist.delete(0, END)
-    for game in json_to_dict():
-        if selectionfrom <= game["price"] <= selectionto:
-            gameslist.insert("end", game["name"])
+    min_price = float(pricefrom.get())
+    max_price = float(priceto.get())
+
+    print(min_price, max_price)
 
 
-def filterByPlatforms(i):
-    gameslist.delete(0, END)
-    selection = current_platform.get()
-    if selection == "pick a platform":
-        listInsert(sortedgames)
-    else:
-        for game in json_to_dict():
-            if selection in game["platforms"]:
-                gameslist.insert("end", game["name"])
+    #selectionfrom = float(pricefrom.get())
+    #selectionto = float(priceto.get())
+    #gameslist.delete(0, END)
+    #for game in json_to_dict():
+    #    if selectionfrom <= game["price"] <= selectionto:
+    #        gameslist.insert("end", game["name"])
+
+
+#def filterByPlatforms(i):
+#    gameslist.delete(0, END)
+#    selection = current_platform.get()
+#    if selection == "pick a platform":
+#        listInsert(sortedgames)
+#    else:
+#        for game in json_to_dict():
+#            if selection in game["platforms"]:
+#                gameslist.insert("end", game["name"])
 
 
 def search(a):
@@ -794,13 +799,13 @@ root.config(menu=menubar)
 
 ##################################################################################################
 fig1, ax1 = plt.subplots(figsize=(4, 4))
-ax1.pie([1, 0], explode=[0.1, 0], labels=["Positief", "Negatief"], autopct='%1.0f%%', shadow=True, startangle=45)
+ax1.pie([1, 0], explode=[0.1, 0], labels=["Positive", "Negative"], autopct='%1.0f%%', shadow=True, startangle=45)
 ax1.axis('equal')
 
-canvas = FigureCanvasTkAgg(fig1, master=ntbk_frame2)#leftframe1?
+canvas = FigureCanvasTkAgg(fig1, master=ntbk_frame2)
 canvas.draw()
 
-toolbar = NavigationToolbar2Tk(canvas, ntbk_frame2)#leftframe1?
+toolbar = NavigationToolbar2Tk(canvas, ntbk_frame2)
 toolbar.update()
 
 canvas.get_tk_widget().pack()
