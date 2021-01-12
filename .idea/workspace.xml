@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7aa53e31-68b4-4456-8ba9-91ec7b33b431" name="Default Changelist" comment="Minor changes and bugfixes">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dashboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/Dashboard.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Server PI.py" beforeDir="false" afterPath="$PROJECT_DIR$/Server PI.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -303,14 +301,7 @@
       <workItem from="1610196920555" duration="1268000" />
       <workItem from="1610301187289" duration="7938000" />
       <workItem from="1610353875292" duration="11660000" />
-      <workItem from="1610446396119" duration="13951000" />
-    </task>
-    <task id="LOCAL-00009" summary="Beschrijving van de afstandssensor">
-      <created>1608737868334</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1608737868334</updated>
+      <workItem from="1610446396119" duration="14002000" />
     </task>
     <task id="LOCAL-00010" summary="Werkend schuifregister">
       <created>1608737887360</created>
@@ -648,7 +639,14 @@
       <option name="project" value="LOCAL" />
       <updated>1610375195006</updated>
     </task>
-    <option name="localTasksCounter" value="58" />
+    <task id="LOCAL-00058" summary="Minor changes and bugfixes">
+      <created>1610482399750</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1610482399750</updated>
+    </task>
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
