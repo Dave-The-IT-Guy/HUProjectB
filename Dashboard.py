@@ -324,15 +324,15 @@ def openSortAndFilterWindow():
     global current_sort
     current_sort = StringVar()
     current_sort.set(sorting_options[0])
-    #global sort_optionmenu
-    #sort_optionmenu = OptionMenu(settingswindow, current_sort, *sorting_options, command=sortby)
-    #sort_optionmenu.config(bg="#042430",fg="white",
-    #                       activebackground='#092F3E',
-    #                       activeforeground='white',
-    #                       borderwidth=0,
-    #                       highlightthickness = 0)
-    #sort_optionmenu["menu"].config(bg="#042430",fg="white", activebackground="#0b3a4d")
-    #sort_optionmenu.grid(row=0,column=0, pady=10, padx=10)
+    global sort_optionmenu
+    sort_optionmenu = OptionMenu(settingswindow, current_sort, *sorting_options, command=sortby)
+    sort_optionmenu.config(bg="#042430",fg="white",
+                           activebackground='#092F3E',
+                           activeforeground='white',
+                           borderwidth=0,
+                           highlightthickness = 0)
+    sort_optionmenu["menu"].config(bg="#042430",fg="white", activebackground="#0b3a4d")
+    sort_optionmenu.grid(row=0,column=0, pady=10, padx=10)
 
     filter_options = ('no filter', 'price')#'genre', 'platform',
     global current_filter
@@ -383,10 +383,21 @@ def filterBy(i):  # same as search but like. different
         pricefilterframe.grid(row=0, column=2, pady=10, padx=10)
 
 
-def filterByPrice():
+def filterByPrice(**kwargs):
+
+    sort = kwargs.get('sort', None)
+
+    if sort:
+        current_sort_label.config(text=f"sorted by: price")
+        min_price = -1
+        max_price = 10 ** 999 #Lijkt me sterk dat er een spel ooit zo duur zou zijn
+    else:
+        min_price = float(pricefrom.get())
+        max_price = float(priceto.get())
+        current_sort_label.config(text=f"filterd by: price ${format(min_price, '.2f')} - ${format(max_price, '.2f')}")
+
     gameslist.delete(0, END)
-    min_price = float(pricefrom.get())
-    max_price = float(priceto.get())
+
 
     all_games = collectInfo()
 
@@ -446,7 +457,7 @@ def sortby(i):
     if selection == "name":
         sortByName()
     elif selection == "price":
-        sortByPrice()
+        filterByPrice(sort = True)
 
 
 def sortByName():
@@ -458,19 +469,6 @@ def sortByName():
         gameslist.insert("end", game[1])
 
     current_sort_label.config(text=f"sorted by: name")
-
-    #global games_from_list
-    games_from_list = gameslist.get(0, "end")
-
-
-#def sortByPrice():
-#    gameslist.delete(0, END)
-#    global sortedgames
-#    sortedgames = sort("2")
-#    listInsert(sortedgames)
-#    current_sort_label.config(text=f"sorted by: price")
-#
-#
 
 
 state = 0
