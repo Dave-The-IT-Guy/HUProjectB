@@ -385,12 +385,13 @@ def filterBy(i):  # same as search but like. different
 
 def filterByPrice(**kwargs):
 
-    sort = kwargs.get('sort', None)
+    sorting = kwargs.get('sort', None)
 
-    if sort:
+    if sorting:
         current_sort_label.config(text=f"sorted by: price")
         min_price = -1
         max_price = 10 ** 999 #Lijkt me sterk dat er een spel ooit zo duur zou zijn
+        current_sort_label.config(text=f"sorted by: price")
     else:
         min_price = float(pricefrom.get())
         max_price = float(priceto.get())
@@ -455,20 +456,10 @@ def sortby(i):
     global current_sort
     selection = current_sort.get()
     if selection == "name":
-        sortByName()
+        listInsert(sort(fillList('name')))
+        current_sort_label.config(text=f"sorted by: name")
     elif selection == "price":
         filterByPrice(sort = True)
-
-
-def sortByName():
-    gameslist.delete(0, END)
-
-    games = sort(games_from_list)
-
-    for game in sort(games):
-        gameslist.insert("end", game[1])
-
-    current_sort_label.config(text=f"sorted by: name")
 
 
 state = 0
