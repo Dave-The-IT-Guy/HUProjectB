@@ -1,5 +1,7 @@
 # steam project dashboard - verona kragten
 
+#TODO: Deze regel overal aanpassen sorted_dict = sorted(json_to_dict(data_location), key=lambda k: k['price'])  # sort list of dicts
+
 from tkinter import *
 import webbrowser
 import json
@@ -22,13 +24,10 @@ import pandas as pd
 
 
 # -- globals
-global game_names
-game_names = []
 global case_sensitive
 case_sensitive = True
 global sorting
-global sortedgames
-sortedgames = game_names
+global games_from_list
 global sensordisplay
 sensordisplay = "neopixel"
 #Voor de verbinding met de server
@@ -246,6 +245,7 @@ def fillList(fill_with):
             list.append(game[fill_with])
     return list
 
+
 def getDetails(i):
     selected = gameslist.get(gameslist.curselection()) # get the current selection in the listbox
     details.config(state=NORMAL) # set state to normal so that changes can be made to the textbox
@@ -265,12 +265,13 @@ def getDetails(i):
 
         details.insert(END, f'{game["name"]}\n'  # insert all the details into the textbox
                             f'_____________________________\n'  # this ones just for looks
-                            f'developer: {game["developer"]}\n'
-                            f'price: {game["price"]}\n'
-                            f'positive ratings: {game["positive"]}\n'
-                            f'negative ratings: {game["negative"]}\n'
-                            f'average playtime: {game["average_forever"]} minutes\n'
-                            f'owners: {game["owners"]} copies\n')
+                            f'Developer: {game["developer"]}\n'
+                            f'Price: {float(game["price"]) / 100}\n'
+                            f'Positive ratings: {game["positive"]}\n'
+                            f'Negative ratings: {game["negative"]}\n'
+                            f'Average playtime: {game["average_forever"]} minutes\n'
+                            f'Owners: {game["owners"]} copies\n'
+                            f'Languages: {game["languages"]}')
         showgraph(game['appid'])
     #Zodat de games weergegeven kunnen worden als de API niet werkt
     except:
@@ -287,19 +288,19 @@ def getDetails(i):
                 start = middle + 1
             else:
                 details.insert(END, f'_____________________________\n'  # this ones just for looks
-                                    f'Recente informatie kan niet opgehaald worden. Deze informatie is mogelijk verouderd.\n'
+                                    f'Recent info can\'t be collected. You may look at outdated stats.\n'
                                     f'_____________________________\n'  # this ones just for looks
-                                    f'{game["name"]}\n'  # insert all the details into the textbox
+                                    f'{game["name"]}\n'
                                     f'_____________________________\n'  # this ones just for looks
-                                    f'release date:{game["release_date"]}\n'
-                                    f'developer: {game["developer"]}\n'
-                                    f'price: {game["price"]}\n'
-                                    f'genres: {game["genres"]}\n'
-                                    f'platforms: {game["platforms"]}\n'
-                                    f'positive ratings: {game["positive_ratings"]}\n'
-                                    f'negative ratings: {game["negative_ratings"]}\n'
-                                    f'average playtime: {game["average_playtime"]} hours\n'
-                                    f'owners: {game["owners"]} copies\n')
+                                    f'Release date:{game["release_date"]}\n'
+                                    f'Developer: {game["developer"]}\n'
+                                    f'Price: ${game["price"]}\n'
+                                    f'Genres: {game["genres"]}\n'
+                                    f'Platforms: {game["platforms"]}\n'
+                                    f'Positive ratings: {game["positive_ratings"]}\n'
+                                    f'Negative ratings: {game["negative_ratings"]}\n'
+                                    f'Average playtime: {game["average_playtime"]} hours\n'
+                                    f'Owners: {game["owners"]} copies\n')
                 break
         showgraph(0, [game["positive_ratings"], game["negative_ratings"]])
     details.config(state=DISABLED)  # set it back to disabled to the user cant write 'penis' in the textbox
@@ -319,21 +320,21 @@ def openSortAndFilterWindow():
 
     # --wigdets in window
 
-    sorting_options = ["sort by","name", "price", "date"]
+    sorting_options = ["sort by","name", "price"]
     global current_sort
     current_sort = StringVar()
     current_sort.set(sorting_options[0])
-    global sort_optionmenu
-    sort_optionmenu = OptionMenu(settingswindow, current_sort, *sorting_options, command=sortby)
-    sort_optionmenu.config(bg="#042430",fg="white",
-                           activebackground='#092F3E',
-                           activeforeground='white',
-                           borderwidth=0,
-                           highlightthickness = 0)
-    sort_optionmenu["menu"].config(bg="#042430",fg="white", activebackground="#0b3a4d")
-    sort_optionmenu.grid(row=0,column=0, pady=10, padx=10)
+    #global sort_optionmenu
+    #sort_optionmenu = OptionMenu(settingswindow, current_sort, *sorting_options, command=sortby)
+    #sort_optionmenu.config(bg="#042430",fg="white",
+    #                       activebackground='#092F3E',
+    #                       activeforeground='white',
+    #                       borderwidth=0,
+    #                       highlightthickness = 0)
+    #sort_optionmenu["menu"].config(bg="#042430",fg="white", activebackground="#0b3a4d")
+    #sort_optionmenu.grid(row=0,column=0, pady=10, padx=10)
 
-    filter_options = ('no filter', 'genre', 'platform', 'price')
+    filter_options = ('no filter', 'price')#'genre', 'platform',
     global current_filter
     current_filter = StringVar()
     current_filter.set(filter_options[0])
@@ -345,32 +346,6 @@ def openSortAndFilterWindow():
                            highlightthickness = 0)
     filter_optionmenu["menu"].config(bg="#042430",fg="white", activebackground="#0b3a4d")
     filter_optionmenu.grid(row=0, column=1)
-
-    genrefilter_options = ["pick a genre","Action", "Adventure", "Indie", "RPG", "Early Access"]
-    global current_genre
-    current_genre = StringVar()
-    current_genre.set(genrefilter_options[0])
-    global genre_optionmenu
-    genre_optionmenu = OptionMenu(settingswindow, current_genre, *genrefilter_options, command=filterByGenre)
-    genre_optionmenu.config(bg="#042430",fg="white",
-                           activebackground='#092F3E',
-                           activeforeground='white',
-                           borderwidth=0,
-                           highlightthickness = 0)
-    genre_optionmenu["menu"].config(bg="#042430",fg="white", activebackground="#0b3a4d")
-
-    platformfilter_options = ["pick a platform","windows", "mac", "linux"]
-    global current_platform
-    current_platform = StringVar()
-    current_platform.set(platformfilter_options[0])
-    global platform_optionmenu
-    platform_optionmenu = OptionMenu(settingswindow, current_platform, *platformfilter_options, command=filterByPlatforms)
-    platform_optionmenu.config(bg="#042430",fg="white",
-                           activebackground='#092F3E',
-                           activeforeground='white',
-                           borderwidth=0,
-                           highlightthickness = 0)
-    platform_optionmenu["menu"].config(bg="#042430",fg="white", activebackground="#0b3a4d")
 
     global pricefilterframe
     pricefilterframe = Frame(settingswindow, bg="#0B3545")
@@ -394,37 +369,18 @@ def openSortAndFilterWindow():
     case_button.grid(row=4, column=1)
 
 
-
 def filterBy(i):  # same as search but like. different
     global current_filter
     selection = current_filter.get()
-
     pricefilterframe.grid_forget()
-    #genre_optionmenu.grid_forget()
-    #pricefilterframe.grid_forget()
 
     if selection == "no filter":
-        listInsert(sortedgames)
+        listInsert(fillList('name'))
+        global games_from_list
+        games_from_list = gameslist.get(0, "end")
 
-    #if selection == "genre":
-    #    genre_optionmenu.grid(row=0, column=2, pady=10, padx=10)
-
-    #elif selection == "platform":
-    #    platform_optionmenu.grid(row=0, column=2, pady=10, padx=10)
-
-    elif selection == "price":
+    if selection == "price":
         pricefilterframe.grid(row=0, column=2, pady=10, padx=10)
-
-
-#def filterByGenre(i):
-#    selection = current_genre.get()
-#    gameslist.delete(0, END)
-#    if selection == "pick a genre":
-#       listInsert(sortedgames)
-#    else:
-#        for game in json_to_dict(): #looks at selection and compares it to every game[genres]
-#            if selection in game["genres"]:
-#                gameslist.insert("end", game["name"])
 
 
 def filterByPrice():
@@ -432,44 +388,42 @@ def filterByPrice():
     min_price = float(pricefrom.get())
     max_price = float(priceto.get())
 
-    print(min_price, max_price)
+    all_games = collectInfo()
+
+    games_names = all_games["name"]
+    games_prices = all_games["price"]
+
+    counter = 0
+    games = []
+    for i in games_prices:
+        games_price = float(i) / 100 #Van centen naar euro's
+        if min_price <= games_price <= max_price:
+            games.append([games_price, games_names[counter]])
+        counter += 1
+
+    for game in sort(games):
+        gameslist.insert("end", game[1])
 
 
-    #selectionfrom = float(pricefrom.get())
-    #selectionto = float(priceto.get())
-    #gameslist.delete(0, END)
-    #for game in json_to_dict():
-    #    if selectionfrom <= game["price"] <= selectionto:
-    #        gameslist.insert("end", game["name"])
 
-
-#def filterByPlatforms(i):
-#    gameslist.delete(0, END)
-#    selection = current_platform.get()
-#    if selection == "pick a platform":
-#        listInsert(sortedgames)
-#    else:
-#        for game in json_to_dict():
-#            if selection in game["platforms"]:
-#                gameslist.insert("end", game["name"])
+    global games_from_list
+    games_from_list = gameslist.get(0, "end")
 
 
 def search(a):
     query = searchbar.get() #get contents of searchbar
 
-    sortedgames = fillList('name')
-
     gameslist.delete(0, END)  # clear listbox
     if query == "":#if searchbar is empty, insert entire list
-        listInsert(sortedgames)
+        listInsert(games_from_list)
         return
 
     if case_sensitive == True:
-        for game in sortedgames:
+        for game in games_from_list:
             if query in game:
                 gameslist.insert("end", game)
     else:
-        for game in sortedgames:
+        for game in games_from_list:
             no_case = game.lower()
             if query.lower() in no_case:
                 gameslist.insert("end", game)
@@ -491,43 +445,32 @@ def sortby(i):
     selection = current_sort.get()
     if selection == "name":
         sortByName()
-    elif selection == "date":
-        sortByDate()
     elif selection == "price":
         sortByPrice()
-    else:
-        sortByNone()
-
-
-def sortByNone():
-    gameslist.delete(0, END)
-    listInsert(game_names)
-    current_sort_label.config(text=f"sorted by: not sorted")
 
 
 def sortByName():
     gameslist.delete(0, END)
-    global sortedgames
-    sortedgames = sort("1") #get the sorted list
-    listInsert(sortedgames)#and put it in the listbox
+
+    games = sort(games_from_list)
+
+    for game in sort(games):
+        gameslist.insert("end", game[1])
+
     current_sort_label.config(text=f"sorted by: name")
 
-
-def sortByPrice():
-    gameslist.delete(0, END)
-    global sortedgames
-    sortedgames = sort("2")
-    listInsert(sortedgames)
-    current_sort_label.config(text=f"sorted by: price")
+    #global games_from_list
+    games_from_list = gameslist.get(0, "end")
 
 
-def sortByDate():
-    gameslist.delete(0, END)
-    global sortedgames
-    sortedgames = sort("3")
-    listInsert(sortedgames)
-    current_sort_label.config(text=f"sorted by: release date")
-    current_sort = "date"
+#def sortByPrice():
+#    gameslist.delete(0, END)
+#    global sortedgames
+#    sortedgames = sort("2")
+#    listInsert(sortedgames)
+#    current_sort_label.config(text=f"sorted by: price")
+#
+#
 
 
 state = 0
@@ -816,4 +759,5 @@ caseSensitive()
 showPlaytime()
 #showratings()
 listInsert(fillList('name'))
+games_from_list = gameslist.get(0, "end")
 root.mainloop()
