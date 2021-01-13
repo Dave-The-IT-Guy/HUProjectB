@@ -163,8 +163,6 @@ def users(stop):
         except:
             print("An error has occord")
         time.sleep(5)
-    else:
-        exit()
 
 #Stuurt de beeper aan
 def beep():
