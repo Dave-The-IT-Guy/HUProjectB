@@ -473,18 +473,18 @@ platform_optionmenu["menu"].config(bg="#0B3545", fg="white", activebackground="#
 global pricefilterframe
 pricefilterframe = Frame(settingswindow, bg="#042430")
 labelfrom = Label(master=pricefilterframe, text="from", bg="#042430", fg="white")
-labelfrom.pack(side=RIGHT,pady=5, padx=5)
+labelfrom.grid(row=0)
 global pricefrom
 pricefrom = Entry(master=pricefilterframe, bg="#0B3545", fg="white", insertbackground="white", insertwidth=1)
-pricefrom.pack(side=RIGHT,pady=5, padx=5)
+pricefrom.grid(row=1)
 labelto = Label(master=pricefilterframe, text="to", bg="#042430", fg="white")
-labelto.pack(side=RIGHT,pady=5, padx=5)
+labelto.grid(row=2)
 global priceto
 priceto = Entry(master=pricefilterframe, bg="#0B3545", fg="white", insertbackground="white", insertwidth=1)
-priceto.pack(side=RIGHT,pady=5, padx=5)
-getpricefilter_button = Button(master=pricefilterframe, text="filter", command=filterByPrice, bg="#042430", fg="white",
+priceto.grid(row=3)
+getpricefilter_button = Button(master=pricefilterframe, text="filter", command=filterByPrice, bg="#0B3545", fg="white",
                                borderwidth=0)
-getpricefilter_button.pack(side=BOTTOM, pady=10)
+getpricefilter_button.grid(row=4, pady=5)
 
 
 case_button = Checkbutton(master=settingswindow, command=caseSensitive, text=f"Case sensitve", bg="#0B3545", fg="white",
