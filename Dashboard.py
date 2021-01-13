@@ -591,7 +591,7 @@ filter_optionmenu.config(bg="#0B3545", fg="white",
 filter_optionmenu["menu"].config(bg="#042430", fg="white", activebackground="#0b3a4d")
 filter_optionmenu.pack(side=TOP,pady=5, padx=5)
 
-genrefilter_options = ["pick a genre", "Action", "Adventure", "Indie", "RPG", "Early Access"]
+genrefilter_options = ["pick a genre", "Action", "Adventure", "Indie", "RPG", "Early Access"] #UIZOEKEN BESCHIKBARE GENRES
 global current_genre
 current_genre = StringVar()
 current_genre.set(genrefilter_options[0])
@@ -604,18 +604,6 @@ genre_optionmenu.config(bg="#0B3545", fg="white",
                         highlightthickness=0)
 genre_optionmenu["menu"].config(bg="#0B3545", fg="white", activebackground="#0b3a4d")
 
-platformfilter_options = ["pick a platform", "windows", "mac", "linux"]
-global current_platform
-current_platform = StringVar()
-current_platform.set(platformfilter_options[0])
-global platform_optionmenu
-platform_optionmenu = OptionMenu(settingswindow, current_platform, *platformfilter_options, command=filterByPlatforms)
-platform_optionmenu.config(bg="#0B3545", fg="white",
-                           activebackground='#092F3E',
-                           activeforeground='white',
-                           borderwidth=0,
-                           highlightthickness=0)
-platform_optionmenu["menu"].config(bg="#0B3545", fg="white", activebackground="#0b3a4d")
 
 global pricefilterframe
 pricefilterframe = Frame(settingswindow, bg="#042430")
@@ -679,11 +667,10 @@ leftframe.grid(row=0,column=1, padx=10, pady=10)
 
 leftframe_notebook = ttk.Notebook(leftframe)
 # leftframe_notebook.config(background="#042430")
-ntbk_frame1 = ttk.Frame(leftframe_notebook) 
-ntbk_frame2 = ttk.Frame(leftframe_notebook)
+ntbk_frame1 = ttk.Frame(leftframe_notebook)
 rpi_frame = ttk.Frame(leftframe_notebook)
-leftframe_notebook.add(ntbk_frame1, text='ratings')
-leftframe_notebook.add(rpi_frame, text='raspberry pi')
+leftframe_notebook.add(ntbk_frame1, text='Ratings')
+leftframe_notebook.add(rpi_frame, text='Raspberry PI')
 
 #rpi_frame
 rpilabel = Label(master=rpi_frame,text="raspberry pi functions", fg="white", bg="#0B3545")
@@ -753,10 +740,10 @@ fig1, ax1 = plt.subplots(figsize=(4, 4))
 ax1.pie([1, 0], explode=[0.1, 0], labels=["Positive", "Negative"], autopct='%1.0f%%', shadow=True, startangle=45)
 ax1.axis('equal')
 
-canvas = FigureCanvasTkAgg(fig1, master=ntbk_frame2)
+canvas = FigureCanvasTkAgg(fig1, master=ntbk_frame1)
 canvas.draw()
 
-toolbar = NavigationToolbar2Tk(canvas, ntbk_frame2)
+toolbar = NavigationToolbar2Tk(canvas, ntbk_frame1)
 toolbar.update()
 
 canvas.get_tk_widget().pack()
@@ -764,8 +751,6 @@ canvas.get_tk_widget().pack()
 
 
 caseSensitive()
-# showPlaytime()
-#showratings()
 listInsert(fillList('name'))
 games_from_list = gameslist.get(0, "end")
 root.mainloop()

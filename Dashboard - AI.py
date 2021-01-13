@@ -746,7 +746,7 @@ canvas.get_tk_widget().pack()
 
 caseSensitive()
 showPlaytime()
-#showratings()
+#showrating()
 listInsert(fillList('name'))
 games_from_list = gameslist.get(0, "end")
 root.mainloop()
