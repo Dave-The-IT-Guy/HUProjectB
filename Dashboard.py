@@ -116,88 +116,6 @@ def getDetails(i):
             return None  #python gets mad at me if i dont return anything and i dont know why
     # place i got the code from: https://stackoverflow.com/questions/34327244/binary-search-through-strings
 
-def openSortAndFilterWindow():
-    # --sort window
-    settingswindow = Toplevel(master=root, bg="#0B3545")
-    settingswindow.resizable(False, False)
-    settingswindow.geometry("350x200")
-    settingswindow.wm_attributes("-topmost", 1)
-
-    # --wigdets in window
-
-    sorting_options = ["sort by","name", "price", "date"]
-    global current_sort
-    current_sort = StringVar()
-    current_sort.set(sorting_options[0])
-    global sort_optionmenu
-    sort_optionmenu = OptionMenu(settingswindow, current_sort, *sorting_options, command=sortby)
-    sort_optionmenu.config(bg="#042430",fg="white",
-                           activebackground='#092F3E',
-                            activeforeground='white',
-                           borderwidth=0,
-                           highlightthickness = 0)
-    sort_optionmenu["menu"].config(bg="#042430",fg="white", activebackground="#0b3a4d")
-    sort_optionmenu.grid(row=0,column=0, pady=10, padx=10)
-
-    filter_options = ('no filter', 'genre', 'platform', 'price')
-    global current_filter
-    current_filter = StringVar()
-    current_filter.set(filter_options[0])
-    filter_optionmenu = OptionMenu(settingswindow, current_filter, *filter_options, command=filterBy)#filteroptions
-    filter_optionmenu.config(bg="#042430",fg="white",
-                           activebackground='#092F3E',
-                            activeforeground='white',
-                           borderwidth=0,
-                           highlightthickness = 0)
-    filter_optionmenu["menu"].config(bg="#042430",fg="white", activebackground="#0b3a4d")
-    filter_optionmenu.grid(row=0, column=1)
-
-    genrefilter_options = ["pick a genre","Action", "Adventure", "Indie", "RPG", "Early Access"]
-    global current_genre
-    current_genre = StringVar()
-    current_genre.set(genrefilter_options[0])
-    global genre_optionmenu
-    genre_optionmenu = OptionMenu(settingswindow, current_genre, *genrefilter_options, command=filterByGenre)
-    genre_optionmenu.config(bg="#042430",fg="white",
-                           activebackground='#092F3E',
-                            activeforeground='white',
-                           borderwidth=0,
-                           highlightthickness = 0)
-    genre_optionmenu["menu"].config(bg="#042430",fg="white", activebackground="#0b3a4d")
-
-    platformfilter_options = ["pick a platform","windows", "mac", "linux"]
-    global current_platform
-    current_platform = StringVar()
-    current_platform.set(platformfilter_options[0])
-    global platform_optionmenu
-    platform_optionmenu = OptionMenu(settingswindow, current_platform, *platformfilter_options, command=filterByPlatforms)
-    platform_optionmenu.config(bg="#042430",fg="white",
-                           activebackground='#092F3E',
-                            activeforeground='white',
-                           borderwidth=0,
-                           highlightthickness = 0)
-    platform_optionmenu["menu"].config(bg="#042430",fg="white", activebackground="#0b3a4d")
-
-    global pricefilterframe
-    pricefilterframe = Frame(settingswindow, bg="#0B3545")
-    labelfrom =  Label(master=pricefilterframe,text="from", bg="#0B3545",fg="white")
-    labelfrom.pack()
-    global pricefrom
-    pricefrom = Entry(master=pricefilterframe, bg="#042430", fg="white", insertbackground="white", insertwidth=1)
-    pricefrom.pack()
-    labelto = Label(master=pricefilterframe, text="to", bg="#0B3545",fg="white")
-    labelto.pack()
-    global priceto
-    priceto = Entry(master=pricefilterframe, bg="#042430", fg="white", insertbackground="white", insertwidth=1)
-    priceto.pack()
-    getpricefilter_button = Button(master=pricefilterframe, text="filter", command=filterByPrice, bg="#042430",fg="white",borderwidth=0)
-    getpricefilter_button.pack(pady=10)
-
-    settings_label = Label(master=settingswindow, text="search", bg="#0B3545", fg="white")
-    settings_label.grid(row=3, column=1)
-    case_button = Checkbutton(master=settingswindow, command=caseSensitive, text=f"Case sensitve", bg="#0B3545", fg="white", selectcolor="#042430", highlightbackground="#0B3545", indicatoron=0, overrelief="sunken")
-    tooltip_balloon.bind_widget(case_button, balloonmsg='if on, search will be case sensitive.')
-    case_button.grid(row=4, column=1)
 
 
 
@@ -205,22 +123,22 @@ def filterBy(i):  # same as search but like. different
     global current_filter
     selection = current_filter.get()
 
-    pricefilterframe.grid_forget()
-    genre_optionmenu.grid_forget()
-    pricefilterframe.grid_forget()
+    pricefilterframe.pack_forget()
+    genre_optionmenu.pack_forget()
+    pricefilterframe.pack_forget()
 
 
     if selection == "no filter":
         listInsert(sortedgames)
 
     if selection == "genre":
-        genre_optionmenu.grid(row=0, column=2, pady=10, padx=10)
+        genre_optionmenu.pack(side=RIGHT,pady=5, padx=5)
 
     if selection == "platform":
-        platform_optionmenu.grid(row=0, column=2, pady=10, padx=10)
+        platform_optionmenu.pack(side=RIGHT,pady=5, padx=5)
 
     if selection == "price":
-        pricefilterframe.grid(row=0, column=2, pady=10, padx=10)
+        pricefilterframe.pack(side=RIGHT,pady=5, padx=5)
 
 
 def filterByGenre(i):
@@ -323,31 +241,6 @@ def sortByDate():
 
 
 
-def showPlaytime():
-    t = [1, 2, 3, 4, 5, 6]
-    s = [1, 2, 3, 4, 5, 6]
-    fig, ax = plt.subplots(facecolor="#042430")
-    # fig.set_size_inches(2.5, 2.5)
-    ax.set_facecolor('#0B3545')
-    ax.set_title('playtime', color='white')
-    ax.set_xlabel('time (s)', color='white')
-    ax.set_ylabel('playtime', color='white')
-    ax.plot(t, s, 'xkcd:red')
-    ax.plot(t, s, color='white', linestyle='--')
-    ax.tick_params(labelcolor='white')
-
-
-    canvas1 = FigureCanvasTkAgg(fig, master=ntbk_frame1,)
-    canvas1.draw()
-
-
-    toolbar = NavigationToolbar2Tk(canvas1, ntbk_frame1)
-    toolbar.update()
-
-    canvas1.get_tk_widget().pack()
-
-
-
 def showratings():
     # ---
     labels = 'Frogs', 'Hogs', 'Dogs', 'Logs'
@@ -359,10 +252,11 @@ def showratings():
     ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
             shadow=True, startangle=90)
     ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-    canvas2 = FigureCanvasTkAgg(fig1, master=ntbk_frame2, )
+    canvas2 = FigureCanvasTkAgg(fig1, master=ntbk_frame1, )
     canvas2.draw()
 
     canvas2.get_tk_widget().pack()
+
 state = 0
 def neopixelChange(i):
     global state
@@ -512,9 +406,93 @@ tooltip_balloon = tix.Balloon(root, bg="#2B526F")
 
 
 
+
 rightframe = Frame(master=root, width=768, height=576,bg="#042430")
 rightframe.grid(row=0,column=0, padx=10, pady=10)
 
+# --sort window
+settingswindow = Frame(master=rightframe, bg="#042430")
+settingswindow.pack(side=TOP, pady=10)
+
+
+# --wigdets in window
+
+sorting_options = ["sort by", "name", "price", "date"]
+global current_sort
+current_sort = StringVar()
+current_sort.set(sorting_options[0])
+global sort_optionmenu
+sort_optionmenu = OptionMenu(settingswindow, current_sort, *sorting_options, command=sortby)
+sort_optionmenu.config(bg="#042430", fg="white",
+                       activebackground='#092F3E',
+                       activeforeground='white',
+                       borderwidth=0,
+                       highlightthickness=0)
+sort_optionmenu["menu"].config(bg="#042430", fg="white", activebackground="#0b3a4d")
+sort_optionmenu.pack(side=RIGHT, pady=5, padx=5)
+
+filter_options = ('no filter', 'genre', 'platform', 'price')
+global current_filter
+current_filter = StringVar()
+current_filter.set(filter_options[0])
+filter_optionmenu = OptionMenu(settingswindow, current_filter, *filter_options, command=filterBy)  # filteroptions
+filter_optionmenu.config(bg="#0B3545", fg="white",
+                         activebackground='#092F3E',
+                         activeforeground='white',
+                         borderwidth=0,
+                         highlightthickness=0)
+filter_optionmenu["menu"].config(bg="#042430", fg="white", activebackground="#0b3a4d")
+filter_optionmenu.pack(side=TOP,pady=5, padx=5)
+
+genrefilter_options = ["pick a genre", "Action", "Adventure", "Indie", "RPG", "Early Access"]
+global current_genre
+current_genre = StringVar()
+current_genre.set(genrefilter_options[0])
+global genre_optionmenu
+genre_optionmenu = OptionMenu(settingswindow, current_genre, *genrefilter_options, command=filterByGenre)
+genre_optionmenu.config(bg="#0B3545", fg="white",
+                        activebackground='#092F3E',
+                        activeforeground='white',
+                        borderwidth=0,
+                        highlightthickness=0)
+genre_optionmenu["menu"].config(bg="#0B3545", fg="white", activebackground="#0b3a4d")
+
+platformfilter_options = ["pick a platform", "windows", "mac", "linux"]
+global current_platform
+current_platform = StringVar()
+current_platform.set(platformfilter_options[0])
+global platform_optionmenu
+platform_optionmenu = OptionMenu(settingswindow, current_platform, *platformfilter_options, command=filterByPlatforms)
+platform_optionmenu.config(bg="#0B3545", fg="white",
+                           activebackground='#092F3E',
+                           activeforeground='white',
+                           borderwidth=0,
+                           highlightthickness=0)
+platform_optionmenu["menu"].config(bg="#0B3545", fg="white", activebackground="#0b3a4d")
+
+global pricefilterframe
+pricefilterframe = Frame(settingswindow, bg="#042430")
+labelfrom = Label(master=pricefilterframe, text="from", bg="#042430", fg="white")
+labelfrom.pack(side=RIGHT,pady=5, padx=5)
+global pricefrom
+pricefrom = Entry(master=pricefilterframe, bg="#0B3545", fg="white", insertbackground="white", insertwidth=1)
+pricefrom.pack(side=RIGHT,pady=5, padx=5)
+labelto = Label(master=pricefilterframe, text="to", bg="#042430", fg="white")
+labelto.pack(side=RIGHT,pady=5, padx=5)
+global priceto
+priceto = Entry(master=pricefilterframe, bg="#0B3545", fg="white", insertbackground="white", insertwidth=1)
+priceto.pack(side=RIGHT,pady=5, padx=5)
+getpricefilter_button = Button(master=pricefilterframe, text="filter", command=filterByPrice, bg="#042430", fg="white",
+                               borderwidth=0)
+getpricefilter_button.pack(side=BOTTOM, pady=10)
+
+
+case_button = Checkbutton(master=settingswindow, command=caseSensitive, text=f"Case sensitve", bg="#0B3545", fg="white",
+                          selectcolor="#042430", highlightbackground="#0B3545", indicatoron=0, overrelief="sunken")
+tooltip_balloon.bind_widget(case_button, balloonmsg='if on, search will be case sensitive.')
+case_button.pack(side=BOTTOM, pady=5, padx=5)
+
+# listbox
 listframe = Frame(master=rightframe, bg="#0B3545")
 searchbarframe= Frame(master=rightframe,bg="#042430")
 searchbar = Entry(master=searchbarframe)
@@ -540,7 +518,7 @@ detailsframe.pack(side='bottom')
 detailsframe.pack_propagate(False)
 # scrollbar = Scrollbar(detailsframe, orient="vertical")
 global details
-details = Text(master=detailsframe, bg="#0B3545", fg="white")
+details = Text(master=detailsframe, bg="#0B3545", fg="white", wrap=WORD)
 # details.insert(END, "“According to all known laws of aviation, there is no way that a bee should be able to fly. Its wings are too small to get its fat little body off the ground. The bee, of course, flies anyways. Because bees don't care what humans think is impossible.”")
 details.config(state=DISABLED)
 # scrollbar.config(command=details.yview)
@@ -557,8 +535,7 @@ leftframe_notebook = ttk.Notebook(leftframe)
 ntbk_frame1 = ttk.Frame(leftframe_notebook) 
 ntbk_frame2 = ttk.Frame(leftframe_notebook)
 rpi_frame = ttk.Frame(leftframe_notebook)
-leftframe_notebook.add(ntbk_frame1, text='playtime')
-leftframe_notebook.add(ntbk_frame2, text='ratings')
+leftframe_notebook.add(ntbk_frame1, text='ratings')
 leftframe_notebook.add(rpi_frame, text='raspberry pi')
 
 #rpi_frame
@@ -616,10 +593,7 @@ noteStyler.configure("TFrame", background="#0B3545", foreground="white")
 
 leftframe_notebook.grid()
 
-#--buttons
-sortbutton = Button(master=rightframe, text="settings", command=openSortAndFilterWindow, bg="#03202b", fg="white", borderwidth=0, highlightcolor="#092F3E", overrelief="sunken")
-tooltip_balloon.bind_widget(sortbutton, balloonmsg='more settings for searching \nthrough the list of games')
-sortbutton.pack()
+
 
 #--menu
 menubar = Menu(root)
@@ -634,7 +608,7 @@ root.config(menu=menubar)
 
 threading.Thread(target=caseSensitive, daemon=True).start()
 #caseSensitive()
-showPlaytime()
+
 showratings()
 listInsert(fillList(game_names))
 root.mainloop()
