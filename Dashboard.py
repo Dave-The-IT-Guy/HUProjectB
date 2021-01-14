@@ -280,25 +280,14 @@ def filterByGenre(current_genre):
         gameslist.insert(END, name)
 
 
-def genreMenu():
-    genrefilter_options = ['Pick a genre', 'Action', 'Adventure', 'Early Access', 'Fighting Games', 'First Person Shooter', 'Indie', 'RPG', 'Racing', 'Real Time Strategie', 'Shooter', 'Simulations', 'Sports']
-    global current_genre
-    current_genre = StringVar()
-    current_genre.set(genrefilter_options[0])
-    global genre_optionmenu
-    genre_optionmenu = OptionMenu(settingswindow, current_genre, *genrefilter_options, command=filterByGenre)
-    genre_optionmenu.config(bg="#042430", fg="white",
-                            activebackground='#092F3E',
-                            activeforeground='white',
-                            borderwidth=0,
-                            highlightthickness=0)
-    genre_optionmenu["menu"].config(bg="#042430", fg="white", activebackground="#0b3a4d")
-    genre_optionmenu.pack()
+
 
 
 def filterBy(i):  # same as search but like. different
     global current_filter
     selection = current_filter.get()
+    pricefilterframe.grid_forget()
+    genre_optionmenu.grid_forget()
 
     if selection == "no filter":
         listInsert(fillList('name'))
@@ -306,10 +295,10 @@ def filterBy(i):  # same as search but like. different
         games_from_list = gameslist.get(0, "end")
 
     elif selection == "price":
-        pricefilterframe.pack(side=RIGHT,pady=5, padx=5)
+        pricefilterframe.grid(row= 0, column=2)
 
     elif selection == "genre":
-        genreMenu()
+        genre_optionmenu.grid(row=0, column=2)
 
 
 def filterByPrice(**kwargs):
@@ -554,15 +543,15 @@ current_sort = StringVar()
 current_sort.set(sorting_options[0])
 global sort_optionmenu
 sort_optionmenu = OptionMenu(settingswindow, current_sort, *sorting_options, command=sortby)
-sort_optionmenu.config(bg="#042430", fg="white",
+sort_optionmenu.config(bg="#0B3545", fg="white",
                        activebackground='#092F3E',
                        activeforeground='white',
                        borderwidth=0,
                        highlightthickness=0)
 sort_optionmenu["menu"].config(bg="#042430", fg="white", activebackground="#0b3a4d")
-sort_optionmenu.pack(side=RIGHT, pady=5, padx=5)
+sort_optionmenu.grid(row=0, pady=5, padx=5)
 
-filter_options = ('no filter', 'genre', 'platform', 'price')
+filter_options = ('no filter', 'genre', 'price')
 global current_filter
 current_filter = StringVar()
 current_filter.set(filter_options[0])
@@ -573,7 +562,7 @@ filter_optionmenu.config(bg="#0B3545", fg="white",
                          borderwidth=0,
                          highlightthickness=0)
 filter_optionmenu["menu"].config(bg="#042430", fg="white", activebackground="#0b3a4d")
-filter_optionmenu.pack(side=TOP,pady=5, padx=5)
+filter_optionmenu.grid(row=0, column=1, pady=5, padx=5)
 
 genrefilter_options = ["pick a genre", "Action", "Adventure", "Indie", "RPG", "Early Access"] #UIZOEKEN BESCHIKBARE GENRES
 global current_genre
@@ -587,6 +576,7 @@ genre_optionmenu.config(bg="#0B3545", fg="white",
                         borderwidth=0,
                         highlightthickness=0)
 genre_optionmenu["menu"].config(bg="#0B3545", fg="white", activebackground="#0b3a4d")
+
 
 
 global pricefilterframe
@@ -606,11 +596,6 @@ getpricefilter_button = Button(master=pricefilterframe, text="filter", command=f
 getpricefilter_button.grid(row=4, pady=5)
 
 
-case_button = Checkbutton(master=settingswindow, command=caseSensitive, text=f"Case sensitve", bg="#0B3545", fg="white",
-                          selectcolor="#042430", highlightbackground="#0B3545", indicatoron=0, overrelief="sunken")
-tooltip_balloon.bind_widget(case_button, balloonmsg='if on, search will be case sensitive.')
-case_button.pack(side=BOTTOM, pady=5, padx=5)
-
 # listbox
 listframe = Frame(master=rightframe, bg="#0B3545")
 searchbarframe= Frame(master=rightframe,bg="#042430")
@@ -623,9 +608,14 @@ gameslist = Listbox(master=listframe, yscrollcommand=scrollbar.set, background="
 scrollbar.config(command=gameslist.yview)
 gameslist.bind("<<ListboxSelect>>", getDetails)
 gameslist.bind("<B1-Leave>", lambda event: "break")
+case_button = Checkbutton(master=searchbarframe, command=caseSensitive, text=f"Case sensitve", bg="#0B3545", fg="white",
+                          selectcolor="#042430", highlightbackground="#0B3545", indicatoron=0, overrelief="sunken")
+tooltip_balloon.bind_widget(case_button, balloonmsg='if on, search will be case sensitive.')
 searchbarframe.pack(side="top")
 search_label.pack(side="left")
+case_button.pack(side="right", pady=5, padx=5)
 searchbar.pack(side="right")
+
 listframe.pack(side="top")
 gameslist.pack(side="left", expand=True, fill="both")
 scrollbar.pack(side="right", fill="y")
@@ -660,10 +650,12 @@ leftframe_notebook.add(rpi_frame, text='Raspberry PI')
 rpilabel = Label(master=rpi_frame,text="raspberry pi functions", fg="white", bg="#0B3545")
 rpilabel.grid(row=0, padx=10, pady=10)
 
-TI_wavebutton = Button(master=rpi_frame, text="wave", command=thread_send_wave, bg="#042430",fg="white", borderwidth=0)
+wave_img= ImageTk.PhotoImage(Image.open("waving_hand_emoji.png"))
+buzzer_img =  ImageTk.PhotoImage(Image.open("speaker_emoji.png"))
+TI_wavebutton = Button(master=rpi_frame, text="wave", image=wave_img, command=thread_send_wave, bg="#042430",fg="white", borderwidth=0)
 tooltip_balloon.bind_widget(TI_wavebutton, balloonmsg='wave to your friend with the servo')
 TI_wavebutton.grid(row= 1, padx=10, pady=10)
-TI_soundbutton = Button(master=rpi_frame, text="send signal", command=thread_send_beep, bg="#042430",fg="white",borderwidth=0)
+TI_soundbutton = Button(master=rpi_frame, text="send signal", image=buzzer_img,command=thread_send_beep, bg="#042430",fg="white",borderwidth=0)
 tooltip_balloon.bind_widget(TI_soundbutton, balloonmsg='send a sound signal to your friend')
 TI_soundbutton.grid(row=1, column=1)
 #TI_togglesensor = Button(master=rpi_frame, text="afstandsensor display:neopixel", bg="#042430",fg="white", command=afstandsensordisplay)
@@ -674,14 +666,15 @@ neopixel_label.grid(row=3)
 neopixel_options = ('off', 'white', 'smooth', 'flash', 'pick color')
 current_neopxl = StringVar()
 current_neopxl.set(neopixel_options[0])
+neopixel_image =  ImageTk.PhotoImage(Image.open("traffic_light_emoji.png"))
 TI_neopixel_options = OptionMenu(rpi_frame, current_neopxl, *neopixel_options, command=neopixelChange)
 TI_neopixel_options["menu"].config(bg="#042430", fg="white", activebackground="#0b3a4d")
-print(f"menu parameters{TI_neopixel_options.config()}")
+
 TI_neopixel_options.config(bg="#042430",fg="white",
                            activebackground='#092F3E',
                            activeforeground='white',
                            borderwidth=0,
-                           highlightthickness = 0)
+                           highlightthickness = 0) #, image=neopixel_image
 tooltip_balloon.bind_widget(TI_neopixel_options, balloonmsg="colors and effects with your ledstrip")
 
 TI_neopixel_options.grid(row=4)
