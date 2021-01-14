@@ -179,9 +179,12 @@ def get_request(url, parameters=None):
 def collectInfo(**kwargs):
 
     game = kwargs.get('gameID', None)
+    #genre = kwargs.get('genre', None)
 
     if game == None or game == "all":
         url = "https://steamspy.com/api.php?request=all"
+    #elif genre == True:
+    #    url = "https://steamspy.com/api.php?request=genre&genre=" + genre.replace(" ", "+")
     else:
         url = "https://steamspy.com/api.php?request=appdetails&appid=" + str(game)
 
@@ -256,7 +259,6 @@ def getDetails(i):
         row = data[data['name'] == selected]
         appid_info = row["appid"]
         appid = int(appid_info[0])
-
         #Als de API het niet doet gaat hij om een of andere reden niet naar de except. Vandaar dit
         try:
             game = collectInfo(gameID = appid)
@@ -266,7 +268,7 @@ def getDetails(i):
         details.insert(END, f'{game["name"]}\n'  # insert all the details into the textbox
                             f'_____________________________\n'  # this ones just for looks
                             f'Developer: {game["developer"]}\n'
-                            f'Price: {float(game["price"]) / 100}\n'
+                            f'Price: ${format((float(game["price"]) / 100), ".2f")}\n'
                             f'Positive ratings: {game["positive"]}\n'
                             f'Negative ratings: {game["negative"]}\n'
                             f'Average playtime: {game["average_forever"]} minutes\n'
@@ -292,9 +294,9 @@ def getDetails(i):
                                     f'_____________________________\n'  # this ones just for looks
                                     f'{game["name"]}\n'
                                     f'_____________________________\n'  # this ones just for looks
-                                    f'Release date:{game["release_date"]}\n'
+                                    f'Release date: {game["release_date"]}\n'
                                     f'Developer: {game["developer"]}\n'
-                                    f'Price: ${game["price"]}\n'
+                                    f'Price: ${format((game["price"] / 100), ".2f")}\n'
                                     f'Genres: {game["genres"]}\n'
                                     f'Platforms: {game["platforms"]}\n'
                                     f'Positive ratings: {game["positive_ratings"]}\n'

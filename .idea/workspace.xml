@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7aa53e31-68b4-4456-8ba9-91ec7b33b431" name="Default Changelist" comment="Saved before merge">
-      <change beforePath="$PROJECT_DIR$/Dashboard - AI.py" beforeDir="false" afterPath="$PROJECT_DIR$/Dashboard - AI.py" afterDir="false" />
+    <list default="true" id="7aa53e31-68b4-4456-8ba9-91ec7b33b431" name="Default Changelist" comment="Minor changes and bugfixes">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Dashboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/Dashboard.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -303,14 +303,9 @@
       <workItem from="1610301187289" duration="7938000" />
       <workItem from="1610353875292" duration="11660000" />
       <workItem from="1610446396119" duration="14102000" />
-      <workItem from="1610529022364" duration="16215000" />
-    </task>
-    <task id="LOCAL-00016" summary="Voor het veranderen van kleur van de neopixel">
-      <created>1608739404505</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1608739404505</updated>
+      <workItem from="1610529022364" duration="16674000" />
+      <workItem from="1610553422641" duration="3889000" />
+      <workItem from="1610618703686" duration="3104000" />
     </task>
     <task id="LOCAL-00017" summary="Beschrijving van de neopixel">
       <created>1608742507581</created>
@@ -648,7 +643,14 @@
       <option name="project" value="LOCAL" />
       <updated>1610552696777</updated>
     </task>
-    <option name="localTasksCounter" value="65" />
+    <task id="LOCAL-00065" summary="Minor changes and bugfixes">
+      <created>1610553055733</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1610553055733</updated>
+    </task>
+    <option name="localTasksCounter" value="66" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -689,18 +691,18 @@
     <MESSAGE value="Made an offline mode for when the API does not work. Also fixed bug which caused to make duplicate piecharts when an game was selected." />
     <MESSAGE value="Fixed search" />
     <MESSAGE value="Added filter function" />
-    <MESSAGE value="Minor changes and bugfixes" />
     <MESSAGE value="Added name and price sort and filter" />
     <MESSAGE value="Saved before merge" />
-    <option name="LAST_COMMIT_MESSAGE" value="Saved before merge" />
+    <MESSAGE value="Minor changes and bugfixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor changes and bugfixes" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/HUProjectB$Meten.coverage" NAME="Schuifregister Coverage Results" MODIFIED="1608736330013" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/parts/Schuifregister" />
     <SUITE FILE_PATH="coverage/HUProjectB$SR04.coverage" NAME="SR04 Coverage Results" MODIFIED="1609164171828" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/parts/SR04" />
     <SUITE FILE_PATH="coverage/HUProjectB$NEOpixel___WT.coverage" NAME="NEOpixel - WT Coverage Results" MODIFIED="1609343056882" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/parts/NEOpixel" />
     <SUITE FILE_PATH="coverage/HUProjectB$teserdietest___locate_ns.coverage" NAME="teserdietest - locate ns Coverage Results" MODIFIED="1609158736216" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test/remote pi" />
-    <SUITE FILE_PATH="coverage/HUProjectB$Client.coverage" NAME="Client Coverage Results" MODIFIED="1610369998150" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/HUProjectB$GUI.coverage" NAME="GUI Coverage Results" MODIFIED="1610552940379" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/HUProjectB$Client.coverage" NAME="Client Coverage Results" MODIFIED="1610564150587" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/HUProjectB$GUI.coverage" NAME="GUI Coverage Results" MODIFIED="1610630013740" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/HUProjectB$Zwaaien___WT.coverage" NAME="Zwaaien - WT Coverage Results" MODIFIED="1609161300794" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/parts/Servo" />
     <SUITE FILE_PATH="coverage/HUProjectB$Dashboard.coverage" NAME="Dashboard Coverage Results" MODIFIED="1610048099903" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/HUProjectB$Server_PI.coverage" NAME="Server PI Coverage Results" MODIFIED="1610030671094" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/final" />
@@ -711,13 +713,13 @@
     <SUITE FILE_PATH="coverage/HUProjectB$NS___pi1.coverage" NAME="NS - pi1 Coverage Results" MODIFIED="1609158757403" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test/remote pi" />
     <SUITE FILE_PATH="coverage/HUProjectB$GUI_PC.coverage" NAME="GUI PC Coverage Results" MODIFIED="1610030672435" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/final" />
     <SUITE FILE_PATH="coverage/HUProjectB$test3.coverage" NAME="test3 Coverage Results" MODIFIED="1610354967495" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AI" />
-    <SUITE FILE_PATH="coverage/HUProjectB$Server.coverage" NAME="Server Coverage Results" MODIFIED="1610482480106" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/HUProjectB$Server.coverage" NAME="Server Coverage Results" MODIFIED="1610564641178" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/HUProjectB$NEOpixel.coverage" NAME="NEOpixel Coverage Results" MODIFIED="1608741358809" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/parts/NEOpixel" />
     <SUITE FILE_PATH="coverage/HUProjectB$NS___plop.coverage" NAME="NS - plop Coverage Results" MODIFIED="1609076313746" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test/remote pi" />
     <SUITE FILE_PATH="coverage/HUProjectB$print_test_pi2___client.coverage" NAME="print test pi2 - client Coverage Results" MODIFIED="1609159966550" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test/remote pi" />
     <SUITE FILE_PATH="coverage/HUProjectB$Schuifregister___WT.coverage" NAME="Schuifregister - WT Coverage Results" MODIFIED="1609868842489" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/parts/Schuifregister" />
     <SUITE FILE_PATH="coverage/HUProjectB$Client_PI.coverage" NAME="Client PI Coverage Results" MODIFIED="1610030578845" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/final" />
-    <SUITE FILE_PATH="coverage/HUProjectB$GUI_AI.coverage" NAME="GUI-AI Coverage Results" MODIFIED="1610551410438" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/HUProjectB$GUI_AI.coverage" NAME="GUI-AI Coverage Results" MODIFIED="1610628913599" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/HUProjectB$main.coverage" NAME="main Coverage Results" MODIFIED="1610041068484" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AI" />
     <SUITE FILE_PATH="coverage/HUProjectB$geluidsingaal___WT.coverage" NAME="geluidsingaal - WT Coverage Results" MODIFIED="1608746919999" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/parts/geluidsingaal" />
     <SUITE FILE_PATH="coverage/HUProjectB$geluidsignaal___WT.coverage" NAME="geluidsignaal - WT Coverage Results" MODIFIED="1609160576210" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/parts/geluidsingaal" />
