@@ -158,12 +158,12 @@ def get_request(url, parameters=None):
 def collectInfo(**kwargs):
 
     game = kwargs.get('gameID', None)
-    #genre = kwargs.get('genre', None)
+    genre = kwargs.get('genre', None)
 
     if game == None or game == "all":
         url = "https://steamspy.com/api.php?request=all"
-    #elif genre == True:
-    #    url = "https://steamspy.com/api.php?request=genre&genre=" + genre.replace(" ", "+")
+    elif genre == True:
+        url = "https://steamspy.com/api.php?request=genre&genre=" + genre.replace(" ", "+")
     else:
         url = "https://steamspy.com/api.php?request=appdetails&appid=" + str(game)
 
@@ -267,6 +267,25 @@ def getDetails(i):
     # place i got the code from: https://stackoverflow.com/questions/34327244/binary-search-through-strings
 
 
+def filterByGenre():
+    pass
+
+
+def genreMenu():
+    genrefilter_options = ["pick a genre", "Action", "Adventure", "Indie", "RPG", "Early Access"]
+    global current_genre
+    current_genre = StringVar()
+    current_genre.set(genrefilter_options[0])
+    global genre_optionmenu
+    genre_optionmenu = OptionMenu(settingswindow, current_genre, *genrefilter_options, command=filterByGenre)
+    genre_optionmenu.config(bg="#042430", fg="white",
+                            activebackground='#092F3E',
+                            activeforeground='white',
+                            borderwidth=0,
+                            highlightthickness=0)
+    genre_optionmenu["menu"].config(bg="#042430", fg="white", activebackground="#0b3a4d")
+    genre_optionmenu.pack()
+
 
 def filterBy(i):  # same as search but like. different
     global current_filter
@@ -277,8 +296,11 @@ def filterBy(i):  # same as search but like. different
         global games_from_list
         games_from_list = gameslist.get(0, "end")
 
-    if selection == "price":
+    elif selection == "price":
         pricefilterframe.pack(side=RIGHT,pady=5, padx=5)
+
+    elif selection == "genre":
+        genreMenu()
 
 
 def filterByPrice(**kwargs):
@@ -688,7 +710,7 @@ helpmenu.add_command(label="Readme", command=openReadme)
 root.config(menu=menubar)
 
 
-##################################################################################################
+#Laat de diagram zien
 fig1, ax1 = plt.subplots(figsize=(4, 4))
 ax1.pie([1, 0], explode=[0.1, 0], labels=["Positive", "Negative"], autopct='%1.0f%%', shadow=True, startangle=45)
 ax1.axis('equal')
@@ -700,7 +722,6 @@ toolbar = NavigationToolbar2Tk(canvas, ntbk_frame1)
 toolbar.update()
 
 canvas.get_tk_widget().pack()
-##################################################################################################
 
 
 caseSensitive()
