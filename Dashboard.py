@@ -267,12 +267,15 @@ def getDetails(i):
     # place i got the code from: https://stackoverflow.com/questions/34327244/binary-search-through-strings
 
 
-def filterByGenre():
-    pass
+def filterByGenre(x):
+    gameslist.delete('0', END)
+    games = collectInfo(genre = 'current_genre')
+    for name in games["name"]:
+        gameslist.insert("end", name)
 
 
 def genreMenu():
-    genrefilter_options = ["pick a genre", "Action", "Adventure", "Indie", "RPG", "Early Access"]
+    genrefilter_options = ['Pick a genre', 'Action', 'Adventure', 'Battle Royale', 'Early Access', 'Fighting Games', 'First Person Shooter', 'Indie', 'RPG', 'Racing', 'Real Time Strategie', 'Shooter', 'Simulations', 'Sports']
     global current_genre
     current_genre = StringVar()
     current_genre.set(genrefilter_options[0])
