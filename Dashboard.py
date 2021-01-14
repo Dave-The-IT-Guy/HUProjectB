@@ -35,22 +35,7 @@ con = "PYRO:steam.functions@192.168.192.24:9090"
 #Locatie van steam.json voor als de API niet werkt
 data_location = "steam.json"
 
-# -- to do
-# make graph blue
-# repair getdetails function
-# put more graphs in graphframe
-# fix neopixel button
-# the sort functions give differing lists containing games that dont appear in the original list
 
-# neopxel functies
-# zwaaiknop servo *
-# afstandsensor toggle*
-# hoeveel vrienden online (hoeft niet in gui)
-# color picker geef alleen rgb waarden teruggeven*
-# knop voor geluidsignaal*
-
-# beginnen met functies
-# met pyro commands sturen naar rpi
 
 # -- functions
 def openReadme():
@@ -60,9 +45,7 @@ def listInsert(list):
     for item in list:
         gameslist.insert(END, item)
 
-###############################################################
-###############SINDS GEBRUIK API NIET MEER NODIG###############
-###############################################################
+
 def json_to_dict(location):
     #Open de json file en zet alles in een dictonairy
     with open(location) as json_file:
@@ -96,7 +79,6 @@ def select(dict, selection):
             result.append(i)
     return result
 
-###############################################################################################################################################################
 
 #Source: https://www.geeksforgeeks.org/merge-sort/
 def sort(lst):
@@ -144,9 +126,7 @@ def sort(lst):
             k += 1
     return lst
 
-###############################################################
-###############SINDS GEBRUIK API NIET MEER NODIG###############
-###############################################################
+
 def sort_json(location, sort_by):
     # Maak van de json een dict
     dict = json_to_dict(location)
@@ -157,7 +137,6 @@ def sort_json(location, sort_by):
     # Returnt een gesorteerde variant van de lijst
     return sort(lst)
 
-###############################################################################################################################################################
 
 def get_request(url, parameters=None):
 
@@ -211,31 +190,6 @@ def showgraph(appID, *rating):
     ax1.clear()
     ax1.pie(sizes, explode=[0.1, 0], labels=["Positief", "Negatief"], autopct='%1.0f%%', shadow=True, startangle=45)
     fig1.canvas.draw_idle()
-
-###############################################################################################################################################################
-###############################################################################################################################################################
-###############################################################################################################################################################
-
-def showPlaytime():
-    t = [1, 2, 3, 4, 5, 6]
-    s = [1, 2, 3, 4, 5, 6]
-    fig, ax = plt.subplots(facecolor="#042430")
-    # fig.set_size_inches(2.5, 2.5)
-    ax.set_facecolor('#0B3545')
-    ax.set_title('playtime', color='white')
-    ax.set_xlabel('time (s)', color='white')
-    ax.set_ylabel('playtime', color='white')
-    ax.plot(t, s, 'xkcd:red')
-    ax.plot(t, s, color='white', linestyle='--')
-    ax.tick_params(labelcolor='white')
-
-    canvas1 = FigureCanvasTkAgg(fig, master=ntbk_frame1,)
-    canvas1.draw()
-
-    toolbar = NavigationToolbar2Tk(canvas1, ntbk_frame1)
-    toolbar.update()
-
-    canvas1.get_tk_widget().pack()
 
 
 def fillList(fill_with):
@@ -343,7 +297,6 @@ def filterByPrice(**kwargs):
 
     gameslist.delete(0, END)
 
-
     all_games = collectInfo()
 
     games_names = all_games["name"]
@@ -359,8 +312,6 @@ def filterByPrice(**kwargs):
 
     for game in sort(games):
         gameslist.insert("end", game[1])
-
-
 
     global games_from_list
     games_from_list = gameslist.get(0, "end")

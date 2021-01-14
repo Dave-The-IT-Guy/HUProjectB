@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="7aa53e31-68b4-4456-8ba9-91ec7b33b431" name="Default Changelist" comment="Minor changes and bugfixes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dashboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/Dashboard.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -305,14 +304,7 @@
       <workItem from="1610446396119" duration="14102000" />
       <workItem from="1610529022364" duration="16674000" />
       <workItem from="1610553422641" duration="3889000" />
-      <workItem from="1610618703686" duration="3104000" />
-    </task>
-    <task id="LOCAL-00017" summary="Beschrijving van de neopixel">
-      <created>1608742507581</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1608742507581</updated>
+      <workItem from="1610618703686" duration="3983000" />
     </task>
     <task id="LOCAL-00018" summary="Code voor de NEOpixel">
       <created>1608742524179</created>
@@ -650,7 +642,14 @@
       <option name="project" value="LOCAL" />
       <updated>1610553055733</updated>
     </task>
-    <option name="localTasksCounter" value="66" />
+    <task id="LOCAL-00066" summary="Minor changes and bugfixes">
+      <created>1610630671945</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1610630671945</updated>
+    </task>
+    <option name="localTasksCounter" value="67" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
