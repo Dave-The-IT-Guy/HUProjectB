@@ -227,7 +227,8 @@ def getDetails(i):
                             f'Negative ratings: {game["negative"]}\n'
                             f'Average playtime: {game["average_forever"]} minutes\n'
                             f'Owners: {game["owners"]} copies\n'
-                            f'Languages: {game["languages"]}')
+                            f'Languages: {game["languages"]}\n'
+                            f'Genres: {game["genre"]}')
         showgraph(game['appid'])
     #Zodat de games weergegeven kunnen worden als de API niet werkt
     except:
@@ -267,15 +268,15 @@ def getDetails(i):
     # place i got the code from: https://stackoverflow.com/questions/34327244/binary-search-through-strings
 
 
-def filterByGenre(x):
-    gameslist.delete('0', END)
-    games = collectInfo(genre = 'current_genre')
+def filterByGenre(current_genre):
+    gameslist.delete(0, END)
+    games = collectInfo(genre = current_genre)
     for name in games["name"]:
-        gameslist.insert("end", name)
+        gameslist.insert(END, name)
 
 
 def genreMenu():
-    genrefilter_options = ['Pick a genre', 'Action', 'Adventure', 'Battle Royale', 'Early Access', 'Fighting Games', 'First Person Shooter', 'Indie', 'RPG', 'Racing', 'Real Time Strategie', 'Shooter', 'Simulations', 'Sports']
+    genrefilter_options = ['Pick a genre', 'Action', 'Adventure', 'Early Access', 'Fighting Games', 'First Person Shooter', 'Indie', 'RPG', 'Racing', 'Real Time Strategie', 'Shooter', 'Simulations', 'Sports']
     global current_genre
     current_genre = StringVar()
     current_genre.set(genrefilter_options[0])
