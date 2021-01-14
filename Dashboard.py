@@ -157,13 +157,15 @@ def get_request(url, parameters=None):
 
 def collectInfo(**kwargs):
 
-    game = kwargs.get('gameID', None)
+    game = kwargs.get('gameID', "all")
     genre = kwargs.get('genre', None)
 
-    if game == None or game == "all":
-        url = "https://steamspy.com/api.php?request=all"
-    elif genre == True:
+    if genre != None:
+        print("soem")
         url = "https://steamspy.com/api.php?request=genre&genre=" + genre.replace(" ", "+")
+    elif game == "all":
+        print("all")
+        url = "https://steamspy.com/api.php?request=all"
     else:
         url = "https://steamspy.com/api.php?request=appdetails&appid=" + str(game)
 
@@ -270,7 +272,10 @@ def getDetails(i):
 
 def filterByGenre(current_genre):
     gameslist.delete(0, END)
+
     games = collectInfo(genre = current_genre)
+    print(games)
+
     for name in games["name"]:
         gameslist.insert(END, name)
 
