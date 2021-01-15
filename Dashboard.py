@@ -1,7 +1,6 @@
 # steam project dashboard - verona kragten
 
 #TODO: Deze regel overal aanpassen sorted_dict = sorted(json_to_dict(data_location), key=lambda k: k['price'])  # sort list of dicts
-#TODO: Kijken naar zoeken met een filter
 
 from tkinter import *
 import webbrowser
@@ -26,7 +25,7 @@ from tkinter import messagebox
 
 
 # -- globals
-global pricefilterframe
+global pricefilterwindow
 global case_sensitive
 case_sensitive = True
 global sorting
@@ -198,26 +197,32 @@ def showgraph(appID, *rating):
 
 
 
-def OpenPricefilterframe():
-    global pricefilterframe
-    pricefilterframe = Toplevel(settingswindow, bg="#042430")
-    pricefilterframe.geometry('300x140')# width x height
-    pricefilterframe.resizable(False, False)
-    pricefilterframe.iconbitmap("steam_icon.ico")
-    pricefilterframe.title("filter by price")
-    labelfrom = Label(master=pricefilterframe, text="from", bg="#042430", fg="white")
-    labelfrom.grid(row=0, padx=60)
+def Openpricefilterwindow():
+    global pricefilterwindow
+    pricefilterwindow = Toplevel(settingswindow, bg="#042430")
+    pricefilterwindow.geometry('300x140')# width x height
+    # pricefilterwindow.resizable(False, False)
+    pricefilterwindow.iconbitmap("steam_icon.ico")
+    pricefilterwindow.title("filter by price")
+
+    pricefilterframe = Frame(pricefilterwindow, bg="#042430")
+    labelfrom = Label(master=pricefilterframe, text="from (in dollars):", bg="#042430", fg="white")#, font="-weight bold"
     global pricefrom
     pricefrom = Entry(master=pricefilterframe, bg="#0B3545", fg="white", insertbackground="white", insertwidth=1)
-    pricefrom.grid(row=1, padx=60)
-    labelto = Label(master=pricefilterframe, text="to", bg="#042430", fg="white")
-    labelto.grid(row=2, padx=60)
+
+    labelto = Label(master=pricefilterframe, text="to (in dollars):", bg="#042430", fg="white")
     global priceto
     priceto = Entry(master=pricefilterframe, bg="#0B3545", fg="white", insertbackground="white", insertwidth=1)
-    priceto.grid(row=3, padx=60)
     getpricefilter_button = Button(master=pricefilterframe, text="filter", command=filterByPrice, bg="#0B3545", fg="white",
                                    borderwidth=0)
-    getpricefilter_button.grid(row=4, pady=5, padx=60)
+    pricefrom.grid(row=0, column=1, padx=5)
+    labelfrom.grid(row=0, column=0, padx=5)
+    labelto.grid(row=2, column=0, padx=5)
+    priceto.grid(row=2, column=1, padx=5)
+    getpricefilter_button.grid(row=3, column=0, pady=5, sticky="EW", columnspan=3)
+    pricefilterframe.grid_columnconfigure(0, weight=2)
+
+    pricefilterframe.pack(pady=20)
 
 
 def fillList(fill_with):
@@ -312,7 +317,7 @@ def filterByGenre(current_genre):
 def filterBy(i):  # same as search but like. different
     global current_filter
     selection = current_filter.get()
-    # pricefilterframe.grid_forget()
+    # pricefilterwindow.grid_forget()
     genre_optionmenu.grid_forget()
 
     if selection == "no filter":
@@ -321,8 +326,8 @@ def filterBy(i):  # same as search but like. different
         games_from_list = gameslist.get(0, "end")
 
     elif selection == "price":
-        # pricefilterframe.grid(row= 0, column=2)
-        OpenPricefilterframe()
+        # pricefilterwindow.grid(row= 0, column=2)
+        Openpricefilterwindow()
 
 
     elif selection == "genre":
@@ -683,6 +688,7 @@ neopixel_label.grid(row=3)
 neopixel_options = ('off', 'white', 'smooth', 'flash', 'pick color')
 current_neopxl = StringVar()
 current_neopxl.set(neopixel_options[0])
+neopixel_image =  ImageTk.PhotoImage(Image.open("traffic_light_emoji.png"))
 TI_neopixel_options = OptionMenu(rpi_frame, current_neopxl, *neopixel_options, command=neopixelChange)
 TI_neopixel_options["menu"].config(bg="#042430", fg="white", activebackground="#0b3a4d")
 
