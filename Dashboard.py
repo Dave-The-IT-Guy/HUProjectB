@@ -187,8 +187,8 @@ def showgraph(appID, *rating):
     else:
         sizes = rating[0]
 
-    if sizes == [0, 0]:
-        sizes == [1, 1]
+    if max(sizes) == 0:
+        sizes = [100, 100]
 
     ax1.clear()
     ax1.pie(sizes, explode=[0.1, 0], labels=["Positive", "Negative"], autopct='%1.0f%%', shadow=True, startangle=45)
@@ -305,7 +305,6 @@ def filterByPrice():
 
     min_price = float(pricefrom.get())
     max_price = float(priceto.get())
-    current_sort_label.config(text=f"filterd by: price ${format(min_price, '.2f')} - ${format(max_price, '.2f')}")
 
     gameslist.delete(0, END)
 
@@ -367,8 +366,6 @@ def sortByPrice():
             new_games.append([games_prices[counter], name])
             counter += 1
 
-    print(sorted(new_games))
-
     for game in sort(new_games):
         gameslist.insert("end", game[1])
 
@@ -409,12 +406,10 @@ def caseSensitive():
 def sortby(i):
     global current_sort
     selection = current_sort.get()
-    if selection == "name":
+    if selection == "sort by: name":
         sortByName()
-        current_sort_label.config(text=f"sorted by: name")
-    elif selection == "price":
+    elif selection == "sort by: price":
         sortByPrice()
-        current_sort_label.config(text=f"sorted by: price")
 
 
 state = 0
@@ -576,7 +571,7 @@ settingswindow.pack(side=TOP, pady=10)
 
 # --wigdets in window
 
-sorting_options = ["sort by", "name", "price"]
+sorting_options = ["sort by: unsorted", "sort by: name", "sort by: price"]
 global current_sort
 current_sort = StringVar()
 current_sort.set(sorting_options[0])
@@ -658,7 +653,7 @@ searchbar.pack(side="right")
 listframe.pack(side="top")
 gameslist.pack(side="left", expand=True, fill="both")
 scrollbar.pack(side="right", fill="y")
-current_sort_label = Label(master=rightframe, text=f"sorted by: not sorted", fg="white", bg="#042430")
+current_sort_label = Label(master=rightframe, text=f"", fg="white", bg="#042430")
 current_sort_label.pack(side="top", fill="x")
 
 detailsframe = Frame(master=rightframe, bg="#0B3545", width=300, height=200)
