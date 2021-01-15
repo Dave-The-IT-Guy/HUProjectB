@@ -161,10 +161,8 @@ def collectInfo(**kwargs):
     genre = kwargs.get('genre', None)
 
     if genre != None:
-        print("soem")
         url = "https://steamspy.com/api.php?request=genre&genre=" + genre.replace(" ", "+")
     elif game == "all":
-        print("all")
         url = "https://steamspy.com/api.php?request=all"
     else:
         url = "https://steamspy.com/api.php?request=appdetails&appid=" + str(game)
@@ -190,7 +188,7 @@ def showgraph(appID, *rating):
         sizes = rating[0]
 
     ax1.clear()
-    ax1.pie(sizes, explode=[0.1, 0], labels=["Positief", "Negatief"], autopct='%1.0f%%', shadow=True, startangle=45)
+    ax1.pie(sizes, explode=[0.1, 0], labels=["Positive", "Negative"], autopct='%1.0f%%', shadow=True, startangle=45)
     fig1.canvas.draw_idle()
 
 
@@ -280,9 +278,6 @@ def filterByGenre(current_genre):
         gameslist.insert(END, name)
 
 
-
-
-
 def filterBy(i):  # same as search but like. different
     global current_filter
     selection = current_filter.get()
@@ -301,26 +296,23 @@ def filterBy(i):  # same as search but like. different
         genre_optionmenu.grid(row=0, column=2)
 
 
-def filterByPrice(**kwargs):
+def filterByPrice():
 
-    sorting = kwargs.get('sort', None)
-
-    if sorting:
-        current_sort_label.config(text=f"sorted by: price")
-        min_price = -1
-        max_price = 10 ** 999 #Lijkt me sterk dat er een spel ooit zo duur zou zijn
-        current_sort_label.config(text=f"sorted by: price")
-    else:
-        min_price = float(pricefrom.get())
-        max_price = float(priceto.get())
-        current_sort_label.config(text=f"filterd by: price ${format(min_price, '.2f')} - ${format(max_price, '.2f')}")
+    min_price = float(pricefrom.get())
+    max_price = float(priceto.get())
+    current_sort_label.config(text=f"filterd by: price ${format(min_price, '.2f')} - ${format(max_price, '.2f')}")
 
     gameslist.delete(0, END)
 
     all_games = collectInfo()
 
     games_names = all_games["name"]
-    games_prices = all_games["price"]
+    games_prices_string = all_games["price"]
+
+    games_prices = []
+    for string in games_prices_string:
+        price = int(string)
+        games_prices.append(price)
 
     counter = 0
     games = []
@@ -331,6 +323,36 @@ def filterByPrice(**kwargs):
         counter += 1
 
     for game in sort(games):
+        gameslist.insert("end", game[1])
+
+    global games_from_list
+    games_from_list = gameslist.get(0, "end")
+
+
+def sortByPrice():
+    games = gameslist.get(0, "end")
+    gameslist.delete(0, END)
+
+    all_games = collectInfo()
+
+    games_names = all_games["name"]
+    games_prices_string = all_games["price"]
+
+    games_prices = []
+    for string in games_prices_string:
+        price = int(string)
+        games_prices.append(price)
+
+    counter = 0
+    new_games = []
+    for name in games_names:
+        if name in games:
+            new_games.append([games_prices[counter], name])
+            counter += 1
+
+    print(sorted(new_games))
+
+    for game in sort(new_games):
         gameslist.insert("end", game[1])
 
     global games_from_list
@@ -374,7 +396,7 @@ def sortby(i):
         listInsert(sort(fillList('name')))
         current_sort_label.config(text=f"sorted by: name")
     elif selection == "price":
-        filterByPrice(sort = True)
+        sortByPrice()
 
 
 state = 0
@@ -508,7 +530,6 @@ def changeButtonColor(color):
                                    highlightthickness=0)
     else:
         TI_neopixel_options.config(bg=f"{fromRGB(color)}", activebackground=f"{fromRGB(color)}")
-        print(max(color))
         if max(color) >= 200:
             TI_neopixel_options.config(fg='black',activeforeground='black')
         else:
@@ -537,7 +558,7 @@ settingswindow.pack(side=TOP, pady=10)
 
 # --wigdets in window
 
-sorting_options = ["sort by", "name", "price", "date"]
+sorting_options = ["sort by", "name", "price"]
 global current_sort
 current_sort = StringVar()
 current_sort.set(sorting_options[0])
