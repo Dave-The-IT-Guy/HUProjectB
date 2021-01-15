@@ -20,6 +20,7 @@ from tkinter.constants import *
 from PIL import ImageTk,Image
 import requests
 import pandas as pd
+from tkinter import messagebox
 
 
 
@@ -162,8 +163,10 @@ def collectInfo(**kwargs):
     genre = kwargs.get('genre', None)
 
     if genre != None:
+        print("soem")
         url = "https://steamspy.com/api.php?request=genre&genre=" + genre.replace(" ", "+")
     elif game == "all":
+        print("all")
         url = "https://steamspy.com/api.php?request=all"
     else:
         url = "https://steamspy.com/api.php?request=appdetails&appid=" + str(game)
@@ -188,11 +191,8 @@ def showgraph(appID, *rating):
     else:
         sizes = rating[0]
 
-    if max(sizes) == 0:
-        sizes = [100, 100]
-
     ax1.clear()
-    ax1.pie(sizes, explode=[0.1, 0], labels=["Positive", "Negative"], autopct='%1.0f%%', shadow=True, startangle=45)
+    ax1.pie(sizes, explode=[0.1, 0], labels=["Positief", "Negatief"], autopct='%1.0f%%', shadow=True, startangle=45)
     fig1.canvas.draw_idle()
 
 
@@ -200,20 +200,23 @@ def showgraph(appID, *rating):
 def OpenPricefilterframe():
     global pricefilterframe
     pricefilterframe = Toplevel(settingswindow, bg="#042430")
+    pricefilterframe.geometry('300x140')# width x height
     pricefilterframe.resizable(False, False)
+    pricefilterframe.iconbitmap("steam_icon.ico")
+    pricefilterframe.title("filter by price")
     labelfrom = Label(master=pricefilterframe, text="from", bg="#042430", fg="white")
-    labelfrom.grid(row=0)
+    labelfrom.grid(row=0, padx=60)
     global pricefrom
     pricefrom = Entry(master=pricefilterframe, bg="#0B3545", fg="white", insertbackground="white", insertwidth=1)
-    pricefrom.grid(row=1)
+    pricefrom.grid(row=1, padx=60)
     labelto = Label(master=pricefilterframe, text="to", bg="#042430", fg="white")
-    labelto.grid(row=2)
+    labelto.grid(row=2, padx=60)
     global priceto
     priceto = Entry(master=pricefilterframe, bg="#0B3545", fg="white", insertbackground="white", insertwidth=1)
-    priceto.grid(row=3)
+    priceto.grid(row=3, padx=60)
     getpricefilter_button = Button(master=pricefilterframe, text="filter", command=filterByPrice, bg="#0B3545", fg="white",
                                    borderwidth=0)
-    getpricefilter_button.grid(row=4, pady=5)
+    getpricefilter_button.grid(row=4, pady=5, padx=60)
 
 
 def fillList(fill_with):
@@ -296,12 +299,13 @@ def filterByGenre(current_genre):
     gameslist.delete(0, END)
 
     games = collectInfo(genre = current_genre)
+    print(games)
 
     for name in games["name"]:
         gameslist.insert(END, name)
 
-    global games_from_list
-    games_from_list = gameslist.get(0, "end")
+
+
 
 
 def filterBy(i):  # same as search but like. different
@@ -324,22 +328,31 @@ def filterBy(i):  # same as search but like. different
         genre_optionmenu.grid(row=0, column=2)
 
 
-def filterByPrice():
+def filterByPrice(**kwargs):
+    try:
+        float(pricefrom.get())
+        float(priceto.get())
+    except ValueError:
+        price_valueError = messagebox.showinfo(title="value Error", message="please insert a price")
+        return None
+    sorting = kwargs.get('sort', None)
 
-    min_price = float(pricefrom.get())
-    max_price = float(priceto.get())
+    if sorting:
+        current_sort_label.config(text=f"sorted by: price")
+        min_price = -1
+        max_price = 10 ** 999 #Lijkt me sterk dat er een spel ooit zo duur zou zijn
+        current_sort_label.config(text=f"sorted by: price")
+    else:
+        min_price = float(pricefrom.get())
+        max_price = float(priceto.get())
+        current_sort_label.config(text=f"filterd by: price ${format(min_price, '.2f')} - ${format(max_price, '.2f')}")
 
     gameslist.delete(0, END)
 
     all_games = collectInfo()
 
     games_names = all_games["name"]
-    games_prices_string = all_games["price"]
-
-    games_prices = []
-    for string in games_prices_string:
-        price = int(string)
-        games_prices.append(price)
+    games_prices = all_games["price"]
 
     counter = 0
     games = []
@@ -350,46 +363,6 @@ def filterByPrice():
         counter += 1
 
     for game in sort(games):
-        gameslist.insert("end", game[1])
-
-    global games_from_list
-    games_from_list = gameslist.get(0, "end")
-
-
-def sortByName():
-    games = list(gameslist.get(0, "end"))
-    gameslist.delete(0, END)
-
-    print(games)
-
-    for game in sort(games):
-        gameslist.insert("end", game)
-
-    global games_from_list
-    games_from_list = gameslist.get(0, "end")
-
-def sortByPrice():
-    games = gameslist.get(0, "end")
-    gameslist.delete(0, END)
-
-    all_games = collectInfo()
-
-    games_names = all_games["name"]
-    games_prices_string = all_games["price"]
-
-    games_prices = []
-    for string in games_prices_string:
-        price = int(string)
-        games_prices.append(price)
-
-    counter = 0
-    new_games = []
-    for name in games_names:
-        if name in games:
-            new_games.append([games_prices[counter], name])
-            counter += 1
-
-    for game in sort(new_games):
         gameslist.insert("end", game[1])
 
     global games_from_list
@@ -429,10 +402,11 @@ def caseSensitive():
 def sortby(i):
     global current_sort
     selection = current_sort.get()
-    if selection == "sort by: name":
-        sortByName()
-    elif selection == "sort by: price":
-        sortByPrice()
+    if selection == "name":
+        listInsert(sort(fillList('name')))
+        current_sort_label.config(text=f"sorted by: name")
+    elif selection == "price":
+        filterByPrice(sort = True)
 
 
 state = 0
@@ -566,6 +540,7 @@ def changeButtonColor(color):
                                    highlightthickness=0)
     else:
         TI_neopixel_options.config(bg=f"{fromRGB(color)}", activebackground=f"{fromRGB(color)}")
+        print(max(color))
         if max(color) >= 200:
             TI_neopixel_options.config(fg='black',activeforeground='black')
         else:
@@ -594,7 +569,7 @@ settingswindow.pack(side=TOP, pady=10)
 
 # --wigdets in window
 
-sorting_options = ["sort by: unsorted", "sort by: name", "sort by: price"]
+sorting_options = ["sort by", "name", "price", "date"]
 global current_sort
 current_sort = StringVar()
 current_sort.set(sorting_options[0])
@@ -626,7 +601,7 @@ global current_genre
 current_genre = StringVar()
 current_genre.set(genrefilter_options[0])
 global genre_optionmenu
-genre_optionmenu = OptionMenu(settingswindow, current_genre, *genrefilter_options, command=filterByGenre)
+genre_optionmenu = OptionMenu(settingswindow, current_genre, *genrefilter_options, )#command=filterByGenre
 genre_optionmenu.config(bg="#0B3545", fg="white",
                         activebackground='#092F3E',
                         activeforeground='white',
@@ -660,7 +635,7 @@ searchbar.pack(side="right")
 listframe.pack(side="top")
 gameslist.pack(side="left", expand=True, fill="both")
 scrollbar.pack(side="right", fill="y")
-current_sort_label = Label(master=rightframe, text=f"", fg="white", bg="#042430")
+current_sort_label = Label(master=rightframe, text=f"sorted by: not sorted", fg="white", bg="#042430")
 current_sort_label.pack(side="top", fill="x")
 
 detailsframe = Frame(master=rightframe, bg="#0B3545", width=300, height=200)
@@ -707,6 +682,7 @@ neopixel_label.grid(row=3)
 neopixel_options = ('off', 'white', 'smooth', 'flash', 'pick color')
 current_neopxl = StringVar()
 current_neopxl.set(neopixel_options[0])
+neopixel_image =  ImageTk.PhotoImage(Image.open("traffic_light_emoji.png"))
 TI_neopixel_options = OptionMenu(rpi_frame, current_neopxl, *neopixel_options, command=neopixelChange)
 TI_neopixel_options["menu"].config(bg="#042430", fg="white", activebackground="#0b3a4d")
 
@@ -754,7 +730,7 @@ root.config(menu=menubar)
 
 #Laat de diagram zien
 fig1, ax1 = plt.subplots(figsize=(4, 4))
-ax1.pie([1, 1], explode=[0.1, 0], labels=["Positive", "Negative"], autopct='%1.0f%%', shadow=True, startangle=45)
+ax1.pie([1, 0], explode=[0.1, 0], labels=["Positive", "Negative"], autopct='%1.0f%%', shadow=True, startangle=45)
 ax1.axis('equal')
 
 canvas = FigureCanvasTkAgg(fig1, master=ntbk_frame1)
