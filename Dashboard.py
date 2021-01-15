@@ -1,6 +1,7 @@
 # steam project dashboard - verona kragten
 
 #TODO: Deze regel overal aanpassen sorted_dict = sorted(json_to_dict(data_location), key=lambda k: k['price'])  # sort list of dicts
+#TODO: Kijken naar zoeken met een filter
 
 from tkinter import *
 import webbrowser
@@ -682,7 +683,6 @@ neopixel_label.grid(row=3)
 neopixel_options = ('off', 'white', 'smooth', 'flash', 'pick color')
 current_neopxl = StringVar()
 current_neopxl.set(neopixel_options[0])
-neopixel_image =  ImageTk.PhotoImage(Image.open("traffic_light_emoji.png"))
 TI_neopixel_options = OptionMenu(rpi_frame, current_neopxl, *neopixel_options, command=neopixelChange)
 TI_neopixel_options["menu"].config(bg="#042430", fg="white", activebackground="#0b3a4d")
 
