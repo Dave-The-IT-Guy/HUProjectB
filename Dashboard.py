@@ -187,6 +187,9 @@ def showgraph(appID, *rating):
     else:
         sizes = rating[0]
 
+    if sizes == [0, 0]:
+        sizes == [1, 1]
+
     ax1.clear()
     ax1.pie(sizes, explode=[0.1, 0], labels=["Positive", "Negative"], autopct='%1.0f%%', shadow=True, startangle=45)
     fig1.canvas.draw_idle()
@@ -272,10 +275,12 @@ def filterByGenre(current_genre):
     gameslist.delete(0, END)
 
     games = collectInfo(genre = current_genre)
-    print(games)
 
     for name in games["name"]:
         gameslist.insert(END, name)
+
+    global games_from_list
+    games_from_list = gameslist.get(0, "end")
 
 
 def filterBy(i):  # same as search but like. different
@@ -328,6 +333,18 @@ def filterByPrice():
     global games_from_list
     games_from_list = gameslist.get(0, "end")
 
+
+def sortByName():
+    games = list(gameslist.get(0, "end"))
+    gameslist.delete(0, END)
+
+    print(games)
+
+    for game in sort(games):
+        gameslist.insert("end", game)
+
+    global games_from_list
+    games_from_list = gameslist.get(0, "end")
 
 def sortByPrice():
     games = gameslist.get(0, "end")
@@ -393,10 +410,11 @@ def sortby(i):
     global current_sort
     selection = current_sort.get()
     if selection == "name":
-        listInsert(sort(fillList('name')))
+        sortByName()
         current_sort_label.config(text=f"sorted by: name")
     elif selection == "price":
         sortByPrice()
+        current_sort_label.config(text=f"sorted by: price")
 
 
 state = 0
@@ -590,7 +608,7 @@ global current_genre
 current_genre = StringVar()
 current_genre.set(genrefilter_options[0])
 global genre_optionmenu
-genre_optionmenu = OptionMenu(settingswindow, current_genre, *genrefilter_options, )#command=filterByGenre
+genre_optionmenu = OptionMenu(settingswindow, current_genre, *genrefilter_options, command=filterByGenre)
 genre_optionmenu.config(bg="#0B3545", fg="white",
                         activebackground='#092F3E',
                         activeforeground='white',
@@ -735,7 +753,7 @@ root.config(menu=menubar)
 
 #Laat de diagram zien
 fig1, ax1 = plt.subplots(figsize=(4, 4))
-ax1.pie([1, 0], explode=[0.1, 0], labels=["Positive", "Negative"], autopct='%1.0f%%', shadow=True, startangle=45)
+ax1.pie([1, 1], explode=[0.1, 0], labels=["Positive", "Negative"], autopct='%1.0f%%', shadow=True, startangle=45)
 ax1.axis('equal')
 
 canvas = FigureCanvasTkAgg(fig1, master=ntbk_frame1)
