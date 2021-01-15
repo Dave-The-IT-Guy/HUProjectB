@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7aa53e31-68b4-4456-8ba9-91ec7b33b431" name="Default Changelist" comment="Fixed filters and sorting systems">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dashboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/Dashboard.py" afterDir="false" />
-    </list>
+    <list default="true" id="7aa53e31-68b4-4456-8ba9-91ec7b33b431" name="Default Changelist" comment="Minor changes and bugfixes" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -330,14 +327,7 @@
       <workItem from="1610529022364" duration="16674000" />
       <workItem from="1610553422641" duration="3889000" />
       <workItem from="1610618703686" duration="9573000" />
-      <workItem from="1610698021456" duration="11908000" />
-    </task>
-    <task id="LOCAL-00026" summary=".">
-      <created>1609259102914</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1609259102914</updated>
+      <workItem from="1610698021456" duration="12326000" />
     </task>
     <task id="LOCAL-00027" summary=".">
       <created>1609269040017</created>
@@ -675,7 +665,14 @@
       <option name="project" value="LOCAL" />
       <updated>1610727474989</updated>
     </task>
-    <option name="localTasksCounter" value="75" />
+    <task id="LOCAL-00075" summary="Minor changes and bugfixes">
+      <created>1610732129738</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1610732129739</updated>
+    </task>
+    <option name="localTasksCounter" value="76" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -716,10 +713,10 @@
     <MESSAGE value="Saved before merge" />
     <MESSAGE value="Added genre menu for functional purposes" />
     <MESSAGE value="Added genre filter functionality" />
-    <MESSAGE value="Minor changes and bugfixes" />
     <MESSAGE value="Added price sort and fixed price filter. Added a test for the neopixel and made some minor chages and bugfixes" />
     <MESSAGE value="Fixed filters and sorting systems" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed filters and sorting systems" />
+    <MESSAGE value="Minor changes and bugfixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor changes and bugfixes" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/HUProjectB$Meten.coverage" NAME="Schuifregister Coverage Results" MODIFIED="1608736330013" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/parts/Schuifregister" />
