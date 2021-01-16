@@ -163,12 +163,13 @@ def collectInfo(**kwargs):
     genre = kwargs.get('genre', None)
 
     if genre != None:
-        print("soem")
+        #url = "https://www.dvdl.ml" + genre.replace(" ", "+")
         url = "https://steamspy.com/api.php?request=genre&genre=" + genre.replace(" ", "+")
     elif game == "all":
-        print("all")
+        #url = "https://www.dvdl.ml"
         url = "https://steamspy.com/api.php?request=all"
     else:
+        #url = "https://www.dvdl.ml" + str(game)
         url = "https://steamspy.com/api.php?request=appdetails&appid=" + str(game)
 
     # request 'all' from steam spy and parse into dataframe
@@ -192,7 +193,7 @@ def showgraph(appID, *rating):
         sizes = rating[0]
 
     ax1.clear()
-    ax1.pie(sizes, explode=[0.1, 0], labels=["Positief", "Negatief"], autopct='%1.0f%%', shadow=True, startangle=45)
+    ax1.pie(sizes, explode=[0.1, 0], labels=["Positive", "Negative"], autopct='%1.0f%%', shadow=True, startangle=45)
     fig1.canvas.draw_idle()
 
 
@@ -265,18 +266,10 @@ def getDetails(i):
         showgraph(game['appid'])
     #Zodat de games weergegeven kunnen worden als de API niet werkt
     except:
-        sorted_dict = sorted(json_to_dict(data_location), key=lambda k: k['name'])  # sort list of dicts
+        dictionary = json_to_dict(data_location)  # sort list of dicts
 
-        start = 0  # yes im going to try and implement a  binary search and im in hell
-        end = len(sorted_dict) - 1
-        while True:
-            middle = (start + end) // 2
-            game = sorted_dict[middle]
-            if game["name"] > selected:
-                end = middle - 1
-            elif game["name"] < selected:
-                start = middle + 1
-            else:
+        for game in dictionary:
+            if game['name'] == selected:
                 details.insert(END, f'_____________________________\n'  # this ones just for looks
                                     f'Recent info can\'t be collected. You may look at outdated stats.\n'
                                     f'_____________________________\n'  # this ones just for looks
@@ -292,6 +285,8 @@ def getDetails(i):
                                     f'Average playtime: {game["average_playtime"]} hours\n'
                                     f'Owners: {game["owners"]} copies\n')
                 break
+
+
         showgraph(0, [game["positive_ratings"], game["negative_ratings"]])
     details.config(state=DISABLED)  # set it back to disabled to the user cant write 'penis' in the textbox
 
@@ -309,10 +304,6 @@ def filterByGenre(current_genre):
 
     for name in games["name"]:
         gameslist.insert(END, name)
-
-
-
-
 
 def filterBy(i):  # same as search but like. different
     global current_filter
@@ -688,7 +679,6 @@ neopixel_label.grid(row=3)
 neopixel_options = ('off', 'white', 'smooth', 'flash', 'pick color')
 current_neopxl = StringVar()
 current_neopxl.set(neopixel_options[0])
-neopixel_image =  ImageTk.PhotoImage(Image.open("traffic_light_emoji.png"))
 TI_neopixel_options = OptionMenu(rpi_frame, current_neopxl, *neopixel_options, command=neopixelChange)
 TI_neopixel_options["menu"].config(bg="#042430", fg="white", activebackground="#0b3a4d")
 
