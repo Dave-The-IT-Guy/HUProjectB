@@ -1,7 +1,5 @@
 # steam project dashboard - verona kragten
 
-#TODO: Deze regel overal aanpassen sorted_dict = sorted(json_to_dict(data_location), key=lambda k: k['price'])  # sort list of dicts
-
 from tkinter import *
 import webbrowser
 import json
@@ -266,18 +264,10 @@ def getDetails(i):
         showgraph(game['appid'])
     #Zodat de games weergegeven kunnen worden als de API niet werkt
     except:
-        sorted_dict = sorted(json_to_dict(data_location), key=lambda k: k['name'])  # sort list of dicts
+        dictionary = json_to_dict(data_location)  # sort list of dicts
 
-        start = 0  # yes im going to try and implement a  binary search and im in hell
-        end = len(sorted_dict) - 1
-        while True:
-            middle = (start + end) // 2
-            game = sorted_dict[middle]
-            if game["name"] > selected:
-                end = middle - 1
-            elif game["name"] < selected:
-                start = middle + 1
-            else:
+        for game in dictionary:
+            if game['name'] == selected:
                 details.insert(END, f'_____________________________\n'  # this ones just for looks
                                     f'Recent info can\'t be collected. You may look at outdated stats.\n'
                                     f'_____________________________\n'  # this ones just for looks
