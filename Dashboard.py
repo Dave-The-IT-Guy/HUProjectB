@@ -25,7 +25,7 @@ from tkinter import messagebox
 
 
 # -- globals
-global pricefilterwindow
+global pricefilterframe
 global case_sensitive
 case_sensitive = True
 global sorting
@@ -163,13 +163,10 @@ def collectInfo(**kwargs):
     genre = kwargs.get('genre', None)
 
     if genre != None:
-        #url = "https://www.dvdl.ml" + genre.replace(" ", "+")
         url = "https://steamspy.com/api.php?request=genre&genre=" + genre.replace(" ", "+")
     elif game == "all":
-        #url = "https://www.dvdl.ml"
         url = "https://steamspy.com/api.php?request=all"
     else:
-        #url = "https://www.dvdl.ml" + str(game)
         url = "https://steamspy.com/api.php?request=appdetails&appid=" + str(game)
 
     # request 'all' from steam spy and parse into dataframe
@@ -192,31 +189,34 @@ def showgraph(appID, *rating):
     else:
         sizes = rating[0]
 
+    if max(sizes) == 0:
+        sizes = [100, 100]
+
     ax1.clear()
     ax1.pie(sizes, explode=[0.1, 0], labels=["Positive", "Negative"], autopct='%1.0f%%', shadow=True, startangle=45)
     fig1.canvas.draw_idle()
 
 
 
-def Openpricefilterwindow():
+def OpenPricefilterframe():
     global pricefilterwindow
     pricefilterwindow = Toplevel(settingswindow, bg="#042430")
-    pricefilterwindow.geometry('300x140')# width x height
-    # pricefilterwindow.resizable(False, False)
+    pricefilterwindow.geometry('300x140')  # width x height
+    pricefilterwindow.resizable(False, False)
     pricefilterwindow.iconbitmap("steam_icon.ico")
     pricefilterwindow.title("filter by price")
 
     pricefilterframe = Frame(pricefilterwindow, bg="#042430")
-    labelfrom = Label(master=pricefilterframe, text="from (in dollars):", bg="#042430", fg="white")#, font="-weight bold"
+    labelfrom = Label(master=pricefilterframe, text="from (in dollars):", bg="#042430", fg="white")  # , font="-weight bold"
     global pricefrom
     pricefrom = Entry(master=pricefilterframe, bg="#0B3545", fg="white", insertbackground="white", insertwidth=1)
 
     labelto = Label(master=pricefilterframe, text="to (in dollars):", bg="#042430", fg="white")
     global priceto
     priceto = Entry(master=pricefilterframe, bg="#0B3545", fg="white", insertbackground="white", insertwidth=1)
-    getpricefilter_button = Button(master=pricefilterframe, text="filter", command=filterByPrice, bg="#0B3545", fg="white",
-                                   borderwidth=0)
+    getpricefilter_button = Button(master=pricefilterframe, text="filter", command=filterByPrice, bg="#0B3545", fg="white", borderwidth=0)
     pricefrom.grid(row=0, column=1, padx=5)
+    pricefrom.focus()
     labelfrom.grid(row=0, column=0, padx=5)
     labelto.grid(row=2, column=0, padx=5)
     priceto.grid(row=2, column=1, padx=5)
@@ -266,10 +266,18 @@ def getDetails(i):
         showgraph(game['appid'])
     #Zodat de games weergegeven kunnen worden als de API niet werkt
     except:
-        dictionary = json_to_dict(data_location)  # sort list of dicts
+        sorted_dict = sorted(json_to_dict(data_location), key=lambda k: k['name'])  # sort list of dicts
 
-        for game in dictionary:
-            if game['name'] == selected:
+        start = 0  # yes im going to try and implement a  binary search and im in hell
+        end = len(sorted_dict) - 1
+        while True:
+            middle = (start + end) // 2
+            game = sorted_dict[middle]
+            if game["name"] > selected:
+                end = middle - 1
+            elif game["name"] < selected:
+                start = middle + 1
+            else:
                 details.insert(END, f'_____________________________\n'  # this ones just for looks
                                     f'Recent info can\'t be collected. You may look at outdated stats.\n'
                                     f'_____________________________\n'  # this ones just for looks
@@ -285,8 +293,6 @@ def getDetails(i):
                                     f'Average playtime: {game["average_playtime"]} hours\n'
                                     f'Owners: {game["owners"]} copies\n')
                 break
-
-
         showgraph(0, [game["positive_ratings"], game["negative_ratings"]])
     details.config(state=DISABLED)  # set it back to disabled to the user cant write 'penis' in the textbox
 
@@ -300,15 +306,18 @@ def filterByGenre(current_genre):
     gameslist.delete(0, END)
 
     games = collectInfo(genre = current_genre)
-    print(games)
 
     for name in games["name"]:
         gameslist.insert(END, name)
 
+    global games_from_list
+    games_from_list = gameslist.get(0, "end")
+
+
 def filterBy(i):  # same as search but like. different
     global current_filter
     selection = current_filter.get()
-    # pricefilterwindow.grid_forget()
+    # pricefilterframe.grid_forget()
     genre_optionmenu.grid_forget()
 
     if selection == "no filter":
@@ -317,39 +326,34 @@ def filterBy(i):  # same as search but like. different
         games_from_list = gameslist.get(0, "end")
 
     elif selection == "price":
-        # pricefilterwindow.grid(row= 0, column=2)
-        Openpricefilterwindow()
+        # pricefilterframe.grid(row= 0, column=2)
+        OpenPricefilterframe()
 
 
     elif selection == "genre":
         genre_optionmenu.grid(row=0, column=2)
 
 
-def filterByPrice(**kwargs):
+def filterByPrice():
     try:
-        float(pricefrom.get())
-        float(priceto.get())
-    except ValueError:
-        price_valueError = messagebox.showinfo(title="value Error", message="please insert a price")
-        return None
-    sorting = kwargs.get('sort', None)
-
-    if sorting:
-        current_sort_label.config(text=f"sorted by: price")
-        min_price = -1
-        max_price = 10 ** 999 #Lijkt me sterk dat er een spel ooit zo duur zou zijn
-        current_sort_label.config(text=f"sorted by: price")
-    else:
         min_price = float(pricefrom.get())
         max_price = float(priceto.get())
-        current_sort_label.config(text=f"filterd by: price ${format(min_price, '.2f')} - ${format(max_price, '.2f')}")
+        pricefilterwindow.destroy()
+    except ValueError:
+        messagebox.showinfo(title="value Error", message="please insert a price")
+        return None
 
     gameslist.delete(0, END)
 
     all_games = collectInfo()
 
     games_names = all_games["name"]
-    games_prices = all_games["price"]
+    games_prices_string = all_games["price"]
+
+    games_prices = []
+    for string in games_prices_string:
+        price = int(string)
+        games_prices.append(price)
 
     counter = 0
     games = []
@@ -360,6 +364,46 @@ def filterByPrice(**kwargs):
         counter += 1
 
     for game in sort(games):
+        gameslist.insert("end", game[1])
+
+    global games_from_list
+    games_from_list = gameslist.get(0, "end")
+
+
+def sortByName():
+    games = list(gameslist.get(0, "end"))
+    gameslist.delete(0, END)
+
+    print(games)
+
+    for game in sort(games):
+        gameslist.insert("end", game)
+
+    global games_from_list
+    games_from_list = gameslist.get(0, "end")
+
+def sortByPrice():
+    games = gameslist.get(0, "end")
+    gameslist.delete(0, END)
+
+    all_games = collectInfo()
+
+    games_names = all_games["name"]
+    games_prices_string = all_games["price"]
+
+    games_prices = []
+    for string in games_prices_string:
+        price = int(string)
+        games_prices.append(price)
+
+    counter = 0
+    new_games = []
+    for name in games_names:
+        if name in games:
+            new_games.append([games_prices[counter], name])
+            counter += 1
+
+    for game in sort(new_games):
         gameslist.insert("end", game[1])
 
     global games_from_list
@@ -399,11 +443,10 @@ def caseSensitive():
 def sortby(i):
     global current_sort
     selection = current_sort.get()
-    if selection == "name":
-        listInsert(sort(fillList('name')))
-        current_sort_label.config(text=f"sorted by: name")
-    elif selection == "price":
-        filterByPrice(sort = True)
+    if selection == "sort by: name":
+        sortByName()
+    elif selection == "sort by: price":
+        sortByPrice()
 
 
 state = 0
@@ -537,7 +580,6 @@ def changeButtonColor(color):
                                    highlightthickness=0)
     else:
         TI_neopixel_options.config(bg=f"{fromRGB(color)}", activebackground=f"{fromRGB(color)}")
-        print(max(color))
         if max(color) >= 200:
             TI_neopixel_options.config(fg='black',activeforeground='black')
         else:
@@ -554,8 +596,6 @@ root.protocol("WM_DELETE_WINDOW", lambda: onExit())
 theme = ttk.Style(root)
 tooltip_balloon = tix.Balloon(root, bg="#2B526F")
 
-
-
 rightframe = Frame(master=root, width=768, height=576,bg="#042430")
 rightframe.grid(row=0,column=0, padx=10, pady=10)
 
@@ -566,7 +606,7 @@ settingswindow.pack(side=TOP, pady=10)
 
 # --wigdets in window
 
-sorting_options = ["sort by", "name", "price", "date"]
+sorting_options = ["sort by: unsorted", "sort by: name", "sort by: price"]
 global current_sort
 current_sort = StringVar()
 current_sort.set(sorting_options[0])
@@ -598,7 +638,7 @@ global current_genre
 current_genre = StringVar()
 current_genre.set(genrefilter_options[0])
 global genre_optionmenu
-genre_optionmenu = OptionMenu(settingswindow, current_genre, *genrefilter_options, )#command=filterByGenre
+genre_optionmenu = OptionMenu(settingswindow, current_genre, *genrefilter_options, command=filterByGenre)
 genre_optionmenu.config(bg="#0B3545", fg="white",
                         activebackground='#092F3E',
                         activeforeground='white',
@@ -632,7 +672,7 @@ searchbar.pack(side="right")
 listframe.pack(side="top")
 gameslist.pack(side="left", expand=True, fill="both")
 scrollbar.pack(side="right", fill="y")
-current_sort_label = Label(master=rightframe, text=f"sorted by: not sorted", fg="white", bg="#042430")
+current_sort_label = Label(master=rightframe, text=f"", fg="white", bg="#042430")
 current_sort_label.pack(side="top", fill="x")
 
 detailsframe = Frame(master=rightframe, bg="#0B3545", width=300, height=200)
@@ -726,7 +766,7 @@ root.config(menu=menubar)
 
 #Laat de diagram zien
 fig1, ax1 = plt.subplots(figsize=(4, 4))
-ax1.pie([1, 0], explode=[0.1, 0], labels=["Positive", "Negative"], autopct='%1.0f%%', shadow=True, startangle=45)
+ax1.pie([1, 1], explode=[0.1, 0], labels=["Positive", "Negative"], autopct='%1.0f%%', shadow=True, startangle=45)
 ax1.axis('equal')
 
 canvas = FigureCanvasTkAgg(fig1, master=ntbk_frame1)
