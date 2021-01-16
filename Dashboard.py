@@ -1,5 +1,3 @@
-# steam project dashboard - verona kragten
-
 #Imports
 import json
 import matplotlib
@@ -41,7 +39,7 @@ def openReadme():
 
 #Stopt gegeven informatie in de lijst met games
 def listInsert(list):
-    #doorloopt ieder item en zet deze in de lijst
+    #Doorloopt ieder item en zet deze in de lijst
     for item in list:
         gameslist.insert(END, item)
 
