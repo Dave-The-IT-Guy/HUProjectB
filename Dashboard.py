@@ -32,7 +32,7 @@ global sorting
 global games_from_list
 global sensordisplay
 sensordisplay = "neopixel"
-#Voor de verbinding met de server
+#Voor de verbinding met de server 
 con = "PYRO:steam.functions@192.168.192.24:9090"
 #Locatie van steam.json voor als de API niet werkt
 data_location = "steam.json"
