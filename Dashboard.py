@@ -38,20 +38,26 @@ data_location = "steam.json"
 
 
 # -- functions
+#Opent de readme = file op github
 def openReadme():
     webbrowser.open('https://github.com/Dave-The-IT-Guy/HUProjectB/blob/main/README.md')
 
+
+#Stopt gegeven informatie in de lijst met games
 def listInsert(list):
+    #doorloopt ieder item en zet deze in de lijst
     for item in list:
         gameslist.insert(END, item)
 
 
+#Open de json file en zet alles in een dictonairy
 def json_to_dict(location):
-    #Open de json file en zet alles in een dictonairy
     with open(location) as json_file:
         steamdata = json.load(json_file)
     return steamdata
 
+
+#Haalt gekozen waarde uit een dictionairy en maakt de gegeven data 'schoon'
 def select(dict, selection):
     # Maak een lege lijst aan voor de namen
     result = []
@@ -80,6 +86,7 @@ def select(dict, selection):
     return result
 
 
+#Sorteert gegevens door middel van een merge sort
 #Source: https://www.geeksforgeeks.org/merge-sort/
 def sort(lst):
 
@@ -127,6 +134,7 @@ def sort(lst):
     return lst
 
 
+#Sorteert een json file op gekozen sleutel
 def sort_json(location, sort_by):
     # Maak van de json een dict
     dict = json_to_dict(location)
@@ -138,28 +146,33 @@ def sort_json(location, sort_by):
     return sort(lst)
 
 
+#Haalt informatie van het web af
 def get_request(url, parameters=None):
-
+    #Probeer data van de website af te halen
     try:
         response = requests.get(url=url, params=parameters)
     except:
         time.sleep(2)
-        # recusively try again
+        #Blijf recursief proberen
         return get_request(url, parameters)
 
+    #Als er een response is return deze dan
     if response:
         return response.json()
     else:
-        # response is none usually means too many requests. Wait and try again
+        # Geen reactie betekend meestal dat er te veel connecties zijn dus even wachten.
         time.sleep(2)
         return get_request(url, parameters)
 
 
+#Haalt informatie van de API af
 def collectInfo(**kwargs):
 
+    #Kijkt naar de kwargs en haalt de waarde van ze op
     game = kwargs.get('gameID', "all")
     genre = kwargs.get('genre', None)
 
+    #Kijkt welke data er opgehaald moet worden aan de hand van de kwargs
     if genre != None:
         url = "https://steamspy.com/api.php?request=genre&genre=" + genre.replace(" ", "+")
     elif game == "all":
@@ -167,63 +180,81 @@ def collectInfo(**kwargs):
     else:
         url = "https://steamspy.com/api.php?request=appdetails&appid=" + str(game)
 
-    # request 'all' from steam spy and parse into dataframe
+    # Haalt de gevraagde data op
     json_data = get_request(url)
 
-    if game == None or game == "all":
+    # Stopt de data in een dataframe (behalve als er 1 game opgevraagd wordt)
+    if game == "all": #game == None or ...
         json_data = pd.DataFrame.from_dict(json_data, orient='index')
 
     return (json_data)
 
 
+#Werkt het taart-diagram bij
 def showgraph(appID, *rating):
+    #Kijk of het data uit de API is of uit de JSON
     if appID != 0:
+        #Haal de data uit de API
         app = collectInfo(gameID = appID)
 
+        #Bepaal het aantal positieve en negatieve stemmen en stop deze in een list
         positive = app['positive']
         negative = app['negative']
         sizes = [positive, negative]
-    #Als de api niet werkt kan er op deze manier toch een grafiek getoont worden
+    #Als de api niet werkt haal dan de data op uit de JSON
     else:
         sizes = rating[0]
 
+    #Als een spel nog geen beoordeling heeft zorg er dan voor dat het diagram om 50/50 staat
     if max(sizes) == 0:
         sizes = [100, 100]
 
+    #Update het diagram
     ax1.clear()
     ax1.pie(sizes, explode=[0.1, 0], labels=["Positive", "Negative"], autopct='%1.0f%%', shadow=True, startangle=45)
     fig1.canvas.draw_idle()
 
 
-
+#Open de pop-up waar het filterbedrag in gestopt kan worden
 def OpenPricefilterframe():
+
+    #defineert pop-up frame
     global pricefilterwindow
     pricefilterwindow = Toplevel(settingswindow, bg="#042430")
     pricefilterwindow.geometry('300x140')  # width x height
     pricefilterwindow.resizable(False, False)
     pricefilterwindow.iconbitmap("steam_icon.ico")
     pricefilterwindow.title("filter by price")
-
     pricefilterframe = Frame(pricefilterwindow, bg="#042430")
-    labelfrom = Label(master=pricefilterframe, text="from (in dollars):", bg="#042430", fg="white")  # , font="-weight bold"
-    global pricefrom
-    pricefrom = Entry(master=pricefilterframe, bg="#0B3545", fg="white", insertbackground="white", insertwidth=1)
-
-    labelto = Label(master=pricefilterframe, text="to (in dollars):", bg="#042430", fg="white")
-    global priceto
-    priceto = Entry(master=pricefilterframe, bg="#0B3545", fg="white", insertbackground="white", insertwidth=1)
-    getpricefilter_button = Button(master=pricefilterframe, text="filter", command=filterByPrice, bg="#0B3545", fg="white", borderwidth=0)
-    pricefrom.grid(row=0, column=1, padx=5)
-    pricefrom.focus()
-    labelfrom.grid(row=0, column=0, padx=5)
-    labelto.grid(row=2, column=0, padx=5)
-    priceto.grid(row=2, column=1, padx=5)
-    getpricefilter_button.grid(row=3, column=0, pady=5, sticky="EW", columnspan=3)
     pricefilterframe.grid_columnconfigure(0, weight=2)
-
     pricefilterframe.pack(pady=20)
 
+    #Defineert de from label
+    labelfrom = Label(master=pricefilterframe, text="from (in dollars):", bg="#042430", fg="white")  # , font="-weight bold"
+    labelfrom.grid(row=0, column=0, padx=5)
 
+    #Defineert de from entry
+    global pricefrom
+    pricefrom = Entry(master=pricefilterframe, bg="#0B3545", fg="white", insertbackground="white", insertwidth=1)
+    pricefrom.grid(row=0, column=1, padx=5)
+    pricefrom.focus()
+
+    #Defineert de to label
+    labelto = Label(master=pricefilterframe, text="to (in dollars):", bg="#042430", fg="white")
+    labelto.grid(row=2, column=0, padx=5)
+
+    # Defineert de to entry
+    global priceto
+    priceto = Entry(master=pricefilterframe, bg="#0B3545", fg="white", insertbackground="white", insertwidth=1)
+    priceto.grid(row=2, column=1, padx=5)
+
+    # Defineert de filter button
+    getpricefilter_button = Button(master=pricefilterframe, text="filter", command=filterByPrice, bg="#0B3545", fg="white", borderwidth=0)
+    getpricefilter_button.grid(row=3, column=0, pady=5, sticky="EW", columnspan=3)
+
+
+
+#Vult een lijst met data uit de API. Als dat niet lukt vul het dan met de JSON
 def fillList(fill_with):
     try:
         games = collectInfo()
@@ -235,22 +266,35 @@ def fillList(fill_with):
     return list
 
 
+#Haal de details op van het gekozen spel
 def getDetails(i):
+    #Kijk welk spel geselecteerd is
     selected = gameslist.get(gameslist.curselection()) # get the current selection in the listbox
-    details.config(state=NORMAL) # set state to normal so that changes can be made to the textbox
-    details.delete('1.0', END) #clear whatevers currently in the textbox
 
+    #Leeg de textbox met informatie over het vorige spel
+    details.config(state=NORMAL)
+    details.delete('1.0', END)
+
+    #Probeer data uit de API te gebruiken. Als dat niet gaat probeer dan data uit de JSON te halen
     try:
+        #Haal data van alle spellen op uit de API
         data = collectInfo()
+
+        #Haal de rij met data op van het gekozen spel
         row = data[data['name'] == selected]
+
+        #Sla de appid op van het gekozen spel
         appid_info = row["appid"]
         appid = int(appid_info[0])
+
         #Als de API het niet doet gaat hij om een of andere reden niet naar de except. Vandaar dit
         try:
+            #Haal de uitgebreide data van het spel op vanuit de API
             game = collectInfo(gameID = appid)
         except:
             pass
 
+        #Stop de data in de textbox
         details.insert(END, f'{game["name"]}\n'  # insert all the details into the textbox
                             f'_____________________________\n'  # this ones just for looks
                             f'Developer: {game["developer"]}\n'
@@ -261,12 +305,18 @@ def getDetails(i):
                             f'Owners: {game["owners"]} copies\n'
                             f'Languages: {game["languages"]}\n'
                             f'Genres: {game["genre"]}')
+
+        #Update het diagram
         showgraph(game['appid'])
+
     #Zodat de games weergegeven kunnen worden als de API niet werkt
     except:
-        dictionary = json_to_dict(data_location)  # sort list of dicts
+        #Haal de data uit de dictionairy (returnt een lijst)
+        dictionary = json_to_dict(data_location)
 
+        #Doorloop de lijst met dictionairy's
         for game in dictionary:
+            #Als de data van het spel gevonden is stop deze dan in de textbox
             if game['name'] == selected:
                 details.insert(END, f'_____________________________\n'  # this ones just for looks
                                     f'Recent info can\'t be collected. You may look at outdated stats.\n'
@@ -283,6 +333,7 @@ def getDetails(i):
                                     f'Average playtime: {game["average_playtime"]} hours\n'
                                     f'Owners: {game["owners"]} copies\n')
                 break
+        #Update het diagram
         showgraph(0, [game["positive_ratings"], game["negative_ratings"]])
     details.config(state=DISABLED)  # set it back to disabled to the user cant write 'penis' in the textbox
 
@@ -291,7 +342,7 @@ def getDetails(i):
     return None  #python gets mad at me if i dont return anything and i dont know why
     # place i got the code from: https://stackoverflow.com/questions/34327244/binary-search-through-strings
 
-
+#TODO: Verder commenten
 def filterByGenre(current_genre):
     gameslist.delete(0, END)
 
