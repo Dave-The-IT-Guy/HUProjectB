@@ -343,128 +343,190 @@ def getDetails(i):
     # place i got the code from: https://stackoverflow.com/questions/34327244/binary-search-through-strings
 
 #TODO: Verder commenten
+#Filtert de games van de API bij genre
 def filterByGenre(current_genre):
+
+    #Maakt de lijst met games leeg
     gameslist.delete(0, END)
 
+    #Haalt alle games met gekozen genre op uit de API
     games = collectInfo(genre = current_genre)
 
+    #Zet alle namen in de lijst met games
     for name in games["name"]:
         gameslist.insert(END, name)
 
+    #Vult een globale variabele met de huidige waarde van de gameslijst (voor het zoeken en sorteren)
     global games_from_list
     games_from_list = gameslist.get(0, "end")
 
 
+#Kijkt welk filter er gekozen is
 def filterBy(i):  # same as search but like. different
+
+    #Kijkt naar welk filter er gekozen is en maakt hem global
     global current_filter
     selection = current_filter.get()
     # pricefilterframe.grid_forget()
     genre_optionmenu.grid_forget()
 
+    #Als de resultaten niet meer gefilter worden dan...
     if selection == "no filter":
+        #Vul de lijst met alle namen van alle spellen
         listInsert(fillList('name'))
+
+        #Als het genre menu er staat haal deze dan weg
+        try:
+            genre_optionmenu.destroy()
+        except:
+            pass
+
+        # Vult een globale variabele met de huidige waarde van de gameslijst (voor het zoeken en sorteren)
         global games_from_list
         games_from_list = gameslist.get(0, "end")
 
+    #Als de resultaten gefilterd moeten worden op prijs roep dan de juiste functie aan
     elif selection == "price":
-        # pricefilterframe.grid(row= 0, column=2)
+        #Laat een menu zien waar de prijs mee bepaald kan worden
         OpenPricefilterframe()
 
+        # Als het genre menu er staat haal deze dan weg
+        try:
+            genre_optionmenu.destroy()
+        except:
+            pass
 
+    #Als er gekozen is om op genre te filteren laat dan de diverse genres zien
     elif selection == "genre":
         genre_optionmenu.grid(row=0, column=2)
 
 
+#Filtert de prijzen op de gekozen prijsrange
 def filterByPrice():
+    #Probeer de waardes uit het formulier te halen
     try:
         min_price = float(pricefrom.get())
         max_price = float(priceto.get())
         pricefilterwindow.destroy()
     except ValueError:
+        #Als de waardes niet uit het formulier leeg zijn geef dan een foutmelding
         messagebox.showinfo(title="value Error", message="please insert a price")
         return None
 
+    #Haal alle games uit de lijst
     gameslist.delete(0, END)
 
+    #Haal alle games op uit de API
     all_games = collectInfo()
 
+    #Defineer variabele met alle namen en alle prijzen van spelletjes
     games_names = all_games["name"]
     games_prices_string = all_games["price"]
 
+    #Maak een lijst aan waar alle namen met prijzen van de games in opgeslagen kunnen worden
     games_prices = []
+
+    #Maak van alle prijzen een int om ervoor te zorgen dat het sorteren en loopen goed gaat
     for string in games_prices_string:
         price = int(string)
         games_prices.append(price)
 
+    #Loop door alle prijzen heen
     counter = 0
     games = []
     for i in games_prices:
-        games_price = float(i) / 100 #Van centen naar euro's
+        games_price = float(i) / 100 #Van pennies naar dollars
+
+        #Als de prijs van het spel in de prijsrange valt voeg de naam en de prijs dan toe aan de lijst
         if min_price <= games_price <= max_price:
             games.append([games_price, games_names[counter]])
         counter += 1
 
+    #Laat alle games gesorteerd op prijs zien
     for game in sort(games):
         gameslist.insert("end", game[1])
 
+    # Vult een globale variabele met de huidige waarde van de gameslijst (voor het zoeken en sorteren)
     global games_from_list
     games_from_list = gameslist.get(0, "end")
 
 
+#Sorteerd de huidige selectie games op prijs
 def sortByName():
+
+    #Haal alle games uit de lijst
     games = list(gameslist.get(0, "end"))
     gameslist.delete(0, END)
 
-    print(games)
-
+    #Sorteer de lijst met games en stop deze in de lijst met games (GUI)
     for game in sort(games):
         gameslist.insert("end", game)
 
+    # Vult een globale variabele met de huidige waarde van de gameslijst (voor het zoeken en sorteren)
     global games_from_list
     games_from_list = gameslist.get(0, "end")
 
+
+#Sorteert de huidige selectie games op prijs
 def sortByPrice():
+    #Haal alle games uit de lijst en leeg deze
     games = gameslist.get(0, "end")
     gameslist.delete(0, END)
 
+    #Haal alle games op uit de API
     all_games = collectInfo()
 
+    # Defineer variabele met alle namen en alle prijzen van spelletjes
     games_names = all_games["name"]
     games_prices_string = all_games["price"]
 
+    # Maak van alle prijzen een int om ervoor te zorgen dat het sorteren en loopen goed gaat
     games_prices = []
     for string in games_prices_string:
         price = int(string)
         games_prices.append(price)
 
+    # Loop door alle games heen
     counter = 0
     new_games = []
     for name in games_names:
+        #Als de naam van de game in de selectie zit en in de data van de API voeg de naam en de prijs toe aan de lijst
         if name in games:
             new_games.append([games_prices[counter], name])
             counter += 1
 
+    #Sorteer de zojuist gegenereerde lijst en stop deze in de GUI
     for game in sort(new_games):
         gameslist.insert("end", game[1])
 
+    # Vult een globale variabele met de huidige waarde van de gameslijst (voor het zoeken en sorteren)
     global games_from_list
     games_from_list = gameslist.get(0, "end")
 
 
+#Zoekt de gezochte waarde in de huidige selectie games
 def search(a):
-    query = searchbar.get() #get contents of searchbar
+    #Haal de waarde uit de zoekbalk
+    query = searchbar.get()
 
-    gameslist.delete(0, END)  # clear listbox
-    if query == "":#if searchbar is empty, insert entire list
+    #Leeg de lijst met games
+    gameslist.delete(0, END)
+
+    #Als de zoekbalk leeg is laat dan alle games zien
+    if query == "":
         listInsert(games_from_list)
         return
 
+    #Als case_sensitve aanstaat loop dan door alle games oplettend op hoofdletters
     if case_sensitive == True:
         for game in games_from_list:
             if query in game:
                 gameslist.insert("end", game)
+
+    # Als case_sensitve aanstaat loop dan door alle games niet oplettend op hoofdletters
     else:
         for game in games_from_list:
+            #Maak alle karakters een kleine letter
             no_case = game.lower()
             if query.lower() in no_case:
                 gameslist.insert("end", game)
@@ -472,162 +534,261 @@ def search(a):
                   #     for loop in binary search
 
 
+#Toggelt tussen wel of niet case sensitive
 def caseSensitive():
     global case_sensitive
+
+    #Als case sensitive aan stond zet het uit
     if case_sensitive == True:
         case_sensitive = False
 
+    #En andersom...
     elif case_sensitive == False:
         case_sensitive = True
 
 
-def sortby(i):
+#Kijkt waarop er gesorteerd moet worden
+def sortby(x):
     global current_sort
+
+    #Kijk welke waarde gekozen is
     selection = current_sort.get()
+
+    #Als er gekozen is voor sorteren op naam sorteer dan op naam
     if selection == "sort by: name":
         sortByName()
+
+    # Als er gekozen is voor sorteren op prijs sorteer dan op prijs
     elif selection == "sort by: price":
         sortByPrice()
 
 
+#Houd bij of de NeoPixel smooth(1) of flash(2) aanstaat
 state = 0
+#Stuurt commando's naar de server voor het veranderen van de NeoPixel
 def neopixelChange(i):
-    global state
+    global state #0 = Geen programma, 1 = Smooth, 2 = Flash
+
+    #Bepaalt de remote host
     rem = Pyro5.api.Proxy(con)
+
+    #Kijkt voor welk programma er gekozen is
     selection = current_neopxl.get()
+
+    #Als er voor off is gekozen dan...
     if selection == "off":
+        #Probeer de NeoPixelkleur te veranderen.
         try:
+            #Als er een programma op de NeoPixel aanstaat zet het dan uit.
             if state != 0:
                 if state == 1:
+                    #Stuur het commando om smooth te stoppen
                     rem.recieve_smooth(False)
                 else:
+                    #Stuur het commando om flash te stoppen
                     rem.recieve_flash(False)
+
+            #Stuur het commando om de NeoPixel uit te zetten
             rem.change_neo([[0, 0, 0]])
+
             state = 0
+
+            #Maak de kleur van de button normaal
             changeButtonColor(None)
         except:
+            #Mocht het niet lukken om verbinding te maken wacht dan even
             time.sleep(2)
 
+    #Als er voor wit gekozen is dan...
     elif selection == "white":
         try:
+            # Als er een programma op de NeoPixel aanstaat zet het dan uit.
             if state != 0:
                 if state == 1:
                     rem.recieve_smooth(False)
                 else:
                     rem.recieve_flash(False)
+
+            #Stuur het commando om de NeoPixel wit te maken.
             rem.change_neo([[255, 255, 255]])
+
             state = 0
-            changeButtonColor(None)
+
+            #Pas de kleur van de button aan naar wit
+            color = (255, 255, 255)
+            changeButtonColor(color)
         except:
+            # Mocht het niet lukken om verbinding te maken wacht dan even
             time.sleep(2)
 
+    #Als er voor smooth gekozen is dan...
     elif selection == "smooth":
         try:
+            # Als er een programma op de NeoPixel aanstaat zet het dan uit.
             if state != 0:
                 if state == 1:
-                    rem.recieve_smooth(False)
+                    return
                 else:
                     rem.recieve_flash(False)
+
+            #Stuur het commando om het smooth programma te starten
             rem.recieve_smooth(True)
+
             state = 1
+
+            #Maak de kleur van de button normaal
             changeButtonColor(None)
         except:
+            # Mocht het niet lukken om verbinding te maken wacht dan even
             time.sleep(2)
 
     elif selection == "flash":
         try:
+            # Als er een programma op de NeoPixel aanstaat zet het dan uit.
             if state != 0:
                 if state == 1:
                     rem.recieve_smooth(False)
                 else:
-                    rem.recieve_flash(False)
+                    return
+
+            #Stuur het commando voor het flash programma
             rem.recieve_flash(True)
+
             state = 2
+
+            #Maak de button normaal
             changeButtonColor(None)
         except:
+            # Mocht het niet lukken om verbinding te maken wacht dan even
             time.sleep(2)
 
+    #Als er gekozen is om een eigen kleur te kiezen
     elif selection == "pick color":
+        #Laat een scherm zien waarin de kleur gekozen worden kan
         color = (askcolor((0, 0, 0), root))[0]
+
+        #Als er geen kleur gekozen is annuleer dan de actie
+        if color == None:
+            return
         try:
+            # Als er een programma op de NeoPixel aanstaat zet het dan uit.
             if state != 0:
                 if state == 1:
                     rem.recieve_smooth(False)
                 else:
                     rem.recieve_flash(False)
+
+            #Stuur het commando om de kleur te veranderen naar de NeoPixel
             rem.change_neo([color])
+
+            #Verander de kleur van de button naar de gekozen kleur
             changeButtonColor(color)
             state = 0
         except:
+            # Mocht het niet lukken om verbinding te maken wacht dan even
             time.sleep(2)
 
 
+#Stuur het zwaaicommando naar de server
 def send_wave():
+    #Bepaalt de remote host
     rem = Pyro5.api.Proxy(con)
+
+    #Schakel de button uit zodat het commando niet nog een keer gestuud worden kan
     TI_wavebutton.config(state=DISABLED)
     TI_wavebutton.update()
+
+    #Probeer een zwaai naar de server te sturen
     try:
+        #Stuur een zwaai naar de server
         rem.recieve_wave()
+        #Wacht totat de zwaai klaar is
         time.sleep(4)
     except:
+        # Mocht het niet lukken om verbinding te maken wacht dan even
         time.sleep(2)
     finally:
+        #Zorg ervoor dat de button weer gebruikt worden kan
         TI_wavebutton.config(state="normal")
         TI_wavebutton.update()
 
 
+#Start de thread om een zwaai te sturen
 def thread_send_wave():
     threading.Thread(target=send_wave, daemon=True).start()
 
 
+#Stuur een geluidssignaal naar een vriend
 def send_beep():
+    #Bepaalt de remote host
     rem = Pyro5.api.Proxy(con)
+
+    #Schakel de button uit zodat het commando niet nog een keer gestuurd worden kan
     TI_soundbutton.config(state=DISABLED)
     try:
+        #Probeer meerdere beeps te sturen naar de vriend (via de server)
         for i in range(0, 5):
            rem.send_beep()
+           #Wacht totdat de beep klaar is voordat je er nog een stuurt
            time.sleep(1.3)
     except:
+        # Mocht het niet lukken om verbinding te maken wacht dan even
         time.sleep(2)
     finally:
+        #Zorgt ervoor dat de button weer gebruikt worden kan
         TI_soundbutton.config(state=NORMAL)
 
 
+#Start de thread om een geluidsignaal te sturen
 def thread_send_beep():
     threading.Thread(target=send_beep, daemon=True).start()
 
 
+#Bepaalt wat er gedaan moet worden als het programma afgesloten moet worden
 def onExit():
+    #Bepaalt de remote host
     rem = Pyro5.api.Proxy(con)
+
+    #Sluit de GUI
     root.destroy()
+
+    #Start de thread om de server uit te zetten
     threading.Thread(target = rem.shutdown())
+
+    #Stopt het programma
     exit()
 
 
+#Maakt een RGB tuple TKinter friendelijk
 def fromRGB(rgb):
-    """translates an rgb tuple of int to a tkinter friendly color code
-    """
     # bron: https://stackoverflow.com/a/51592104
     return "#%02x%02x%02x" % rgb
 
 
+#Verander de kleur van de knop (voor het veranderen van de kleur van de NeoPixel)
 def changeButtonColor(color):
-      # De rgb kleuren
+
+    #Als er geen kleur gekozen is verander de button dan naar de standaard kleur
     if color is None:
         TI_neopixel_options.config(bg="#042430", fg="white",
                                    activebackground='#092F3E',
                                    activeforeground='white',
                                    borderwidth=0,
                                    highlightthickness=0)
+
+    #Als er wel een kleur gekozen is dan...
     else:
+        #Verander de achtergrondkleur van de button
         TI_neopixel_options.config(bg=f"{fromRGB(color)}", activebackground=f"{fromRGB(color)}")
         if max(color) >= 200:
+            #Als de kleur te wit is verander de tekstkleur naar zwart
             TI_neopixel_options.config(fg='black',activeforeground='black')
         else:
+            #Verander hem anders naar wit
             TI_neopixel_options.config(fg='white', activeforeground='white')
 
 
-    #-- placing wigdets
+#Defineert de main window
 root = tix.Tk()
 root.config(bg="#042430")
 root.iconbitmap("steam_icon.ico") #how the fuck does this slow down the entire app???
@@ -637,16 +798,16 @@ root.protocol("WM_DELETE_WINDOW", lambda: onExit())
 theme = ttk.Style(root)
 tooltip_balloon = tix.Balloon(root, bg="#2B526F")
 
+#Defineert het rechter frame
 rightframe = Frame(master=root, width=768, height=576,bg="#042430")
 rightframe.grid(row=0,column=0, padx=10, pady=10)
 
-# --sort window
+#Defineert het frame waar de sorteer en filterknop in zitten
 settingswindow = Frame(master=rightframe, bg="#042430")
 settingswindow.pack(side=TOP, pady=10)
 
 
-# --wigdets in window
-
+#Defineert de opties die je krijgt als je de sorteerknop aanklikt
 sorting_options = ["sort by: unsorted", "sort by: name", "sort by: price"]
 global current_sort
 current_sort = StringVar()
@@ -661,6 +822,7 @@ sort_optionmenu.config(bg="#0B3545", fg="white",
 sort_optionmenu["menu"].config(bg="#042430", fg="white", activebackground="#0b3a4d")
 sort_optionmenu.grid(row=0, pady=5, padx=5)
 
+#Defineert de opties die je krijgt als je de filterknop aanklikt
 filter_options = ('no filter', 'genre', 'price')
 global current_filter
 current_filter = StringVar()
@@ -674,7 +836,8 @@ filter_optionmenu.config(bg="#0B3545", fg="white",
 filter_optionmenu["menu"].config(bg="#042430", fg="white", activebackground="#0b3a4d")
 filter_optionmenu.grid(row=0, column=1, pady=5, padx=5)
 
-genrefilter_options = ["pick a genre", "Action", "Adventure", "Indie", "RPG", "Early Access"] #UIZOEKEN BESCHIKBARE GENRES
+#Defineert de opties die je krijgt als je filteren op genre aanklikt
+genrefilter_options = ["pick a genre", "Action", "Adventure", "Indie", "RPG", "Early Access"]
 global current_genre
 current_genre = StringVar()
 current_genre.set(genrefilter_options[0])
@@ -687,10 +850,11 @@ genre_optionmenu.config(bg="#0B3545", fg="white",
                         highlightthickness=0)
 genre_optionmenu["menu"].config(bg="#0B3545", fg="white", activebackground="#0b3a4d")
 
+#Defineert de zoekbalk
 
 
+#Defineert de listbox waar alle games in zitten
 
-# listbox
 listframe = Frame(master=rightframe, bg="#0B3545")
 searchbarframe= Frame(master=rightframe,bg="#042430")
 searchbar = Entry(master=searchbarframe)
