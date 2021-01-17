@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7aa53e31-68b4-4456-8ba9-91ec7b33b431" name="Default Changelist" comment="Attempt to make the code prettier">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Dashboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/Dashboard.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -333,14 +334,8 @@
       <workItem from="1610698021456" duration="12539000" />
       <workItem from="1610732771893" duration="3026000" />
       <workItem from="1610800724792" duration="344000" />
-      <workItem from="1610801308763" duration="18307000" />
-    </task>
-    <task id="LOCAL-00037" summary="Minor bugfixes">
-      <created>1609857215848</created>
-      <option name="number" value="00037" />
-      <option name="presentableId" value="LOCAL-00037" />
-      <option name="project" value="LOCAL" />
-      <updated>1609857215848</updated>
+      <workItem from="1610801308763" duration="18349000" />
+      <workItem from="1610899541629" duration="517000" />
     </task>
     <task id="LOCAL-00038" summary="Minor changes and bugfixes">
       <created>1609858189238</created>
@@ -678,7 +673,14 @@
       <option name="project" value="LOCAL" />
       <updated>1610830092990</updated>
     </task>
-    <option name="localTasksCounter" value="86" />
+    <task id="LOCAL-00086" summary="Attempt to make the code prettier">
+      <created>1610830224436</created>
+      <option name="number" value="00086" />
+      <option name="presentableId" value="LOCAL-00086" />
+      <option name="project" value="LOCAL" />
+      <updated>1610830224436</updated>
+    </task>
+    <option name="localTasksCounter" value="87" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

@@ -32,52 +32,24 @@ data_location = "steam.json"
 
 # -- functions
 
+#Bepaalt wat er gedaan moet worden als het programma afgesloten moet worden
+def onExit():
+    #Bepaalt de remote host
+    rem = Pyro5.api.Proxy(con)
+
+    #Sluit de GUI
+    root.destroy()
+
+    #Start de thread om de server uit te zetten
+    threading.Thread(target = rem.shutdown())
+
+    #Stopt het programma
+    exit()
+
+
 #Opent de readme = file op github
 def openReadme():
     webbrowser.open('https://github.com/Dave-The-IT-Guy/HUProjectB/blob/main/README.md')
-
-
-#Stopt gegeven informatie in de lijst met games
-def listInsert(list):
-    #Doorloopt ieder item en zet deze in de lijst
-    for item in list:
-        gameslist.insert(END, item)
-
-
-#Open de json file en zet alles in een dictonairy
-def json_to_dict(location):
-    with open(location) as json_file:
-        steamdata = json.load(json_file)
-    return steamdata
-
-
-#Haalt gekozen waarde uit een dictionairy en maakt de gegeven data 'schoon'
-def select(dict, selection):
-    # Maak een lege lijst aan voor de namen
-    result = []
-    # Loop door de dictionaries in de lijst
-    for i in dict:
-        # Haal de waarde van de name key uit de dict
-        i = i[selection]
-        # Maak er een string van
-        i = str(i)
-        # Haal met regex de meeste speciale karakters eruit
-        i = re.sub('[^A-Za-z0-9$()\&\+\'\:\w\-\s\.]+', '', i)  # [^A-Za-z0-9]
-
-        # Haal alle onnodige spaties weg
-        i = " ".join(i.split())
-        # Haal wat extra rotzooi uit de string
-        (i).replace('()', '')
-        i.strip()
-
-        # Als een string met ' begint en eindigd verwijder deze dan
-        if i.startswith('\'') == True and i.endswith('\'') == True:
-            i = i[1:(len(i) - 1)]
-
-        # Als de string niet false is voeg hem toe aan de lijst (strings kunnen false zijn als ze bijv. leeg zijn)
-        if i:
-            result.append(i)
-    return result
 
 
 #Sorteert gegevens door middel van een merge sort
@@ -126,6 +98,49 @@ def sort(lst):
             j += 1
             k += 1
     return lst
+
+
+#Stopt gegeven informatie in de lijst met games
+def listInsert(list):
+    #Doorloopt ieder item en zet deze in de lijst
+    for item in list:
+        gameslist.insert(END, item)
+
+
+#Open de json file en zet alles in een dictonairy
+def json_to_dict(location):
+    with open(location) as json_file:
+        steamdata = json.load(json_file)
+    return steamdata
+
+
+#Haalt gekozen waarde uit een dictionairy en maakt de gegeven data 'schoon'
+def select(dict, selection):
+    # Maak een lege lijst aan voor de namen
+    result = []
+    # Loop door de dictionaries in de lijst
+    for i in dict:
+        # Haal de waarde van de name key uit de dict
+        i = i[selection]
+        # Maak er een string van
+        i = str(i)
+        # Haal met regex de meeste speciale karakters eruit
+        i = re.sub('[^A-Za-z0-9$()\&\+\'\:\w\-\s\.]+', '', i)  # [^A-Za-z0-9]
+
+        # Haal alle onnodige spaties weg
+        i = " ".join(i.split())
+        # Haal wat extra rotzooi uit de string
+        (i).replace('()', '')
+        i.strip()
+
+        # Als een string met ' begint en eindigd verwijder deze dan
+        if i.startswith('\'') == True and i.endswith('\'') == True:
+            i = i[1:(len(i) - 1)]
+
+        # Als de string niet false is voeg hem toe aan de lijst (strings kunnen false zijn als ze bijv. leeg zijn)
+        if i:
+            result.append(i)
+    return result
 
 
 #Sorteert een json file op gekozen sleutel
@@ -206,45 +221,6 @@ def showgraph(appID, *rating):
     ax1.clear()
     ax1.pie(sizes, explode=[0.1, 0], labels=["Positive", "Negative"], autopct='%1.0f%%', shadow=True, startangle=45)
     fig1.canvas.draw_idle()
-
-
-#Open de pop-up waar het filterbedrag in gestopt kan worden
-def OpenPricefilterframe():
-
-    #defineert pop-up window/frame
-    global pricefilterwindow
-    pricefilterwindow = Toplevel(settingswindow, bg="#042430")
-    pricefilterwindow.geometry('300x140')  # width x height
-    pricefilterwindow.resizable(False, False)
-    pricefilterwindow.iconbitmap("steam_icon.ico")
-    pricefilterwindow.title("filter by price")
-
-    pricefilterframe = Frame(pricefilterwindow, bg="#042430")
-    pricefilterframe.grid_columnconfigure(0, weight=2)
-    pricefilterframe.pack(pady=20)
-
-    #Defineert de from label
-    labelfrom = Label(master=pricefilterframe, text="from (in dollars):", bg="#042430", fg="white")  # , font="-weight bold"
-    labelfrom.grid(row=0, column=0, padx=5)
-
-    #Defineert de from entry
-    global pricefrom
-    pricefrom = Entry(master=pricefilterframe, bg="#0B3545", fg="white", insertbackground="white", insertwidth=1)
-    pricefrom.grid(row=0, column=1, padx=5)
-    pricefrom.focus()
-
-    #Defineert de to label
-    labelto = Label(master=pricefilterframe, text="to (in dollars):", bg="#042430", fg="white")
-    labelto.grid(row=2, column=0, padx=5)
-
-    # Defineert de to entry
-    global priceto
-    priceto = Entry(master=pricefilterframe, bg="#0B3545", fg="white", insertbackground="white", insertwidth=1)
-    priceto.grid(row=2, column=1, padx=5)
-
-    # Defineert de filter button
-    getpricefilter_button = Button(master=pricefilterframe, text="filter", command=filterByPrice, bg="#0B3545", fg="white", borderwidth=0)
-    getpricefilter_button.grid(row=3, column=0, pady=5, sticky="EW", columnspan=3)
 
 
 #Vult een lijst met data uit de API. Als dat niet lukt vul het dan met de JSON
@@ -336,6 +312,95 @@ def getDetails(i):
     # place i got the code from: https://stackoverflow.com/questions/34327244/binary-search-through-strings
 
 
+#Open de pop-up waar het filterbedrag in gestopt kan worden
+def OpenPricefilterframe():
+
+    #defineert pop-up window/frame
+    global pricefilterwindow
+    pricefilterwindow = Toplevel(settingswindow, bg="#042430")
+    pricefilterwindow.geometry('300x140')  # width x height
+    pricefilterwindow.resizable(False, False)
+    pricefilterwindow.iconbitmap("steam_icon.ico")
+    pricefilterwindow.title("filter by price")
+
+    pricefilterframe = Frame(pricefilterwindow, bg="#042430")
+    pricefilterframe.grid_columnconfigure(0, weight=2)
+    pricefilterframe.pack(pady=20)
+
+    #Defineert de from label
+    labelfrom = Label(master=pricefilterframe, text="from (in dollars):", bg="#042430", fg="white")  # , font="-weight bold"
+    labelfrom.grid(row=0, column=0, padx=5)
+
+    #Defineert de from entry
+    global pricefrom
+    pricefrom = Entry(master=pricefilterframe, bg="#0B3545", fg="white", insertbackground="white", insertwidth=1)
+    pricefrom.grid(row=0, column=1, padx=5)
+    pricefrom.focus()
+
+    #Defineert de to label
+    labelto = Label(master=pricefilterframe, text="to (in dollars):", bg="#042430", fg="white")
+    labelto.grid(row=2, column=0, padx=5)
+
+    # Defineert de to entry
+    global priceto
+    priceto = Entry(master=pricefilterframe, bg="#0B3545", fg="white", insertbackground="white", insertwidth=1)
+    priceto.grid(row=2, column=1, padx=5)
+
+    # Defineert de filter button
+    getpricefilter_button = Button(master=pricefilterframe, text="filter", command=filterByPrice, bg="#0B3545", fg="white", borderwidth=0)
+    getpricefilter_button.grid(row=3, column=0, pady=5, sticky="EW", columnspan=3)
+
+
+#Filtert de prijzen op de gekozen prijsrange
+def filterByPrice():
+    #Probeer de waardes uit het formulier te halen
+    try:
+        min_price = float(pricefrom.get())
+        max_price = float(priceto.get())
+        pricefilterwindow.destroy()
+    except ValueError:
+        #Als de waardes niet uit het formulier leeg zijn geef dan een foutmelding
+        messagebox.showinfo(title="value Error", message="please insert a price")
+        return None
+
+    #Haal alle games uit de lijst
+    gameslist.delete(0, END)
+
+    #Haal alle games op uit de API
+    all_games = collectInfo()
+
+    #Defineer variabele met alle namen en alle prijzen van spelletjes
+    games_names = all_games["name"]
+    games_prices_string = all_games["price"]
+
+    #Maak een lijst aan waar alle namen met prijzen van de games in opgeslagen kunnen worden
+    games_prices = []
+
+    #Maak van alle prijzen een int om ervoor te zorgen dat het sorteren en loopen goed gaat
+    for string in games_prices_string:
+        price = int(string)
+        games_prices.append(price)
+
+    #Loop door alle prijzen heen
+    counter = 0
+    games = []
+    for i in games_prices:
+        games_price = float(i) / 100 #Van pennies naar dollars
+
+        #Als de prijs van het spel in de prijsrange valt voeg de naam en de prijs dan toe aan de lijst
+        if min_price <= games_price <= max_price:
+            games.append([games_price, games_names[counter]])
+        counter += 1
+
+    #Laat alle games gesorteerd op prijs zien
+    for game in sort(games):
+        gameslist.insert("end", game[1])
+
+    # Vult een globale variabele met de huidige waarde van de gameslijst (voor het zoeken en sorteren)
+    global games_from_list
+    games_from_list = gameslist.get(0, "end")
+
+
 #Filtert de games van de API bij genre
 def filterByGenre(current_genre):
 
@@ -394,56 +459,6 @@ def filterBy(i):  # same as search but like. different
         genre_optionmenu.grid(row=0, column=2)
 
 
-#Filtert de prijzen op de gekozen prijsrange
-def filterByPrice():
-    #Probeer de waardes uit het formulier te halen
-    try:
-        min_price = float(pricefrom.get())
-        max_price = float(priceto.get())
-        pricefilterwindow.destroy()
-    except ValueError:
-        #Als de waardes niet uit het formulier leeg zijn geef dan een foutmelding
-        messagebox.showinfo(title="value Error", message="please insert a price")
-        return None
-
-    #Haal alle games uit de lijst
-    gameslist.delete(0, END)
-
-    #Haal alle games op uit de API
-    all_games = collectInfo()
-
-    #Defineer variabele met alle namen en alle prijzen van spelletjes
-    games_names = all_games["name"]
-    games_prices_string = all_games["price"]
-
-    #Maak een lijst aan waar alle namen met prijzen van de games in opgeslagen kunnen worden
-    games_prices = []
-
-    #Maak van alle prijzen een int om ervoor te zorgen dat het sorteren en loopen goed gaat
-    for string in games_prices_string:
-        price = int(string)
-        games_prices.append(price)
-
-    #Loop door alle prijzen heen
-    counter = 0
-    games = []
-    for i in games_prices:
-        games_price = float(i) / 100 #Van pennies naar dollars
-
-        #Als de prijs van het spel in de prijsrange valt voeg de naam en de prijs dan toe aan de lijst
-        if min_price <= games_price <= max_price:
-            games.append([games_price, games_names[counter]])
-        counter += 1
-
-    #Laat alle games gesorteerd op prijs zien
-    for game in sort(games):
-        gameslist.insert("end", game[1])
-
-    # Vult een globale variabele met de huidige waarde van de gameslijst (voor het zoeken en sorteren)
-    global games_from_list
-    games_from_list = gameslist.get(0, "end")
-
-
 #Sorteerd de huidige selectie games op prijs
 def sortByName():
 
@@ -497,6 +512,35 @@ def sortByPrice():
     games_from_list = gameslist.get(0, "end")
 
 
+#Kijkt waarop er gesorteerd moet worden
+def sortby(x):
+    global current_sort
+
+    #Kijk welke waarde gekozen is
+    selection = current_sort.get()
+
+    #Als er gekozen is voor sorteren op naam sorteer dan op naam
+    if selection == "sort by: name":
+        sortByName()
+
+    # Als er gekozen is voor sorteren op prijs sorteer dan op prijs
+    elif selection == "sort by: price":
+        sortByPrice()
+
+
+#Toggelt tussen wel of niet case sensitive
+def caseSensitive():
+    global case_sensitive
+
+    #Als case sensitive aan stond zet het uit
+    if case_sensitive == True:
+        case_sensitive = False
+
+    #En andersom...
+    elif case_sensitive == False:
+        case_sensitive = True
+
+
 #Zoekt de gezochte waarde in de huidige selectie games
 def search(a):
     #Haal de waarde uit de zoekbalk
@@ -525,36 +569,36 @@ def search(a):
                 gameslist.insert("end", game)
 
 
-#Toggelt tussen wel of niet case sensitive
-def caseSensitive():
-    global case_sensitive
-
-    #Als case sensitive aan stond zet het uit
-    if case_sensitive == True:
-        case_sensitive = False
-
-    #En andersom...
-    elif case_sensitive == False:
-        case_sensitive = True
+#Maakt een RGB tuple TKinter friendelijk
+def fromRGB(rgb):
+    # bron: https://stackoverflow.com/a/51592104
+    return "#%02x%02x%02x" % rgb
 
 
-#Kijkt waarop er gesorteerd moet worden
-def sortby(x):
-    global current_sort
+#Verander de kleur van de knop (voor het veranderen van de kleur van de NeoPixel)
+def changeButtonColor(color):
 
-    #Kijk welke waarde gekozen is
-    selection = current_sort.get()
+    #Als er geen kleur gekozen is verander de button dan naar de standaard kleur
+    if color is None:
+        TI_neopixel_options.config(bg="#042430", fg="white",
+                                   activebackground='#092F3E',
+                                   activeforeground='white',
+                                   borderwidth=0,
+                                   highlightthickness=0)
 
-    #Als er gekozen is voor sorteren op naam sorteer dan op naam
-    if selection == "sort by: name":
-        sortByName()
+    #Als er wel een kleur gekozen is dan...
+    else:
+        #Verander de achtergrondkleur van de button
+        TI_neopixel_options.config(bg=f"{fromRGB(color)}", activebackground=f"{fromRGB(color)}")
+        if max(color) >= 200:
+            #Als de kleur te wit is verander de tekstkleur naar zwart
+            TI_neopixel_options.config(fg='black',activeforeground='black')
+        else:
+            #Verander hem anders naar wit
+            TI_neopixel_options.config(fg='white', activeforeground='white')
 
-    # Als er gekozen is voor sorteren op prijs sorteer dan op prijs
-    elif selection == "sort by: price":
-        sortByPrice()
 
-
-#Houd bij of de NeoPixel smooth(1) of flash(2) aanstaat
+#Houd bij of de NeoPixel het smooth(1) of flash(2) programma aanstaat
 state = 0
 #Stuurt commando's naar de server voor het veranderen van de NeoPixel
 def neopixelChange(i):
@@ -733,50 +777,6 @@ def send_beep():
 #Start de thread om een geluidsignaal te sturen
 def thread_send_beep():
     threading.Thread(target=send_beep, daemon=True).start()
-
-
-#Bepaalt wat er gedaan moet worden als het programma afgesloten moet worden
-def onExit():
-    #Bepaalt de remote host
-    rem = Pyro5.api.Proxy(con)
-
-    #Sluit de GUI
-    root.destroy()
-
-    #Start de thread om de server uit te zetten
-    threading.Thread(target = rem.shutdown())
-
-    #Stopt het programma
-    exit()
-
-
-#Maakt een RGB tuple TKinter friendelijk
-def fromRGB(rgb):
-    # bron: https://stackoverflow.com/a/51592104
-    return "#%02x%02x%02x" % rgb
-
-
-#Verander de kleur van de knop (voor het veranderen van de kleur van de NeoPixel)
-def changeButtonColor(color):
-
-    #Als er geen kleur gekozen is verander de button dan naar de standaard kleur
-    if color is None:
-        TI_neopixel_options.config(bg="#042430", fg="white",
-                                   activebackground='#092F3E',
-                                   activeforeground='white',
-                                   borderwidth=0,
-                                   highlightthickness=0)
-
-    #Als er wel een kleur gekozen is dan...
-    else:
-        #Verander de achtergrondkleur van de button
-        TI_neopixel_options.config(bg=f"{fromRGB(color)}", activebackground=f"{fromRGB(color)}")
-        if max(color) >= 200:
-            #Als de kleur te wit is verander de tekstkleur naar zwart
-            TI_neopixel_options.config(fg='black',activeforeground='black')
-        else:
-            #Verander hem anders naar wit
-            TI_neopixel_options.config(fg='white', activeforeground='white')
 
 
 #Defineert de main window
