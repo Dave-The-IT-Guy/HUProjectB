@@ -183,10 +183,13 @@ def collectInfo(**kwargs):
     #Kijkt welke data er opgehaald moet worden aan de hand van de kwargs
     if genre != None:
         url = "https://steamspy.com/api.php?request=genre&genre=" + genre.replace(" ", "+")
+        #url = "https://www.dvdl.ml" + genre.replace(" ", "+")
     elif game == "all":
         url = "https://steamspy.com/api.php?request=all"
+        #url = "https://www.dvdl.ml"
     else:
         url = "https://steamspy.com/api.php?request=appdetails&appid=" + str(game)
+        #url = "https://www.dvdl.ml" + str(game)
 
     # Haalt de gevraagde data op
     json_data = get_request(url)
@@ -353,62 +356,71 @@ def OpenPricefilterframe():
 
 #Filtert de prijzen op de gekozen prijsrange
 def filterByPrice():
-    #Probeer de waardes uit het formulier te halen
     try:
-        min_price = float(pricefrom.get())
-        max_price = float(priceto.get())
-        pricefilterwindow.destroy()
-    except ValueError:
-        #Als de waardes niet uit het formulier leeg zijn geef dan een foutmelding
-        messagebox.showinfo(title="value Error", message="please insert a price")
-        return None
+        #Haal alle games op uit de API
+        all_games = collectInfo()
 
-    #Haal alle games uit de lijst
-    gameslist.delete(0, END)
+        #Probeer de waardes uit het formulier te halen
+        try:
+            min_price = float(pricefrom.get())
+            max_price = float(priceto.get())
+            pricefilterwindow.destroy()
+        except ValueError:
+            #Als de waardes niet uit het formulier leeg zijn geef dan een foutmelding
+            messagebox.showinfo(title="value Error", message="please insert a price")
+            return None
 
-    #Haal alle games op uit de API
-    all_games = collectInfo()
+        #Haal alle games uit de lijst
+        gameslist.delete(0, END)
 
-    #Defineer variabele met alle namen en alle prijzen van spelletjes
-    games_names = all_games["name"]
-    games_prices_string = all_games["price"]
+        #Defineer variabele met alle namen en alle prijzen van spelletjes
+        games_names = all_games["name"]
+        games_prices_string = all_games["price"]
 
-    #Maak een lijst aan waar alle namen met prijzen van de games in opgeslagen kunnen worden
-    games_prices = []
+        #Maak een lijst aan waar alle namen met prijzen van de games in opgeslagen kunnen worden
+        games_prices = []
 
-    #Maak van alle prijzen een int om ervoor te zorgen dat het sorteren en loopen goed gaat
-    for string in games_prices_string:
-        price = int(string)
-        games_prices.append(price)
+        #Maak van alle prijzen een int om ervoor te zorgen dat het sorteren en loopen goed gaat
+        for string in games_prices_string:
+            price = int(string)
+            games_prices.append(price)
 
-    #Loop door alle prijzen heen
-    counter = 0
-    games = []
-    for i in games_prices:
-        games_price = float(i) / 100 #Van pennies naar dollars
+        #Loop door alle prijzen heen
+        counter = 0
+        games = []
+        for i in games_prices:
+            games_price = float(i) / 100 #Van pennies naar dollars
 
-        #Als de prijs van het spel in de prijsrange valt voeg de naam en de prijs dan toe aan de lijst
-        if min_price <= games_price <= max_price:
-            games.append([games_price, games_names[counter]])
-        counter += 1
+            #Als de prijs van het spel in de prijsrange valt voeg de naam en de prijs dan toe aan de lijst
+            if min_price <= games_price <= max_price:
+                games.append([games_price, games_names[counter]])
+            counter += 1
 
-    #Laat alle games gesorteerd op prijs zien
-    for game in sort(games):
-        gameslist.insert("end", game[1])
+        #Laat alle games gesorteerd op prijs zien
+        for game in sort(games):
+            gameslist.insert("end", game[1])
 
-    # Vult een globale variabele met de huidige waarde van de gameslijst (voor het zoeken en sorteren)
-    global games_from_list
-    games_from_list = gameslist.get(0, "end")
+        # Vult een globale variabele met de huidige waarde van de gameslijst (voor het zoeken en sorteren)
+        global games_from_list
+        games_from_list = gameslist.get(0, "end")
+    except:
+        # Als er geen verbinding gamaakt worden kan met de API laat dan een foumelding zien
+        messagebox.showerror(title="API Offline", message="Cannot connect to the web. Try again later")
 
 
 #Filtert de games van de API bij genre
 def filterByGenre(current_genre):
-
-    #Maakt de lijst met games leeg
-    gameslist.delete(0, END)
+    try:
+        x = collectInfo()
+    except:
+        messagebox.showerror(title="API Offline", message="Cannot connect to the web. Try again later")
+        return
 
     #Haalt alle games met gekozen genre op uit de API
     games = collectInfo(genre = current_genre)
+
+    #Maakt de lijst met games leeg
+    gameslist.delete(0, END)
 
     #Zet alle namen in de lijst met games
     for name in games["name"]:
@@ -477,39 +489,43 @@ def sortByName():
 
 #Sorteert de huidige selectie games op prijs
 def sortByPrice():
-    #Haal alle games uit de lijst en leeg deze
-    games = gameslist.get(0, "end")
-    gameslist.delete(0, END)
+    try:
+        #Haal alle games op uit de API
+        all_games = collectInfo()
 
-    #Haal alle games op uit de API
-    all_games = collectInfo()
+        #Haal alle games uit de lijst en leeg deze
+        games = gameslist.get(0, "end")
+        gameslist.delete(0, END)
 
-    # Defineer variabele met alle namen en alle prijzen van spelletjes
-    games_names = all_games["name"]
-    games_prices_string = all_games["price"]
+        # Defineer variabele met alle namen en alle prijzen van spelletjes
+        games_names = all_games["name"]
+        games_prices_string = all_games["price"]
 
-    # Maak van alle prijzen een int om ervoor te zorgen dat het sorteren en loopen goed gaat
-    games_prices = []
-    for string in games_prices_string:
-        price = int(string)
-        games_prices.append(price)
+        # Maak van alle prijzen een int om ervoor te zorgen dat het sorteren en loopen goed gaat
+        games_prices = []
+        for string in games_prices_string:
+            price = int(string)
+            games_prices.append(price)
 
-    # Loop door alle games heen
-    counter = 0
-    new_games = []
-    for name in games_names:
-        #Als de naam van de game in de selectie zit en in de data van de API voeg de naam en de prijs toe aan de lijst
-        if name in games:
-            new_games.append([games_prices[counter], name])
-            counter += 1
+        # Loop door alle games heen
+        counter = 0
+        new_games = []
+        for name in games_names:
+            #Als de naam van de game in de selectie zit en in de data van de API voeg de naam en de prijs toe aan de lijst
+            if name in games:
+                new_games.append([games_prices[counter], name])
+                counter += 1
 
-    #Sorteer de zojuist gegenereerde lijst en stop deze in de GUI
-    for game in sort(new_games):
-        gameslist.insert("end", game[1])
+        #Sorteer de zojuist gegenereerde lijst en stop deze in de GUI
+        for game in sort(new_games):
+            gameslist.insert("end", game[1])
 
-    # Vult een globale variabele met de huidige waarde van de gameslijst (voor het zoeken en sorteren)
-    global games_from_list
-    games_from_list = gameslist.get(0, "end")
+        # Vult een globale variabele met de huidige waarde van de gameslijst (voor het zoeken en sorteren)
+        global games_from_list
+        games_from_list = gameslist.get(0, "end")
+    except:
+        # Als er geen verbinding gamaakt worden kan met de API laat dan een foumelding zien
+        messagebox.showerror(title="API Offline", message="Cannot connect to the web. Try again later")
 
 
 #Kijkt waarop er gesorteerd moet worden
