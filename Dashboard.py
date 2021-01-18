@@ -410,8 +410,12 @@ def filterByPrice():
 
 #Filtert de games van de API bij genre
 def filterByGenre(current_genre):
+    #Als als genre "pick a genre" gekozen is doe dan niets
+    if current_genre == "pick a genre":
+        return
+
     try:
-        x = collectInfo()
+        x = collectInfo(appid = 10)
     except:
         messagebox.showerror(title="API Offline", message="Cannot connect to the web. Try again later")
         return
@@ -438,7 +442,7 @@ def filterBy(i):  # same as search but like. different
     global current_filter
     selection = current_filter.get()
     # pricefilterframe.grid_forget()
-    genre_optionmenu.grid_forget()
+    #genre_optionmenu.grid_forget()
 
     #Als de resultaten niet meer gefilter worden dan...
     if selection == "no filter":
@@ -468,6 +472,15 @@ def filterBy(i):  # same as search but like. different
 
     #Als er gekozen is om op genre te filteren laat dan de diverse genres zien
     elif selection == "genre":
+        #Het menu moet iedere keer opnieuw gedefineert worden omdat het steeds destroyed wordt
+        #global genre_optionmenu
+        genre_optionmenu = OptionMenu(settingswindow, current_genre, *genrefilter_options, command=filterByGenre)
+        genre_optionmenu.config(bg="#0B3545", fg="white",
+                                activebackground='#092F3E',
+                                activeforeground='white',
+                                borderwidth=0,
+                                highlightthickness=0)
+        genre_optionmenu["menu"].config(bg="#0B3545", fg="white", activebackground="#0b3a4d")
         genre_optionmenu.grid(row=0, column=2)
 
 
@@ -852,14 +865,14 @@ genrefilter_options = ["pick a genre", "Action", "Adventure", "Indie", "RPG", "E
 global current_genre
 current_genre = StringVar()
 current_genre.set(genrefilter_options[0])
-global genre_optionmenu
-genre_optionmenu = OptionMenu(settingswindow, current_genre, *genrefilter_options, command=filterByGenre)
-genre_optionmenu.config(bg="#0B3545", fg="white",
-                        activebackground='#092F3E',
-                        activeforeground='white',
-                        borderwidth=0,
-                        highlightthickness=0)
-genre_optionmenu["menu"].config(bg="#0B3545", fg="white", activebackground="#0b3a4d")
+#global genre_optionmenu
+#genre_optionmenu = OptionMenu(settingswindow, current_genre, *genrefilter_options, command=filterByGenre)
+#genre_optionmenu.config(bg="#0B3545", fg="white",
+#                        activebackground='#092F3E',
+#                        activeforeground='white',
+#                        borderwidth=0,
+#                        highlightthickness=0)
+#genre_optionmenu["menu"].config(bg="#0B3545", fg="white", activebackground="#0b3a4d")
 
 
 #Defineert de zoekbalk
