@@ -26,8 +26,6 @@ dave van der leek / 1777075
 
 marcel genser / 1759909
 
-dani moelands / 1788988
-
 mark duerden / 1788515
 
 verona kragten / 1785191
@@ -36,19 +34,29 @@ verona kragten / 1785191
 
 Requirements
 
-This application requires the user to have Python 3.8 installed. It is not known if it will work on other versions of Python.
+This application requires the user to have Python 3.8 with the following libraries installed:
+- json
+- matplotlib
+- pandas
+- pyro5
+- re
+- requests
+- threading
+- time
+- tkinter
+- webbrowser
 ***
 
 
 Installing
 
-Download the .zip file in the root of the project. Extract the file to your preffered depository. Then run dashboard.py
+Download the .zip file in the root of the project. Extract the file to your preffered depository. Then run dashboard.py on your desktop, server PI.py on your RPI server and client PI.py on your RPI client.
 ***
 
 
 Status
 
-The application is currently in a very early version of its development.
+The application is currently finished and no longer maintained.
 
 ***
 
@@ -56,21 +64,19 @@ functions
 
 there are miscellaneous functions inside the application. they include:
 
--searching from the list of games
+- searching from the list of games
 
--sorting by different types of propreties
+- sorting and filtering by different types of propreties
 
--view the details of the selected game
+- view the details of the selected game
 
--send lights and sounds to the user's best friend
+- send sounds to the user's best friend
 
--control your ledstrip from the application
+- control your NeoPixel from the application
 
 
 ***
-
-
 Notes
 
-We are not responible for any virusses that may infect your device from using this application
+We are not responible for any harm our software may cause to your system.
 ***
