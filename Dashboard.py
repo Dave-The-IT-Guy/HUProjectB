@@ -812,7 +812,7 @@ def thread_send_beep():
 root = tix.Tk()
 root.config(bg="#042430")
 root.iconbitmap("steam_icon.ico") #how the fuck does this slow down the entire app???
-root.title("steam application")
+root.title("Steamers™")
 root.resizable(False, False)
 root.protocol("WM_DELETE_WINDOW", lambda: onExit())
 theme = ttk.Style(root)
