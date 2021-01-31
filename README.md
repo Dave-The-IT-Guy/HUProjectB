@@ -1,3 +1,6 @@
+***
+###This project will be no longer maintained. Use at own risk!
+***
 # HUProjectB
 Projectgroep A, Project B
 
